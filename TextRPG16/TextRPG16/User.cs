@@ -37,8 +37,8 @@
         int _EXP; // 현재 EXP
         int _fullEXP; // 최대 EXP -> 레벨이 오를 때마다 증가하도록
         // 유저 인터페이스 필드의 프로퍼티들
-        public string UserClass { get { return _userClass; } protected set { _userClass = value; } } // 직업
-        public int DefensPower { get { return _defensPower; } private set { _defensPower = value; } } // 방어력
+        public string UserClass { get { return _userClass; } set { _userClass = value; } } // 직업
+        public int DefensPower { get { return _defensPower; } set { _defensPower = value; } } // 방어력
         public int Gold { get { return _gold; } set { _gold = value; } } // 골드
         public int ClearCount { get { return _clearCount; } set { _clearCount = value; } } // 던전 클리어 횟수
         public int EquipArmorStatusNum { get { return _equipArmorStatusNum; } set { _equipArmorStatusNum = value; } } // 장착 갑옷 상태수치
@@ -79,6 +79,30 @@
             this.EquipWeaponStatusNum = equipWeaponStatusNum;
         }
 
+        // 기본 생성자
+        public User()
+        {
+            this.Name = "홍길동";
+            this.Level = 1;
+            this.Tribe = "인간";
+            this.HP = 100;
+            this.FullHP = 100;
+            this.AttackDamage = 10;
+            this.IsDead = false;
+
+            this.UserClass = "없음";
+            this.DefensPower = 10;
+            this.Gold = 1500;
+            this.ClearCount = 0;
+
+            this.EquipArmorStatusNum = 0; // 장착 갑옷 상태수치
+            this.EquipWeaponStatusNum = 0; // 장착 갑옷 상태수치
+
+            this.MP = 100;
+            this.FullMP = 100;
+            this.EXP = 100;
+            this.FullEXP = 100;
+        }
 
         // 상태창 메소드
         public void State(User user)
@@ -116,28 +140,39 @@
             }
         }
 
-        public User()
+        // 캐릭터선택창 메소드
+        public void ChoiceUserClass(User user)
         {
-            this.Name = "홍길동";
-            this.Level = 1;
-            this.Tribe = "인간";
-            this.HP = 100;
-            this.FullHP = 100;
-            this.AttackDamage = 10;
-            this.IsDead = false;
+            // ---------------- 캐릭터 직업 선택 -------------------
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("[직업 선택]");
+                // 직업 선택
+                Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
+                Console.WriteLine();
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 마법사");
+                Console.WriteLine();
+                Console.Write(">> ");
 
-            this.UserClass = "없음";
-            this.DefensPower = 10;
-            this.Gold = 1500;
-            this.ClearCount = 0;
+                int select = InputCheck.Check(1, 2);
+                switch (select)
+                {
+                    case 1:
+                        user.UserClass = "전사";
+                        user = new Warrior();
+                        break;
+                    case 2:
+                        user.UserClass = "마법사";
+                        user = new Wizard();
+                        break;
+                    default:
+                        break;
+                }
 
-            this.EquipArmorStatusNum = 0; // 장착 갑옷 상태수치
-            this.EquipWeaponStatusNum = 0; // 장착 갑옷 상태수치
-
-            this.MP = 100;
-            this.FullMP = 100;
-            this.EXP = 100;
-            this.FullEXP = 100;
+                if (select != -1) break;
+            }
         }
     }
 }

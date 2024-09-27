@@ -1,18 +1,19 @@
 namespace TextRPG16
 {
-    class Monster : ICharacter
-    {
-        // ------------------ Ä³¸¯ÅÍ ÀÎÅÍÆäÀÌ½º °øÅë ------------------
-        string _name = null!; // ÀÌ¸§  // - ÀÚ½Äµµ ¼öÁ¤°¡´É
+
+    class Monster : ICharacter{
+
+        // ------------------ ìºë¦­í„° ì¸í„°í˜ì´ìŠ¤ ê³µí†µ ------------------
+        string _name = null!; // ì´ë¦„  // - ìì‹ë„ ìˆ˜ì •ê°€ëŠ¥
         int _level;
-        string _tribe = "Monster"; // Á¾Á·
-        int _HP; // ÇöÀç ÇÇÅë
-        int _fullHP; // ÃÖ´ëÇÇÅë
-        int _attackDamage; // °ø°İ·Â
-        bool _isDead = false; // »ıÁ¸¿©ºÎ
+        string _tribe = "Monster"; // ì¢…ì¡±
+        int _HP; // í˜„ì¬ í”¼í†µ
+        int _fullHP; // ìµœëŒ€í”¼í†µ
+        int _attackDamage; // ê³µê²©ë ¥
+        bool _isDead = false; // ìƒì¡´ì—¬ë¶€
 
         public String Name { get { return _name; } protected set { _name = value; } }
-        public int Level { get { return _level; } protected set { _level = value; } } // ·¹º§
+        public int Level { get { return _level; } protected set { _level = value; } } // ë ˆë²¨
         public String Tribe { get { return _tribe; } private set { _tribe = value; } }
         public int HP { get { return _HP; } set { _HP = value; } }
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
@@ -24,40 +25,91 @@ namespace TextRPG16
 
         }
 
-
-    }
-
     class Dookie: Monster
     {
         public Dookie()
         {
-            this.Name = "µÎÅ°";
+            this.Name = "ë‘í‚¤";
             this.FullHP = 10;
+            this.Level = 1;
+            this.HP = 100;
+            this.FullHP = 100;
+            this.AttackDamage = 0;
+        }
 
+        public Dookie(int level)
+        {
+            this.Name = "ë‘í‚¤";
+            this.Level = level;
+            //this.HP = 100;
+            //this.FullHP = 100;
+            this.AttackDamage = 0;
         }
     }
 
     class Slime: Monster
     {
+        public Slime()
+        {
+            this.Name = "ìŠ¬ë¼ì„";
+            this.Level = 1;
+            this.HP = 20;
+            this.FullHP = 20;
+            this.AttackDamage = 3;
+        }
+
         public Slime(int level)
         {
-            this.Name = "½½¶óÀÓ";
+            this.Name = "ìŠ¬ë¼ì„";
+            this.Level = level;
+            //this.HP = 20;
+            //this.FullHP = 20;
+            //this.AttackDamage = 3;
+
         }
     }
 
     class Leejinho: Monster
     {
+        public Leejinho()
+        {
+            this.Name = "ì´ì§„í˜¸";
+            this.Level = 1;
+            this.HP= 40;
+            this.FullHP = 40;
+            this.AttackDamage = 12;
+        }
+
         public Leejinho(int level)
         {
-            this.Name = "ÀÌÁøÈ£";
+            this.Name = "ì´ì§„í˜¸";
+            this.Level = level;
+            //this.HP = 40;
+            //this.FullHP = 40;
+            //this.AttackDamage = 12;
+
         }
     }
 
     class Dragon: Monster
     {
+
+        public Dragon()
+        {
+            this.Name = "ë“œë˜ê³¤";
+            this.Level = 1;
+            this.HP = 75;
+            this.FullHP = 75;
+            this.AttackDamage = 25;
+        }
+
         public Dragon(int level)
         {
-            this.Name = "µå·¡°ï";
+            this.Name = "ë“œë˜ê³¤";
+            this.Level = level;
+            //this.HP = 75;
+            //this.FullHP = 75;
+            //this.AttackDamage = 25;
         }
     }
 }

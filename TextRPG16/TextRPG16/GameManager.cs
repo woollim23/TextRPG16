@@ -33,19 +33,54 @@
                         break;
                     case 1:
                         // 상태창
-                        //user.State(user, gameItem);
+                        user.State(user, gameItem);
                         break;
                     case 2:
                         // 인벤토리
                         //inventory.SeeInventory(user, gameItem);
                         break;
-
+                    
                     default:
                         continue;
 
                 }
 
             }
+        }
+        // 파일 경로
+        public string filePath1 = "TextRPG_Reform_User";
+        public string filePath2 = "TextRPG_Reform_Item";
+
+        // 로딩창 메소드
+        public void LodingScreen()
+        {
+            Console.WriteLine("--------------------------------------");
+            Console.WriteLine("|                                    |");
+            Console.WriteLine("|             Wellcome!!             |");
+            Console.WriteLine("|          Sparta  TextRPG           |");
+            Console.WriteLine("|                                    |");
+            Console.WriteLine("--------------------------------------");
+
+            Thread.Sleep(1200);
+            Console.Clear();
+        }
+
+        // 시작창 메소드
+        public void StartScreen(User user)
+        {
+
+            // ------------------- 시작창 -------------------
+            Console.WriteLine("[계정 생성]");
+            Console.WriteLine("Sparta TextRPG 게임을 처음 시작합니다.");
+            Console.WriteLine();
+            // 닉네임 설정
+            Console.WriteLine("환영합니다. 모험가님!");
+            Console.WriteLine("사용하실 닉네임을 입력해주세요.");
+            Console.WriteLine();
+            Console.Write(">> ");
+            user.InputName(Console.ReadLine());
+
+            user.ChoiceUserClass(user);
         }
 
         // 파일 경로

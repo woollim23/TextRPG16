@@ -3,9 +3,9 @@
     public class User : ICharacter, IUser
     {
         // ------------------ 캐릭터 인터페이스 공통 ------------------
-        string _name; // 이름  // - 자식도 수정가능
+        string _name = null!; // 이름  // - 자식도 수정가능
         int _level;
-        string _tribe; // 종족
+        string _tribe = null!; // 종족
         int _HP; // 현재 피통
         int _fullHP; // 최대피통
         int _attackDamage; // 공격력

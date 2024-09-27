@@ -31,7 +31,7 @@
         int _gold; // 골드
         int _clearCount; // 던전 클리어 횟수
         int _equipArmorStatusNum; // 장착 갑옷 상태수치
-        int _equipWeaponStatusNum; // 장착 갑옥 상태수치
+        int _equipWeaponStatusNum; // 장착 갑옷 상태수치
         int _MP; // 현재 MP
         int _fullMP; // 최대 MP
         int _EXP; // 현재 EXP

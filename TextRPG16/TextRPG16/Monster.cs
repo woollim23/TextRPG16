@@ -4,11 +4,11 @@ namespace TextRPG16
         // ------------------ 캐릭터 인터페이스 공통 ------------------
         string _name = null!; // 이름  // - 자식도 수정가능
         int _level;
-        string _tribe = null!; // 종족
+        string _tribe = "Monster"; // 종족
         int _HP; // 현재 피통
         int _fullHP; // 최대피통
         int _attackDamage; // 공격력
-        bool _isDead; // 생존여부
+        bool _isDead = false; // 생존여부
 
         public String Name { get { return _name; } protected set { _name = value; } }
         public int Level { get { return _level; } private set { _level = value; } } // 레벨
@@ -28,31 +28,31 @@ namespace TextRPG16
     {
         public Dookie()
         {
-
+            this.Name = "두키";
         }
     }
 
     class Slime: Monster
     {
-        public Slime()
+        public Slime(int level)
         {
-
+            this.Name = "슬라임";
         }
     }
 
     class Leejinho: Monster
     {
-        public Leejinho()
+        public Leejinho(int level)
         {
-
+            this.Name = "이진호";
         }
     }
 
     class Dragon: Monster
     {
-        public Dragon()
+        public Dragon(int level)
         {
-
+            this.Name = "드래곤";
         }
     }
 }

@@ -13,12 +13,12 @@
 
         // 캐릭터 인터페이스 필드의 프로퍼티들
         public String Name { get { return _name; } protected set { _name = value; } }
-        public int Level { get { return _level; } private set { _level = value; } } // 레벨
+        public int Level { get { return _level; } set { _level = value; } } // 레벨
         public String Tribe { get { return _tribe; } private set { _tribe = value; } }
-        public int HP { get { return _HP; } protected set { _HP = value; } }
-        public int FullHP { get { return _fullHP; }  protected set { _fullHP = value; } }
-        public int AttackDamage { get { return _attackDamage; } protected set { _attackDamage = value; } }
-        public bool IsDead { get { return _isDead; } private set { _isDead = value; } }
+        public int HP { get { return _HP; } set { _HP = value; } }
+        public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
+        public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
+        public bool IsDead { get { return _isDead; } set { _isDead = value; } }
 
         public void TakeDamage(int damage)
         {
@@ -39,14 +39,14 @@
         // 유저 인터페이스 필드의 프로퍼티들
         public string UserClass { get { return _userClass; } protected set { _userClass = value; } } // 직업
         public int DefensPower { get { return _defensPower; } private set { _defensPower = value; } } // 방어력
-        public int Gold { get { return _gold; } private set { _gold = value; } } // 골드
-        public int ClearCount { get { return _clearCount; } private set { _clearCount = value; } } // 던전 클리어 횟수
-        public int EquipArmorStatusNum { get { return _equipArmorStatusNum; } protected set { _equipArmorStatusNum = value; } } // 장착 갑옷 상태수치
-        public int EquipWeaponStatusNum { get { return _equipWeaponStatusNum; } protected set { _equipWeaponStatusNum = value; } } // 장착 갑옷 상태수치
-        public int MP { get { return _MP; } protected set { _MP = value; } } // 현재 MP
-        public int FullMP { get { return _fullMP; } protected set { _fullMP = value; } } // 최대 MP
-        public int EXP { get { return _EXP; } protected set { _EXP = value; } } // 현재 EXP
-        public int FullEXP { get { return _fullEXP; } protected set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
+        public int Gold { get { return _gold; } set { _gold = value; } } // 골드
+        public int ClearCount { get { return _clearCount; } set { _clearCount = value; } } // 던전 클리어 횟수
+        public int EquipArmorStatusNum { get { return _equipArmorStatusNum; } set { _equipArmorStatusNum = value; } } // 장착 갑옷 상태수치
+        public int EquipWeaponStatusNum { get { return _equipWeaponStatusNum; } set { _equipWeaponStatusNum = value; } } // 장착 갑옷 상태수치
+        public int MP { get { return _MP; } set { _MP = value; } } // 현재 MP
+        public int FullMP { get { return _fullMP; } set { _fullMP = value; } } // 최대 MP
+        public int EXP { get { return _EXP; } set { _EXP = value; } } // 현재 EXP
+        public int FullEXP { get { return _fullEXP; } set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
 
         // ------------------ 유저 고유 ------------------
         //public event AttackHandle OnAttack; // 공격 델리게이트 트리거

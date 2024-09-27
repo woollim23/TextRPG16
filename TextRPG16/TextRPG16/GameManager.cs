@@ -10,6 +10,54 @@ namespace TextRPG16
 {
     public class GameManager
     {
+<<<<<<< Updated upstream
+=======
+        public void GamePlay(User user, Item gameItem)
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"스파르타 마을에 오신 {user.Name} 님 환영합니다.\n이곳에서 던전으로 들어가기 전 활동을 할 수 있습니다.\n");
+                Console.WriteLine("1. 상태보기");
+                Console.WriteLine("2. 인벤토리");
+                Console.WriteLine("3. 상점");
+                Console.WriteLine("4. 던전입장");
+                Console.WriteLine("5. 휴식하기");
+                Console.WriteLine("6. 게임저장");
+                Console.WriteLine("0. 종료");
+                Console.WriteLine();
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+                int select = InputCheck.Check(0, 6);
+                switch (select)
+                {
+                    case 0:
+                        // 게임종료
+                        //gameManager.GameSave(user, gameItem);
+                        Console.WriteLine("--------------------------------------");
+                        Console.WriteLine("|                                    |");
+                        Console.WriteLine("|     플레이 해주셔서 감사합니다!    |");
+                        Console.WriteLine("|                                    |");
+                        Console.WriteLine("--------------------------------------");
+                        Environment.Exit(0);
+                        break;
+                    case 1:
+                        // 상태창
+                        //user.State(user, gameItem);
+                        break;
+                    case 2:
+                        // 인벤토리
+                        //inventory.SeeInventory(user, gameItem);
+                        break;
+                    
+                    default:
+                        continue;
+
+                }
+
+            }
+        }
+>>>>>>> Stashed changes
         // 파일 경로
         public string filePath1 = "TextRPG_Reform_User";
         public string filePath2 = "TextRPG_Reform_Item";
@@ -46,6 +94,7 @@ namespace TextRPG16
             user.ChoiceUserClass(user);
         }
 
+<<<<<<< Updated upstream
         public void GamePlay(User user, Item item)
         {
             GameManager gameManager = new GameManager();
@@ -111,6 +160,8 @@ namespace TextRPG16
             }
         }
 
+=======
+>>>>>>> Stashed changes
         // 게임 데이터 저장 메소드
         public void GameSave(User user, Item gameItem)
         {

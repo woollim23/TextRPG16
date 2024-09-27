@@ -48,6 +48,7 @@
             }
         }
         // 파일 경로
+<<<<<<< Updated upstream
         public string filePath1 = "TextRPG_Reform_User";
         public string filePath2 = "TextRPG_Reform_Item";
 
@@ -166,6 +167,9 @@
             Console.WriteLine("--------------------------------------");
             Thread.Sleep(1000);
             Console.Clear();
+=======
+      
+>>>>>>> Stashed changes
         }
     }
 }

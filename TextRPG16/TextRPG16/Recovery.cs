@@ -7,7 +7,7 @@
 
         }
 
-        public void Rest(User user)
+        public void UseRest(User user)
         {
             while (user.HP < user.FullHP) { user.HP++; }  // 마을에서 휴식하는것과 같은방식
             while (user.MP < user.FullMP) { user.MP++; }  // 체력이랑 마나랑 별개의 통을 가지고 있으니까 반복문 두개로 나눔

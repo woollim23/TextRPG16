@@ -1,6 +1,7 @@
 namespace TextRPG16
 {
-    class Monster : ICharacter{
+    class Monster : ICharacter
+    {
         // ------------------ 캐릭터 인터페이스 공통 ------------------
         string _name = null!; // 이름  // - 자식도 수정가능
         int _level;

@@ -2,14 +2,14 @@
 
 namespace TextRPG16
 {
-    class Wizard : User
+    class Priest : User
     {
-        public Wizard() // 생성자
+        public Priest() // 생성자
         {
-            UserClass = "마법사";
+            UserClass = "성직자";
             HP = 100; // 초기 체력
-            DefensPower = 15; // 초기 방어력
-            AttackDamage = 25; // 초기 공격력
+            DefensPower = 60; // 초기 방어력
+            AttackDamage = 10; // 초기 공격력
 
         }
 

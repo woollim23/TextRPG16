@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TextRPG16
 {
-    internal class Inventory
+    public class Inventory
     {
-
-        
+      
     }
 }

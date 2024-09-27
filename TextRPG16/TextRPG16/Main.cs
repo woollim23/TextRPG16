@@ -15,6 +15,11 @@ namespace TextRPG16
             User user = new Warrior();
 
             Console.WriteLine($"{user.UserClass}");
+            //-----------------------------
+            Monster monster = new Dookie();
+            
+            
+
 
         }
     }

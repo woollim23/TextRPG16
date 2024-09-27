@@ -41,12 +41,12 @@
         public int DefensPower { get { return _defensPower; } private set { _defensPower = value; } } // 방어력
         public int Gold { get { return _gold; } private set { _gold = value; } } // 골드
         public int ClearCount { get { return _clearCount; } private set { _clearCount = value; } } // 던전 클리어 횟수
-        public int EquipArmorStatusNum { get { return _equipArmorStatusNum; } private set { _equipArmorStatusNum = value; } } // 장착 갑옷 상태수치
-        public int EquipWeaponStatusNum { get { return _equipWeaponStatusNum; } private set { _equipWeaponStatusNum = value; } } // 장착 갑옷 상태수치
+        public int EquipArmorStatusNum { get { return _equipArmorStatusNum; } protected set { _equipArmorStatusNum = value; } } // 장착 갑옷 상태수치
+        public int EquipWeaponStatusNum { get { return _equipWeaponStatusNum; } protected set { _equipWeaponStatusNum = value; } } // 장착 갑옷 상태수치
         public int MP { get { return _MP; } protected set { _MP = value; } } // 현재 MP
         public int FullMP { get { return _fullMP; } protected set { _fullMP = value; } } // 최대 MP
-        public int EXP { get { return _EXP; } private set { _EXP = value; } } // 현재 EXP
-        public int FullEXP { get { return _fullEXP; } private set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
+        public int EXP { get { return _EXP; } protected set { _EXP = value; } } // 현재 EXP
+        public int FullEXP { get { return _fullEXP; } protected set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
 
         // ------------------ 유저 고유 ------------------
         //public event AttackHandle OnAttack; // 공격 델리게이트 트리거

@@ -20,7 +20,15 @@ namespace TextRPG16
 
         public void TakeDamage(int damage)
         {
-
+            this.HP -= damage;
+            if (IsDead)
+            {
+                Console.WriteLine($"{this.Name}이(가) 죽었습니다.");
+            }
+            else
+            {
+                Console.WriteLine($"{this.Name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {this.HP}");
+            }
         }
     }
 

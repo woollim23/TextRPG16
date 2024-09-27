@@ -1,35 +1,54 @@
 namespace TextRPG16
 {
 
-    class Monster : ICharacter{
+    class Monster : ICharacter
+    {
+        List<Monster> monsters;
 
-        // ------------------ ìºë¦­í„° ì¸í„°íŽ˜ì´ìŠ¤ ê³µí†µ ------------------
-        string _name = null!; // ì´ë¦„  // - ìžì‹ë„ ìˆ˜ì •ê°€ëŠ¥
+        // ------------------ Ä³¸¯ÅÍ ÀÎÅÍÆäÀÌ½º °øÅë ------------------
+        string _name = null;
         int _level;
-        string _tribe = "Monster"; // ì¢…ì¡±
-        int _HP; // í˜„ìž¬ í”¼í†µ
-        int _fullHP; // ìµœëŒ€í”¼í†µ
-        int _attackDamage; // ê³µê²©ë ¥
-        bool _isDead = false; // ìƒì¡´ì—¬ë¶€
+        string _tribe = "Monster"; // ¸ó½ºÅÍ
+        int _HP; // Ã¼·Â
+        int _fullHP; // ÃÖ´ë Ã¼·Â
+        int _attackDamage; // °ø°Ý·Â
 
         public String Name { get { return _name; } protected set { _name = value; } }
-        public int Level { get { return _level; } protected set { _level = value; } } // ë ˆë²¨
+        public int Level { get { return _level; } set { _level = value; } } // ·¹º§
         public String Tribe { get { return _tribe; } private set { _tribe = value; } }
         public int HP { get { return _HP; } set { _HP = value; } }
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
-        public bool IsDead { get { return _isDead; } set { _isDead = value; } }
+        public bool IsDead => HP <= 0;
 
         public void TakeDamage(int damage)
         {
-
+            HP -= damage;
+            if(IsDead)
+            {
+                Console.WriteLine($"{Name}ÀÌ(°¡) Á×¾ú½À´Ï´Ù.");
+            }
+            else
+            {
+                Console.WriteLine($"{Name}ÀÌ(°¡) {damage}ÀÇ µ¥¹ÌÁö¸¦ ¹Þ¾Ò½À´Ï´Ù. ³²Àº Ã¼·Â: {HP}");
+            }
         }
 
-    class Dookie: Monster
+        public Monster()
+        {
+            Name = "¸ó½ºÅÍ";
+            Level = 1;
+            HP = 100;
+            FullHP = 100;
+            AttackDamage = 100;
+        }
+
+    }
+    class Dookie : Monster
     {
         public Dookie()
         {
-            this.Name = "ë‘í‚¤";
+            this.Name = "µÎÅ°";
             this.FullHP = 10;
             this.Level = 1;
             this.HP = 100;
@@ -39,7 +58,7 @@ namespace TextRPG16
 
         public Dookie(int level)
         {
-            this.Name = "ë‘í‚¤";
+            this.Name = "µÎÅ°";
             this.Level = level;
             //this.HP = 100;
             //this.FullHP = 100;
@@ -47,11 +66,11 @@ namespace TextRPG16
         }
     }
 
-    class Slime: Monster
+    class Slime : Monster
     {
         public Slime()
         {
-            this.Name = "ìŠ¬ë¼ìž„";
+            this.Name = "½½¶óÀÓ";
             this.Level = 1;
             this.HP = 20;
             this.FullHP = 20;
@@ -60,7 +79,7 @@ namespace TextRPG16
 
         public Slime(int level)
         {
-            this.Name = "ìŠ¬ë¼ìž„";
+            this.Name = "½½¶óÀÓ";
             this.Level = level;
             //this.HP = 20;
             //this.FullHP = 20;
@@ -69,20 +88,20 @@ namespace TextRPG16
         }
     }
 
-    class Leejinho: Monster
+    class Leejinho : Monster
     {
         public Leejinho()
         {
-            this.Name = "ì´ì§„í˜¸";
+            this.Name = "ÀÌÁøÈ£";
             this.Level = 1;
-            this.HP= 40;
+            this.HP = 40;
             this.FullHP = 40;
             this.AttackDamage = 12;
         }
 
         public Leejinho(int level)
         {
-            this.Name = "ì´ì§„í˜¸";
+            this.Name = "ÀÌÁøÈ£";
             this.Level = level;
             //this.HP = 40;
             //this.FullHP = 40;
@@ -91,12 +110,12 @@ namespace TextRPG16
         }
     }
 
-    class Dragon: Monster
+    class Dragon : Monster
     {
 
         public Dragon()
         {
-            this.Name = "ë“œëž˜ê³¤";
+            this.Name = "µå·¡°ï";
             this.Level = 1;
             this.HP = 75;
             this.FullHP = 75;
@@ -105,7 +124,7 @@ namespace TextRPG16
 
         public Dragon(int level)
         {
-            this.Name = "ë“œëž˜ê³¤";
+            this.Name = "µå·¡°ï";
             this.Level = level;
             //this.HP = 75;
             //this.FullHP = 75;

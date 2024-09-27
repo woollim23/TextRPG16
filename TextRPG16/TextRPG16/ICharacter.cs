@@ -6,7 +6,7 @@
         public String Name { get; } // 이름
         public int Level { get; } // 레벨
         public String Tribe { get; } // 종족 
-        public int HP { get; } // 현재 피통
+        public int HP { get; set; } // 현재 피통
         public int FullHP { get; } // 최대 피통
         public int AttackDamage { get; } // 공격력
         public bool IsDead { get; } // 생존여부

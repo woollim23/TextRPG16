@@ -8,5 +8,11 @@ namespace TextRPG16
 {
     internal class Inventory
     {
+
+        public Inventory() 
+        {
+            
+
+        }
     }
 }

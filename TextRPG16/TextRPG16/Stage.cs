@@ -84,8 +84,14 @@
             Console.WriteLine();
             Console.WriteLine();
 
+            for(int i = 0; i< Enum.GetValues(typeof(Monsters)).Length; i++)
+            {
+                Console.WriteLine(user.MonsterCount[i]);
+            }
+
             Console.WriteLine("1. 계속 도전");
             Console.WriteLine("0. 나가기");
+            Console.Write(">> ");
 
             user.HP = 100; // 체력 회복
 
@@ -167,12 +173,12 @@
                 switch (insult)
                 {
                     case 0:
-                        exit = true;
+                        //exit = true;
                         break;
                     case 1:
                     case 2:
                     case 3:
-                        user.UserAttack(monster.monsterList[insult-1]);
+                        user.UserAttack(monster.monsterList[insult - 1], monster.monsterList[insult - 1].Index);
                         for(int i = 0; i< 3; i++)
                         {
                             if (monster.monsterList[i].IsDead == false)

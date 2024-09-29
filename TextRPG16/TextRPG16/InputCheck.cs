@@ -14,14 +14,14 @@
                     if (select < start || select > end)
                     {
                         Console.WriteLine("잘못된 입력입니다.");
-                        Console.WriteLine(">> ");
+                        Console.Write(">> ");
                         continue;
                     }
                 }
                 catch (Exception)
                 {
                     Console.WriteLine("잘못된 입력입니다.");
-                    Console.WriteLine(">> ");
+                    Console.Write(">> ");
                     continue;
                 }
                 return select;

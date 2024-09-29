@@ -47,7 +47,8 @@
         public int EXP { get { return _EXP; } set { _EXP = value; } } // 현재 EXP
         public int FullEXP { get { return _fullEXP; } set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
 
-        // ------------------ 유저 고유 ------------------
+        // ------------------ 플레이어 고유 ------------------
+        public int[] MonsterCount; // 몬스터 잡은 수 배열
         // 기본 생성자
         public User()
         {
@@ -70,14 +71,16 @@
             this.FullMP = 100;
             this.EXP = 0;
             this.FullEXP = 10;
+
+            MonsterCount = new int[Enum.GetValues(typeof(Monsters)).Length]; // 이넘에 저장된 몬스터 갯수 만큼 배열 크기 설정
         }
 
 
-        public void UserAttack(Monster monster) // 유저가 공격할때
+        public void UserAttack(Monster monster, int index) // 유저가 공격할때
         {
             Console.Clear();
             int tempMonsterHP = monster.HP;
-            int num = (int)Math.Round(((double)AttackDamage /100 * 10), 0); // 오차값
+            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
 
             Random random = new Random();
             int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
@@ -95,6 +98,7 @@
             if (monster.IsDead)
             {
                 Console.WriteLine("Dead");
+                MonsterCount[index]++;
             }
             else
             {
@@ -104,7 +108,7 @@
             Console.WriteLine("0. 다음");
             Console.WriteLine();
             Console.Write(">> ");
-            while (InputCheck.Check(0,0) != 0)
+            while (InputCheck.Check(0, 0) != 0)
             {
                 Console.Write(">> ");
             }
@@ -115,7 +119,7 @@
             int tempLevel = user.Level; // 이전 레벨 저장
             user.EXP += expSum;
 
-            if(user.FullEXP <= user.EXP)
+            if (user.FullEXP <= user.EXP)
             {
                 user.Level++;
                 user.EXP -= user.FullEXP; // 남은 경험치 이관

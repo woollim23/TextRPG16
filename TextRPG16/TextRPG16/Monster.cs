@@ -42,20 +42,23 @@ namespace TextRPG16
 
             for (int i = 0; i < 3; i++)
             {
-                Random random = new Random(); // 몬스터 랜덤
-                int level = random.Next(1, stage.StageLevel + 3);
+                int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
 
-                switch(random.Next(0, 2))
+                Random random = new Random(); // 랜덤
+                int level = random.Next(1, stage.StageLevel + 3); // 랜덤으로 레벨 지정
+
+                // enum 안에 있는 몬스터를 랜덤으로 지정한다
+                switch ((Monsters)random.Next(0, monsterCount - 1))
                 {
-                    case 0:
+                    case Monsters.Minion:
                         Monster minion = new Minion(level);
                         monsterList.Add(minion);
                         break;
-                    case 1:
+                    case Monsters.CannonMinion:
                         Monster cannonMinion = new CannonMinion(level);
                         monsterList.Add(cannonMinion);
                         break;
-                    case 2:
+                    case Monsters.Voidling:
                         Monster voidling = new Voidling(level);
                         monsterList.Add(voidling);
                         break;
@@ -117,7 +120,7 @@ namespace TextRPG16
         {
             this.Level = Level;
             this.Name = "미니언";
-            this.FullHP = 10* Level;
+            this.FullHP = 10 * Level;
             this.HP = this.FullHP;
             this.AttackDamage = 2 * Level;
         }

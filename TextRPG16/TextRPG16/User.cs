@@ -108,9 +108,6 @@
             {
                 Console.Write(">> ");
             }
-            Stage stage = new Stage();
-            if (!monster.IsDead) monster.MonsterAttack(this);
-            else stage.StageClear(this);
         }
 
         public void LevelUp(User user, int expSum)

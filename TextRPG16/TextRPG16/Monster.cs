@@ -1,10 +1,14 @@
-using System.Threading;
-
 namespace TextRPG16
 {
-
+    enum Monsters
+    {
+        Minion,
+        CannonMinion,
+        Voidling
+    }
     public class Monster : ICharacter
     {
+        public List<Monster> monsterList;
         // ------------------ 캐릭터 인터페이스 공통 ------------------
         string _name;
         int _level;
@@ -27,9 +31,36 @@ namespace TextRPG16
             Name = "없음";
             Level = 1;
             Tribe = "몬스터";
-            FullHP = 100;
+            FullHP = 10;
             HP = FullHP;
-            AttackDamage = 100;
+            AttackDamage = 10;
+        }
+
+        public void AddMonsterList(Stage stage)
+        {
+            monsterList = new List<Monster>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                Random random = new Random(); // 몬스터 랜덤
+                int level = random.Next(1, stage.StageLevel + 3);
+
+                switch(random.Next(0, 2))
+                {
+                    case 0:
+                        Monster minion = new Minion(level);
+                        monsterList.Add(minion);
+                        break;
+                    case 1:
+                        Monster cannonMinion = new CannonMinion(level);
+                        monsterList.Add(cannonMinion);
+                        break;
+                    case 2:
+                        Monster voidling = new Voidling(level);
+                        monsterList.Add(voidling);
+                        break;
+                }
+            }
         }
 
         public void MonsterAttack(User user) // 몬스터가 공격할때
@@ -59,7 +90,7 @@ namespace TextRPG16
             {
                 Console.WriteLine(user.HP);
             }
-            Console.WriteLine(); 
+            Console.WriteLine();
             Console.WriteLine("0. 다음");
             Console.WriteLine();
             Console.Write(">> ");
@@ -68,7 +99,7 @@ namespace TextRPG16
                 Console.Write(">> ");
             }
 
-            if(user.IsDead)
+            if (user.IsDead)
             {
                 Stage stage = new Stage();
                 stage.StageLose(user);
@@ -80,68 +111,40 @@ namespace TextRPG16
             HP -= damage;
         }
     }
-    class Dookie : Monster
+    class Minion : Monster
     {
-        public Dookie()
+        public Minion(int Level)
         {
-            this.Name = "두키";
-            this.Level = 1;
-            this.HP = 10;
-            this.FullHP = 10;
-            this.AttackDamage = 2;
-        }
-
-        public Dookie(int level)
-        {
-            this.Name = "두키";
-            this.Level = level;
-            this.HP = 10;
-            this.FullHP = 10;
-            this.AttackDamage = 2;
+            this.Level = Level;
+            this.Name = "미니언";
+            this.FullHP = 10* Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 2 * Level;
         }
     }
 
-    class Slime : Monster
+    class CannonMinion : Monster
     {
-        public Slime()
+        public CannonMinion(int Level)
         {
-            this.Name = "슬라임";
-            this.Level = 1;
-            this.HP = 20;
-            this.FullHP = 20;
-            this.AttackDamage = 3;
-        }
-
-        public Slime(int level)
-        {
-            this.Name = "슬라임";
-            this.Level = level;
-            //this.HP = 20;
-            //this.FullHP = 20;
-            //this.AttackDamage = 3;
-
+            this.Level = Level;
+            this.Name = "대포 미니언";
+            this.FullHP = 15 * Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 4 * Level;
         }
     }
 
-    class Dragon : Monster
+    class Voidling : Monster
     {
 
-        public Dragon()
+        public Voidling(int Level)
         {
-            this.Name = "드래곤";
-            this.Level = 1;
-            this.HP = 75;
-            this.FullHP = 75;
-            this.AttackDamage = 25;
-        }
-
-        public Dragon(int level)
-        {
-            this.Name = "드래곤";
-            this.Level = level;
-            //this.HP = 75;
-            //this.FullHP = 75;
-            //this.AttackDamage = 25;
+            this.Level = Level;
+            this.Name = "공허충";
+            this.FullHP = 17 * Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 5 * Level;
         }
     }
 }

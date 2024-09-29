@@ -15,14 +15,22 @@
         // 스테이지 시작 메서드
         public void StartStage(User user)
         {
-            Monster monster = new Dragon();
+            Monster monster = new Monster();
+            monster.AddMonsterList(this);
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
-                Console.WriteLine($"Lv.{monster.Level} {monster.Name} HP {monster.HP}");
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write($"Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
+                    if (monster.monsterList[i].IsDead == false)
+                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    else
+                        Console.WriteLine("Dead");
+                }
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
@@ -59,7 +67,7 @@
             Console.WriteLine("Victory");
             Console.WriteLine();
             Console.WriteLine($"{StageLevel++} 스테이지 클리어!");
-            Console.WriteLine($"던전에서 몬스터 마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
+            Console.WriteLine($"던전에서 몬스터 3마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
             Console.WriteLine();
 
             Console.WriteLine("[캐릭터 정보]");
@@ -127,7 +135,14 @@
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
-                Console.WriteLine($"Lv.{monster.Level} {monster.Name} HP {monster.HP}");
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
+                    if (monster.monsterList[i].IsDead == false)
+                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    else
+                        Console.WriteLine("Dead");
+                }
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("[내정보]");
@@ -140,13 +155,34 @@
                 Console.WriteLine();
                 Console.Write(">> ");
 
-                switch (InputCheck.Check(0, 1))
+                int insult = InputCheck.Check(0, 3);
+
+                if(monster.monsterList[insult - 1].IsDead == true)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                    Thread.Sleep(800);
+                    continue;
+                }
+
+                switch (insult)
                 {
                     case 0:
                         exit = true;
                         break;
                     case 1:
-                        user.UserAttack(monster);
+                    case 2:
+                    case 3:
+                        user.UserAttack(monster.monsterList[insult-1]);
+                        for(int i = 0; i< 3; i++)
+                        {
+                            if (monster.monsterList[i].IsDead == false)
+                            {
+                                monster.monsterList[i].MonsterAttack(user);
+                                break;
+                            }
+                            else if (i == 2)
+                                StageClear(user);
+                        }
                         exit = true;
                         break;
                 }

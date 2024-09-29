@@ -1,6 +1,6 @@
 namespace TextRPG16
 {
-    enum Monsters
+    public enum Monsters
     {
         Minion,
         CannonMinion,
@@ -24,6 +24,8 @@ namespace TextRPG16
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
         public bool IsDead => HP <= 0;
+        // ------------------ 몬스터 전용 ------------------
+        public int Index { get; set; } // enum 인덱스
 
         // 기본 생성자
         public Monster()
@@ -34,6 +36,7 @@ namespace TextRPG16
             FullHP = 10;
             HP = FullHP;
             AttackDamage = 10;
+            Index = -1;
         }
 
         public void AddMonsterList(Stage stage)
@@ -123,6 +126,7 @@ namespace TextRPG16
             this.FullHP = 10 * Level;
             this.HP = this.FullHP;
             this.AttackDamage = 2 * Level;
+            this.Index = 0;
         }
     }
 
@@ -135,6 +139,7 @@ namespace TextRPG16
             this.FullHP = 15 * Level;
             this.HP = this.FullHP;
             this.AttackDamage = 4 * Level;
+            this.Index = 1;
         }
     }
 
@@ -148,6 +153,7 @@ namespace TextRPG16
             this.FullHP = 17 * Level;
             this.HP = this.FullHP;
             this.AttackDamage = 5 * Level;
+            this.Index = 2;
         }
     }
 }

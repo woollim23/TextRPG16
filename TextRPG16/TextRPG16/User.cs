@@ -9,7 +9,6 @@
         int _HP; // 현재 피통
         int _fullHP; // 최대피통
         int _attackDamage; // 공격력
-        bool _isDead; // 생존여부
 
         // 캐릭터 인터페이스 필드의 프로퍼티들
         public String Name { get { return _name; } protected set { _name = value; } }
@@ -18,11 +17,19 @@
         public int HP { get { return _HP; } set { _HP = value; } }
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
-        public bool IsDead { get { return _isDead; } set { _isDead = value; } }
+        public bool IsDead => HP <= 0;
 
         public void TakeDamage(int damage)
         {
-
+            HP -= damage;
+            if(IsDead)
+            {
+                Console.WriteLine($"{Name}이(가) 죽었습니다.");
+            }
+            else
+            {
+                Console.WriteLine($"{Name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {HP}");
+            }
         }
 
         // ------------------ 유저 인터페이스 공통 ------------------

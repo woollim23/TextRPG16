@@ -9,8 +9,8 @@ namespace TextRPG16
 {
     public class Stage
     {
-        private ICharacter player; // 플레이어
-        private ICharacter monster; // 몬스터
+        ICharacter player; // 플레이어
+        ICharacter monster; // 몬스터
 
         // 이벤트 델리게이트 정의
         public delegate void GameEvent(ICharacter character);

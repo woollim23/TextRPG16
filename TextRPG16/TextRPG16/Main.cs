@@ -16,7 +16,8 @@ namespace TextRPG16
 
             Console.WriteLine($"{user.UserClass}");
             //-----------------------------
-            Monster monster = new Dookie();
+            Stage stage = new Stage();
+            stage.StartStage(user);
             
             
 

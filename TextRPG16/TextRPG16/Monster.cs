@@ -1,14 +1,14 @@
+using System.Threading;
+
 namespace TextRPG16
 {
 
-    class Monster : ICharacter
+    public class Monster : ICharacter
     {
-        List<Monster> monsters;
-
         // ------------------ 캐릭터 인터페이스 공통 ------------------
-        string _name = null;
+        string _name;
         int _level;
-        string _tribe = "Monster"; // 몬스터
+        string _tribe; // 몬스터
         int _HP; // 체력
         int _fullHP; // 최대 체력
         int _attackDamage; // 공격력
@@ -21,48 +21,83 @@ namespace TextRPG16
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
         public bool IsDead => HP <= 0;
 
-        public void TakeDamage(int damage)
-        {
-            HP -= damage;
-            if(IsDead)
-            {
-                Console.WriteLine($"{Name}이(가) 죽었습니다.");
-            }
-            else
-            {
-                Console.WriteLine($"{Name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {HP}");
-            }
-        }
-
+        // 기본 생성자
         public Monster()
         {
-            Name = "몬스터";
+            Name = "없음";
             Level = 1;
-            HP = 100;
+            Tribe = "몬스터";
             FullHP = 100;
+            HP = FullHP;
             AttackDamage = 100;
         }
 
+        public void MonsterAttack(User user) // 몬스터가 공격할때
+        {
+            Console.Clear();
+            int tempUserHP = user.HP;
+            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
+
+            Random random = new Random();
+            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
+
+            user.TakeDamage(resultDamage);
+
+            Console.WriteLine($"Battle!!");
+            Console.WriteLine();
+            Console.WriteLine($"{Name} 의 공격!");
+            Console.WriteLine($"Lv.{user.Level} {user.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
+            Console.WriteLine();
+            Console.WriteLine($"Lv.{user.Level} {user.Name}");
+            Console.Write($"HP {tempUserHP} -> ");
+
+            if (user.IsDead)
+            {
+                Console.WriteLine("Dead");
+            }
+            else
+            {
+                Console.WriteLine(user.HP);
+            }
+            Console.WriteLine(); 
+            Console.WriteLine("0. 다음");
+            Console.WriteLine();
+            Console.Write(">> ");
+            while (InputCheck.Check(0, 0) != 0)
+            {
+                Console.Write(">> ");
+            }
+
+            if(user.IsDead)
+            {
+                Stage stage = new Stage();
+                stage.StageLose(user);
+            }
+        }
+
+        public void TakeDamage(int damage)
+        {
+            HP -= damage;
+        }
     }
     class Dookie : Monster
     {
         public Dookie()
         {
             this.Name = "두키";
-            this.FullHP = 10;
             this.Level = 1;
-            this.HP = 100;
-            this.FullHP = 100;
-            this.AttackDamage = 0;
+            this.HP = 10;
+            this.FullHP = 10;
+            this.AttackDamage = 2;
         }
 
         public Dookie(int level)
         {
             this.Name = "두키";
             this.Level = level;
-            //this.HP = 100;
-            //this.FullHP = 100;
-            this.AttackDamage = 0;
+            this.HP = 10;
+            this.FullHP = 10;
+            this.AttackDamage = 2;
         }
     }
 
@@ -84,28 +119,6 @@ namespace TextRPG16
             //this.HP = 20;
             //this.FullHP = 20;
             //this.AttackDamage = 3;
-
-        }
-    }
-
-    class Leejinho : Monster
-    {
-        public Leejinho()
-        {
-            this.Name = "이진호";
-            this.Level = 1;
-            this.HP = 40;
-            this.FullHP = 40;
-            this.AttackDamage = 12;
-        }
-
-        public Leejinho(int level)
-        {
-            this.Name = "이진호";
-            this.Level = level;
-            //this.HP = 40;
-            //this.FullHP = 40;
-            //this.AttackDamage = 12;
 
         }
     }

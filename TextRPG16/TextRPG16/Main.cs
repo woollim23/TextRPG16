@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace TextRPG16
 {
+    static class Constants
+    {
+        public const int MAX = 1000000;
+    }
+
     internal class TextRPG16
     {
         // test

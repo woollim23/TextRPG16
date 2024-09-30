@@ -6,7 +6,6 @@
 
         public int StageLevel { get { return _stageLevel; } private set { _stageLevel = value; } }
 
-
         public Stage()
         {
             this.StageLevel = 1;
@@ -128,7 +127,6 @@
             {
                 Console.Write(">> ");
             }
-
         }
 
         // 공격 페이즈

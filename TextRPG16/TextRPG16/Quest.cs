@@ -34,10 +34,11 @@
                 case QuestType.Equip:
                     break;
                 case QuestType.Growth:
+                    lvUp = random.Next(1, 4);
                     break;
                 case QuestType.Hunt:
                     //mobName = null;
-                    totalMob = random.Next(1, 6);
+                    totalMob = random.Next(3, 8);
                     break;
             }
         }

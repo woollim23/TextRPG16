@@ -13,8 +13,15 @@ namespace TextRPG16
         {
 
             User user = new Warrior();
+           
 
-            Console.WriteLine($"{user.UserClass}");
+           
+            //-----------------------------
+            Stage stage = new Stage();
+            stage.StartStage(user);
+            
+            
+
 
         }
     }

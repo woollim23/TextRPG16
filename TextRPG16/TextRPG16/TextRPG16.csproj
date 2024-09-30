@@ -7,4 +7,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <Compile Remove="GameManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="GameManager.cs" />
+  </ItemGroup>
+
 </Project>

@@ -51,7 +51,7 @@ namespace TextRPG16
                 int level = random.Next(1, stage.StageLevel + 3); // 랜덤으로 레벨 지정
 
                 // enum 안에 있는 몬스터를 랜덤으로 지정한다
-                switch ((Monsters)random.Next(0, monsterCount - 1))
+                switch ((Monsters)random.Next(0, monsterCount))
                 {
                     case Monsters.Minion:
                         Monster minion = new Minion(level);

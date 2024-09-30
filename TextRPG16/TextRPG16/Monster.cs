@@ -1,14 +1,18 @@
 namespace TextRPG16
 {
-
-    class Monster : ICharacter
+    public enum Monsters
     {
-        List<Monster> monsters;
-
+        Minion,
+        CannonMinion,
+        Voidling
+    }
+    public class Monster : ICharacter
+    {
+        public List<Monster> monsterList;
         // ------------------ 캐릭터 인터페이스 공통 ------------------
-        string _name = null;
+        string _name;
         int _level;
-        string _tribe = "Monster"; // 몬스터
+        string _tribe; // 몬스터
         int _HP; // 체력
         int _fullHP; // 최대 체력
         int _attackDamage; // 공격력
@@ -20,115 +24,136 @@ namespace TextRPG16
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
         public bool IsDead => HP <= 0;
+        // ------------------ 몬스터 전용 ------------------
+        public int Index { get; set; } // enum 인덱스
+
+        // 기본 생성자
+        public Monster()
+        {
+            Name = "없음";
+            Level = 1;
+            Tribe = "몬스터";
+            FullHP = 10;
+            HP = FullHP;
+            AttackDamage = 10;
+            Index = -1;
+        }
+
+        public void AddMonsterList(Stage stage)
+        {
+            monsterList = new List<Monster>();
+
+            for (int i = 0; i < 3; i++)
+            {
+                int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
+
+                Random random = new Random(); // 랜덤
+                int level = random.Next(1, stage.StageLevel + 3); // 랜덤으로 레벨 지정
+
+                // enum 안에 있는 몬스터를 랜덤으로 지정한다
+                switch ((Monsters)random.Next(0, monsterCount))
+                {
+                    case Monsters.Minion:
+                        Monster minion = new Minion(level);
+                        monsterList.Add(minion);
+                        break;
+                    case Monsters.CannonMinion:
+                        Monster cannonMinion = new CannonMinion(level);
+                        monsterList.Add(cannonMinion);
+                        break;
+                    case Monsters.Voidling:
+                        Monster voidling = new Voidling(level);
+                        monsterList.Add(voidling);
+                        break;
+                }
+            }
+        }
+
+        public void MonsterAttack(User user) // 몬스터가 공격할때
+        {
+            Console.Clear();
+            int tempUserHP = user.HP;
+            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
+
+            Random random = new Random();
+            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
+
+            user.TakeDamage(resultDamage);
+
+            Console.WriteLine($"Battle!!");
+            Console.WriteLine();
+            Console.WriteLine($"{Name} 의 공격!");
+            Console.WriteLine($"Lv.{user.Level} {user.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
+            Console.WriteLine();
+            Console.WriteLine($"Lv.{user.Level} {user.Name}");
+            Console.Write($"HP {tempUserHP} -> ");
+
+            if (user.IsDead)
+            {
+                Console.WriteLine("Dead");
+            }
+            else
+            {
+                Console.WriteLine(user.HP);
+            }
+            Console.WriteLine();
+            Console.WriteLine("0. 다음");
+            Console.WriteLine();
+            Console.Write(">> ");
+            while (InputCheck.Check(0, 0) != 0)
+            {
+                Console.Write(">> ");
+            }
+
+            if (user.IsDead)
+            {
+                Stage stage = new Stage();
+                stage.StageLose(user);
+            }
+        }
 
         public void TakeDamage(int damage)
         {
             HP -= damage;
-            if(IsDead)
-            {
-                Console.WriteLine($"{Name}이(가) 죽었습니다.");
-            }
-            else
-            {
-                Console.WriteLine($"{Name}이(가) {damage}의 데미지를 받았습니다. 남은 체력: {HP}");
-            }
         }
-
-        public Monster()
-        {
-            Name = "몬스터";
-            Level = 1;
-            HP = 100;
-            FullHP = 100;
-            AttackDamage = 100;
-        }
-
     }
-    class Dookie : Monster
+    class Minion : Monster
     {
-        public Dookie()
+        public Minion(int Level)
         {
-            this.Name = "두키";
-            this.FullHP = 10;
-            this.Level = 1;
-            this.HP = 100;
-            this.FullHP = 100;
-            this.AttackDamage = 0;
-        }
-
-        public Dookie(int level)
-        {
-            this.Name = "두키";
-            this.Level = level;
-            //this.HP = 100;
-            //this.FullHP = 100;
-            this.AttackDamage = 0;
+            this.Level = Level;
+            this.Name = "미니언";
+            this.FullHP = 10 * Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 2 * Level;
+            this.Index = 0;
         }
     }
 
-    class Slime : Monster
+    class CannonMinion : Monster
     {
-        public Slime()
+        public CannonMinion(int Level)
         {
-            this.Name = "슬라임";
-            this.Level = 1;
-            this.HP = 20;
-            this.FullHP = 20;
-            this.AttackDamage = 3;
-        }
-
-        public Slime(int level)
-        {
-            this.Name = "슬라임";
-            this.Level = level;
-            //this.HP = 20;
-            //this.FullHP = 20;
-            //this.AttackDamage = 3;
-
+            this.Level = Level;
+            this.Name = "대포 미니언";
+            this.FullHP = 15 * Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 4 * Level;
+            this.Index = 1;
         }
     }
 
-    class Leejinho : Monster
-    {
-        public Leejinho()
-        {
-            this.Name = "이진호";
-            this.Level = 1;
-            this.HP = 40;
-            this.FullHP = 40;
-            this.AttackDamage = 12;
-        }
-
-        public Leejinho(int level)
-        {
-            this.Name = "이진호";
-            this.Level = level;
-            //this.HP = 40;
-            //this.FullHP = 40;
-            //this.AttackDamage = 12;
-
-        }
-    }
-
-    class Dragon : Monster
+    class Voidling : Monster
     {
 
-        public Dragon()
+        public Voidling(int Level)
         {
-            this.Name = "드래곤";
-            this.Level = 1;
-            this.HP = 75;
-            this.FullHP = 75;
-            this.AttackDamage = 25;
-        }
-
-        public Dragon(int level)
-        {
-            this.Name = "드래곤";
-            this.Level = level;
-            //this.HP = 75;
-            //this.FullHP = 75;
-            //this.AttackDamage = 25;
+            this.Level = Level;
+            this.Name = "공허충";
+            this.FullHP = 17 * Level;
+            this.HP = this.FullHP;
+            this.AttackDamage = 5 * Level;
+            this.Index = 2;
         }
     }
 }

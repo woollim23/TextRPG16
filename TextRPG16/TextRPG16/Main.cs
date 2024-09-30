@@ -17,7 +17,8 @@ namespace TextRPG16
 
            
             //-----------------------------
-            Monster monster = new Dookie();
+            Stage stage = new Stage();
+            stage.StartStage(user);
             
             
 

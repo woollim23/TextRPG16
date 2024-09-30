@@ -11,10 +11,6 @@ namespace TextRPG16
         // 상점 이용 메소드
         public void UseStore(User user, Item gameItem)
         {
-            int jumping;
-            int jumpHoping;
-
-
             bool exit = false;
             while (!exit)
             {

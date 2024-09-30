@@ -1,44 +1,44 @@
+using System.Xml.Linq;
+
 namespace TextRPG16
 {
     class Battle
     {
-        List<Slime> slimes = null!;
-        List<Leejinho> leejinhoes = null!;
-        List<Dragon> dragons = null!;
-
-        Random random  = new Random();
-        public Battle(int playerLevel)
+        public void Attack(ICharacter attacker, ICharacter deffenser) // 공격할때
         {
-            int dragonLevel = random.Next(playerLevel, playerLevel + 2);
-            if(random.Next(0, 100) < 20)
-            {
-                dragons.Add(new Dragon(dragonLevel));
-            }
+            Console.Clear();
+            int tempMonsterHP = deffenser.HP;
+            int num = (int)Math.Round(((double)attacker.AttackDamage / 100 * 10), 0); // 오차값
 
-            int jinhoLevel = random.Next(playerLevel, playerLevel + 3);
-            if (random.Next(0, 100) < 50)
-            {
-                leejinhoes.Add(new Leejinho(jinhoLevel));
-            }
+            Random random = new Random();
+            int resultDamage = random.Next((int)attacker.AttackDamage - num, (int)attacker.AttackDamage + num);
 
-            int mobCnt = 0;
-            int slimeLevel = random.Next(playerLevel, playerLevel + 5);
-            foreach (Dragon dragon in dragons)
-            {
-                mobCnt++;
-            }
-            foreach(Leejinho leejinho in leejinhoes)
-            {
-                mobCnt++;
-            }
+            deffenser.TakeDamage(resultDamage);
 
-            for(int i = 0; i < 3-mobCnt; i++)
+            Console.WriteLine($"Battle!!");
+            Console.WriteLine();
+            Console.WriteLine($"{attacker.Name} 의 공격!");
+            Console.WriteLine($"Lv.{deffenser.Level} {deffenser.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
+            Console.WriteLine();
+            Console.WriteLine($"Lv.{deffenser.Level} {deffenser.Name}");
+            Console.Write($"HP {tempMonsterHP} -> ");
+
+            if (deffenser.IsDead)
             {
-                slimes.Add(new Slime(slimeLevel));
+                Console.WriteLine("Dead");
             }
+            else
+            {
+                Console.WriteLine(deffenser.HP);
+            }
+            Console.WriteLine();
+            Console.WriteLine("0. 다음");
+            Console.WriteLine();
 
-
+            while (InputCheck.Check(0, 0) == 0)
+            {
+                Console.Write(">> ");
+            }
         }
-
     }
 }

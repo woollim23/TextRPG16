@@ -1,6 +1,6 @@
 ﻿namespace TextRPG16
 {
-    interface ICharacter
+    public interface ICharacter
     {
         // 몬스터랑 유저 둘다 쓰는 공통 인터페이스
         public String Name { get; } // 이름

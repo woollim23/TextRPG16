@@ -19,13 +19,16 @@
         bool isAccept = false;
         bool isClear = false;
 
-        Item amends = null!;
+        int goldAmends = 0;
+        Item itemAmends = null!;
 
-        public Quest(int questType, string name, string context, Item amends)
+        public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
         {
             this.name = name;
             this.context = context;
-            this.amends = amends;
+
+            this.goldAmends = goldAmends;
+            this.itemAmends = itemAmends;
 
             Random random = new Random();
 
@@ -41,9 +44,11 @@
                     totalMob = random.Next(3, 8);
                     break;
             }
+
+            this.goldAmends = goldAmends;
         }
 
-        public int DisplayQuest()
+        public void DisplayQuest()
         {
             Console.WriteLine("Quest!!!");
             Console.WriteLine();
@@ -54,12 +59,12 @@
             Console.WriteLine(context);
             Console.WriteLine();
 
-            // 퀘스트 클리어 조건
+            // ex 퀘스트 클리어 조건
             Console.WriteLine($"ex) {mobName} {totalMob}마리 처치 ({mobCnt}/{totalMob})");
 
             // 클리어 보상
             Console.WriteLine("- 보상 -");
-            Console.WriteLine(amends);
+            Console.Write($"{itemAmends}, {goldAmends}");
 
             if (!isAccept)
             {
@@ -82,7 +87,20 @@
 
             Console.WriteLine("원하시는 행동을 입력해주세요");
             Console.Write(">>> ");
-            return int.Parse(Console.ReadLine()!);
+
+            int select = InputCheck.Check(1, 2);
+            if (!isAccept && select == 1)
+            {
+                isAccept = true;
+            }
+            else if(isAccept && select == 1)
+            {
+                isAccept = false;
+            }
+            else if(isAccept && isClear && select == 1)
+            {
+                // 보상 받기
+            }
         }
     }
 }

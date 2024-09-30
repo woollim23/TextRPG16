@@ -54,7 +54,7 @@
             Console.WriteLine(context);
             Console.WriteLine();
 
-            // 퀘스트 클리어 조건
+            // ex 퀘스트 클리어 조건
             Console.WriteLine($"ex) {mobName} {totalMob}마리 처치 ({mobCnt}/{totalMob})");
 
             // 클리어 보상

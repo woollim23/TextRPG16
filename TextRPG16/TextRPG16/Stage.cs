@@ -61,7 +61,7 @@
             }while(!exit);
         }
 
-        // 공격 페이즈
+        // 공격 페이즈 - 공격할 몬스터 선택
         public void BattleStage(User user, Monster monster, Item item)
         {
             bool exit = false;
@@ -73,11 +73,16 @@
                 Console.WriteLine("[몬스터]");
                 for (int i = 0; i < 3; i++)
                 {
-                    Console.Write($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
                     if (monster.monsterList[i].IsDead == false)
-                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    {
+                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
+                    }
                     else
-                        Console.WriteLine("Dead");
+                    {
+                        // 색깔 변경 필여!!!!!!!
+                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead");
+                        // 색깔 변경 필여!!!!!!!
+                    }
                 }
                 Console.WriteLine();
                 Console.WriteLine();
@@ -116,7 +121,7 @@
                 {
                     if (monster.monsterList[i].IsDead == false)
                     {
-
+                       
                         monster.monsterList[i].MonsterAttack(user, item);
                         exit = true;
                         break;
@@ -126,7 +131,6 @@
                 }
             }
         }
-
         // 스테이지 클리어 메서드
         public void StageClear(User user, Item item, Monster monster)
         {
@@ -142,7 +146,9 @@
             Console.Clear();
             Console.WriteLine("Battle!! - Result");
             Console.WriteLine();
+            // 색깔 변경 필요!!!!!!!!!!!!!!!!!!!
             Console.WriteLine("Victory");
+            // 색깔 변경 필요!!!!!!!!!!!!!!!!!!!
             Console.WriteLine();
             Console.WriteLine($"{StageLevel++} 스테이지 클리어!");
             Console.WriteLine($"던전에서 몬스터 3마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
@@ -192,7 +198,9 @@
             Console.Clear();
             Console.WriteLine("Battle!! - Result");
             Console.WriteLine();
+            // 색깔 변경 필요!!!!!!!!!!!!!!
             Console.WriteLine("You Lose");
+            // 색깔 변경 필요!!!!!!!!!!!!!!
             Console.WriteLine();
             Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
             Console.WriteLine($"HP {user.FullHP} -> 0");

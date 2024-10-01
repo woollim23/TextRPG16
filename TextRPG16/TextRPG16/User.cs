@@ -50,6 +50,9 @@
         // ------------------ 플레이어 고유 ------------------
         public int[] MonsterCount; // 몬스터 잡은 수 배열
         public int BestStageLevel; // 최고 스테이지 레벨 
+
+        public List<Skill> SkillList;
+
         // 기본 생성자
         public User()
         {
@@ -301,7 +304,7 @@
             Console.WriteLine();
             Console.Write(">> ");
 
-            int select = InputCheck.Check(1, 2);
+            int select = InputCheck.Check(1, 5);
             switch (select)
             {
                 case 1:
@@ -361,10 +364,17 @@
             user.UserClass = "전사";
             user.FullHP = 100; // 초기 체력
             user.HP = FullHP; // 현재 체력
-            user.FullMP = 100; // 초기 마나
+            user.FullMP = 50; // 초기 마나
             user.MP = FullMP; // 초기 마나
             user.DefensPower = 80; // 초기 방어력
             user.AttackDamage = 20; // 초기 공격력
+
+            SkillList = new List<Skill>();
+            AddSkill();
+        }
+        public void AddSkill()
+        {
+            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25));
         }
 
         public int WarriorSkill(int attackDamage)
@@ -382,10 +392,6 @@
             return skillDamage * count;
         }
 
-        public void WarriorSkillScreen()
-        {
-            Console.WriteLine("Test");
-        }
     }
     public class Thief : User
     {

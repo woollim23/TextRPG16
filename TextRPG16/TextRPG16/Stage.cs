@@ -52,7 +52,8 @@ namespace TextRPG16
                 Console.WriteLine();
 
                 Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 회복");
+                Console.WriteLine("2. 스킬");
+                Console.WriteLine("3. 회복");
                 Console.WriteLine("0. 도망");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -61,12 +62,16 @@ namespace TextRPG16
                 switch(InputCheck.Check(0, 2))
                 {
                     case 0:
-                        exit = true;
+                        GameManager gameManager = new GameManager();
+                        gameManager.GamePlay(user, item, consumableItem);
                         break;
                     case 1:
                         BattleStage(user, monster, item, consumableItem);
                         break;
                     case 2:
+
+                        break;
+                    case 3:
                         consumableItem.UsePotionList(user, consumableItem);
                         break;
                 }
@@ -115,8 +120,7 @@ namespace TextRPG16
 
                 if (insert == 0)
                 {
-                    exit = true;
-                    continue;
+                    break;
                 }
 
                 // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)

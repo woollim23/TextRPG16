@@ -125,14 +125,14 @@ namespace TextRPG16
         protected int MonsterLevelUpStatus(int level, int insert)
         {
             // 레벨당 0.3 씩 계산
-            return (int)(Math.Round(((double)insert * (level * 0.3))));
+            return insert + (int)(Math.Round(((double)insert * (level * 0.3))));
         }
 
         // 몬스터가 레벨업시 주는 경험치 증가율
         protected int MonsterLevelUpEXP(int level, int insert)
         {
             // 레벨당 0.3 씩 계산
-            return (int)(Math.Round(((double)insert * (level * 0.3))));
+            return insert + (int)(Math.Round(((double)insert * (level * 0.3))));
         }
     }
     class Minion : Monster

@@ -49,6 +49,7 @@
 
         // ------------------ 플레이어 고유 ------------------
         public int[] MonsterCount; // 몬스터 잡은 수 배열
+        public int BestStageLevel; // 최고 스테이지 레벨 
         // 기본 생성자
         public User()
         {
@@ -73,6 +74,7 @@
             this.FullEXP = 10;
 
             MonsterCount = new int[Enum.GetValues(typeof(Monsters)).Length]; // 이넘에 저장된 몬스터 갯수 만큼 배열 크기 설정
+            BestStageLevel = 1;
 
             quests = new List<Quest>();
             AddQuest();
@@ -94,13 +96,13 @@
                 300));
         }
 
-        public int QuestCnt() {  return quests.Count; }
+        public int QuestCnt() { return quests.Count; }
 
         public void TakeEquip()
         {
             foreach (Quest quest in quests)
             {
-                if(quest.GetType() == 0)
+                if (quest.GetType() == 0)
                 {
                     quest.isEquip = true;
                 }
@@ -109,7 +111,7 @@
 
         public void AddKillCount()
         {
-            foreach(Quest quest in quests)
+            foreach (Quest quest in quests)
             {
                 if (quest.totalMob != Constants.MAX)
                 {
@@ -193,9 +195,9 @@
             if (user.FullEXP <= user.EXP)
             {
                 Quest quest = null!;
-                foreach(Quest q in quests)
+                foreach (Quest q in quests)
                 {
-                    if(q.lvUp != Constants.MAX)
+                    if (q.lvUp != Constants.MAX)
                     {
                         quest = q;
                     }
@@ -286,34 +288,39 @@
         public void ChoiceUserClass(User user)
         {
             // ---------------- 캐릭터 직업 선택 -------------------
-            while (true)
+            Console.Clear();
+            Console.WriteLine("[직업 선택]");
+            // 직업 선택
+            Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
+            Console.WriteLine();
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 궁수");
+            Console.WriteLine("3. 도적");
+            Console.WriteLine("4. 사제");
+            Console.WriteLine("5. 마법사");
+            Console.WriteLine();
+            Console.Write(">> ");
+
+            int select = InputCheck.Check(1, 2);
+            switch (select)
             {
-                Console.Clear();
-                Console.WriteLine("[직업 선택]");
-                // 직업 선택
-                Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
-                Console.WriteLine();
-                Console.WriteLine("1. 전사");
-                Console.WriteLine("2. 마법사");
-                Console.WriteLine();
-                Console.Write(">> ");
-
-                int select = InputCheck.Check(1, 2);
-                switch (select)
-                {
-                    case 1:
-                        user.UserClass = "전사";
-                        user = new Warrior();
-                        break;
-                    case 2:
-                        user.UserClass = "마법사";
-                        user = new Wizard();
-                        break;
-                    default:
-                        break;
-                }
-
-                if (select != -1) break;
+                case 1:
+                    user = new Warrior(user);
+                    break;
+                case 2:
+                    user = new Archer(user);
+                    break;
+                case 3:
+                    user = new Thief(user);
+                    break;
+                case 4:
+                    user = new Preist(user);
+                    break;
+                case 5:
+                    user = new Wizard(user);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -321,15 +328,15 @@
 
     public class Wizard : User
     {
-        public Wizard() // 생성자
+        public Wizard(User user) // 생성자
         {
-            UserClass = "마법사";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 300; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 0; // 초기 방어력
-            AttackDamage = 35; // 초기 공격력
+            user.UserClass = "마법사";
+            user.FullHP = 100; // 초기 체력
+            user.HP = FullHP; // 초기 체력
+            user.FullMP = 300; // 초기 마나
+            user.MP = FullMP; // 초기 마나
+            user.DefensPower = 0; // 초기 방어력
+            user.AttackDamage = 35; // 초기 공격력
         }
 
         public int WizardSkill1(int attackDamage)
@@ -349,15 +356,15 @@
     }
     public class Warrior : User
     {
-        public Warrior() // 생성자
+        public Warrior(User user) // 생성자
         {
-            UserClass = "전사";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 현재 체력
-            FullMP = 100; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 80; // 초기 방어력
-            AttackDamage = 20; // 초기 공격력
+            user.UserClass = "전사";
+            user.FullHP = 100; // 초기 체력
+            user.HP = FullHP; // 현재 체력
+            user.FullMP = 100; // 초기 마나
+            user.MP = FullMP; // 초기 마나
+            user.DefensPower = 80; // 초기 방어력
+            user.AttackDamage = 20; // 초기 공격력
         }
 
         public int WarriorSkill(int attackDamage)
@@ -375,18 +382,22 @@
             return skillDamage * count;
         }
 
+        public void WarriorSkillScreen()
+        {
+            Console.WriteLine("Test");
+        }
     }
     public class Thief : User
     {
-        public Thief() // 생성자
+        public Thief(User user) // 생성자
         {
-            UserClass = "도적";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 200; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 40; // 초기 방어력
-            AttackDamage = 12; // 초기 공격력
+            user.UserClass = "도적";
+            user.FullHP = 100; // 초기 체력
+            user.HP = FullHP; // 초기 체력
+            user.FullMP = 200; // 초기 마나
+            user.MP = FullMP; // 초기 마나
+            user.DefensPower = 40; // 초기 방어력
+            user.AttackDamage = 12; // 초기 공격력
         }
 
         public int ThiefSkill(int attackDamage)
@@ -406,15 +417,15 @@
     }
     public class Preist : User
     {
-        public Preist() // 생성자
+        public Preist(User user) // 생성자
         {
-            UserClass = "성직자";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 300; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 90; // 초기 방어력
-            AttackDamage = 5; // 초기 공격력
+            user.UserClass = "성직자";
+            user.FullHP = 100; // 초기 체력
+            user.HP = FullHP; // 초기 체력
+            user.FullMP = 300; // 초기 마나
+            user.MP = FullMP; // 초기 마나
+            user.DefensPower = 90; // 초기 방어력
+            user.AttackDamage = 5; // 초기 공격력
         }
 
         public int PreistSkill(int attackDamage)
@@ -433,15 +444,15 @@
     }
     public class Archer : User
     {
-        public Archer() // 생성자
+        public Archer(User user) // 생성자
         {
-            UserClass = "궁수";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 200; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 40; // 초기 방어력
-            AttackDamage = 12; // 초기 공격력
+            user.UserClass = "궁수";
+            user.FullHP = 100; // 초기 체력
+            user.HP = FullHP; // 초기 체력
+            user.FullMP = 200; // 초기 마나
+            user.MP = FullMP; // 초기 마나
+            user.DefensPower = 40; // 초기 방어력
+            user.AttackDamage = 12; // 초기 공격력
         }
 
         public int ArcherSkill(int attackDamage)

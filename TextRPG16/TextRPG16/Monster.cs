@@ -111,7 +111,7 @@ namespace TextRPG16
 
             if (user.IsDead)
             {
-                Stage stage = new Stage();
+                Stage stage = new Stage(user);
                 stage.StageLose(user, item, consumableItem);
             }
         }

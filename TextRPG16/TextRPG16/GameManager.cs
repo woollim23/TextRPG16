@@ -89,7 +89,7 @@ namespace TextRPG16
                         break;
                     case 5:
                         // 던전입장
-                        Stage stage = new Stage();
+                        Stage stage = new Stage(user);
                         stage.StartStage(user, gameItem, consumableItem);
                         break;
                     case 6:

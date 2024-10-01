@@ -8,9 +8,9 @@ namespace TextRPG16
 
         public int StageLevel { get { return _stageLevel; } private set { _stageLevel = value; } }
 
-        public Stage()
+        public Stage(User user)
         {
-            this.StageLevel = 1;
+            this.StageLevel = user.BestStageLevel;
         }
 
         // 스테이지 시작 메서드
@@ -180,7 +180,7 @@ namespace TextRPG16
 
             Console.WriteLine("[획득아이템 정보]");
             Console.WriteLine("{0} Gold", reward.GoldReward(user, this));
-            Console.WriteLine();// 포션 보상 추가*******
+            reward.PotionReward(user, consumableItem);
             reward.ItemReward(user, item); // 아이템 보상 추가
             Console.WriteLine();
             Console.WriteLine();
@@ -192,6 +192,7 @@ namespace TextRPG16
             Console.Write(">> ");
 
             user.HP = 100; // 체력 회복
+            user.BestStageLevel = StageLevel;
 
             switch(InputCheck.Check(0, 1))
             {

@@ -27,6 +27,7 @@ namespace TextRPG16
             }
             else
             {
+                item.item[index].buy = true;
                 Console.WriteLine("{0} - 1", item.item[index].name);
             }
 
@@ -41,6 +42,15 @@ namespace TextRPG16
             user.Gold += gold;
 
             return gold;
+        }
+
+        public void PotionReward(User user, ConsumableItem consumableItem)
+        {
+            Random random = new Random();
+            // 포션 목록 인덱스를 랜덤으로 가져옴
+            int index = random.Next(0, consumableItem._potions.Count);
+            consumableItem._potions[index].Quantity++;
+            Console.WriteLine("{0} - 1", consumableItem._potions[index].ItemName);
         }
     }
 }

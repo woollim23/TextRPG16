@@ -123,4 +123,3 @@ namespace TextRPG16
         }
     }
 }
-

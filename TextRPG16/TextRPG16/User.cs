@@ -228,4 +228,74 @@
             }
         }
     }
+    class Wizard : User
+    {
+        public Wizard() // 생성자
+        {
+            UserClass = "마법사";
+            FullHP = 100; // 초기 체력
+            HP = FullHP; // 초기 체력
+            FullMP = 300; // 초기 마나
+            MP = FullMP; // 초기 마나
+            DefensPower = 0; // 초기 방어력
+            AttackDamage = 35; // 초기 공격력
+        }
+
+    }
+    class Warrior : User
+    {
+        public Warrior() // 생성자
+        {
+            UserClass = "전사";
+            FullHP = 100; // 초기 체력
+            HP = FullHP; // 현재 체력
+            FullMP = 100; // 초기 마나
+            MP = FullMP; // 초기 마나
+            DefensPower = 80; // 초기 방어력
+            AttackDamage = 20; // 초기 공격력
+        }
+
+    }
+    class Thief : User
+    {
+        public Thief() // 생성자
+        {
+            UserClass = "도적";
+            FullHP = 100; // 초기 체력
+            HP = FullHP; // 초기 체력
+            FullMP = 200; // 초기 마나
+            MP = FullMP; // 초기 마나
+            DefensPower = 40; // 초기 방어력
+            AttackDamage = 12; // 초기 공격력
+        }
+
+    }
+    class Preist : User
+    {
+        public Preist() // 생성자
+        {
+            UserClass = "성직자";
+            FullHP = 100; // 초기 체력
+            HP = FullHP; // 초기 체력
+            FullMP = 300; // 초기 마나
+            MP = FullMP; // 초기 마나
+            DefensPower = 90; // 초기 방어력
+            AttackDamage = 5; // 초기 공격력
+        }
+
+    }
+    class Archer : User
+    {
+        public Archer() // 생성자
+        {
+            UserClass = "궁수";
+            FullHP = 100; // 초기 체력
+            HP = FullHP; // 초기 체력
+            FullMP = 200; // 초기 마나
+            MP = FullMP; // 초기 마나
+            DefensPower = 40; // 초기 방어력
+            AttackDamage = 12; // 초기 공격력
+        }
+
+    }
 }

@@ -61,6 +61,11 @@ namespace TextRPG16
             }
         }
 
+        public new int GetType()
+        {
+            return (int)qType;
+        }
+
         public int DisplayQuest()
         {
             Random random = new Random();

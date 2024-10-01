@@ -2,11 +2,11 @@ namespace TextRPG16
 {
     public class GameManager
     {
-        // ÆÄÀÏ °æ·Î
+        // íŒŒì¼ ê²½ë¡œ
         public string filePath1 = "TextRPG_Reform_User";
         public string filePath2 = "TextRPG_Reform_Item";
 
-        // ·ÎµùÃ¢ ¸Ş¼Òµå
+        // ë¡œë”©ì°½ ë©”ì†Œë“œ
         public void LodingScreen()
         {
             Console.WriteLine("--------------------------------------");
@@ -20,78 +20,123 @@ namespace TextRPG16
             Console.Clear();
         }
 
-        // ½ÃÀÛÃ¢ ¸Ş¼Òµå
+        // ì‹œì‘ì°½ ë©”ì†Œë“œ
         public void StartScreen(User user)
         {
-            // ------------------- ½ÃÀÛÃ¢ -------------------
-            Console.WriteLine("[°èÁ¤ »ı¼º]");
-            Console.WriteLine("Sparta TextRPG °ÔÀÓÀ» Ã³À½ ½ÃÀÛÇÕ´Ï´Ù.");
+            // ------------------- ì‹œì‘ì°½ -------------------
+            Console.WriteLine("[ê³„ì • ìƒì„±]");
+            Console.WriteLine("Sparta TextRPG ê²Œì„ì„ ì²˜ìŒ ì‹œì‘í•©ë‹ˆë‹¤.");
             Console.WriteLine();
-            // ´Ğ³×ÀÓ ¼³Á¤
-            Console.WriteLine("È¯¿µÇÕ´Ï´Ù. ¸ğÇè°¡´Ô!");
-            Console.WriteLine("»ç¿ëÇÏ½Ç ´Ğ³×ÀÓÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+            // ë‹‰ë„¤ì„ ì„¤ì •
+            Console.WriteLine("í™˜ì˜í•©ë‹ˆë‹¤. ëª¨í—˜ê°€ë‹˜!");
+            Console.WriteLine("ì‚¬ìš©í•˜ì‹¤ ë‹‰ë„¤ì„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
             Console.WriteLine();
             Console.Write(">> ");
-            user.InputName(Console.ReadLine());
+            user.InputName(Console.ReadLine()!);
 
             user.ChoiceUserClass(user);
         }
         //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
         public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {
+            List<Quest> quests = new List<Quest>();
+            quests.Add(new Quest(2, "ë§ˆì„ì„ ìœ„í˜‘í•˜ëŠ” ë¯¸ë‹ˆì–¸ ì²˜ì¹˜",
+            "ì´ë´! ë§ˆì„ ê·¼ì²˜ì— ë¯¸ë‹ˆì–¸ë“¤ì´ ë„ˆë¬´ ë§ì•„ì¡Œë‹¤ê³  ìƒê°í•˜ì§€ ì•Šë‚˜? ë§ˆì„ ì£¼ë¯¼ë“¤ì˜ ì•ˆì „ì„ ìœ„í•´ì„œë¼ë„ ì €ê²ƒë“¤ ìˆ˜ë¥¼ ì¢€ ì¤„ì—¬ì•¼ í•œë‹¤ê³ ! ëª¨í—˜ê°€ì¸ ìë„¤ê°€ ì¢€ ì²˜ì¹˜í•´ì£¼ê²Œ!",
+            500));
+
+            quests.Add(new Quest(1, "ì¥ë¹„ë¥¼ ì¥ì°©í•´ë³´ì",
+                "ìƒˆë¡œìš´ ì¥ë¹„ë¥¼ ì°©ìš©í•˜ì—¬ í˜ì„ ë†’ì—¬ë³´ì„¸ìš”.",
+                100));
+
+            quests.Add(new Quest(0, "ë”ìš± ë” ê°•í•´ì§€ê¸°!",
+                "í›ˆë ¨ì„ í†µí•´ ê°•í•´ì§€ì„¸ìš”!",
+                300));
+
             while (true)
             {
                 Console.Clear();
 
-                Console.WriteLine($"½ºÆÄ¸£Å¸ ¸¶À»¿¡ ¿À½Å {user.Name} ´Ô È¯¿µÇÕ´Ï´Ù.\nÀÌ°÷¿¡¼­ ´øÀüÀ¸·Î µé¾î°¡±â Àü È°µ¿À» ÇÒ ¼ö ÀÖ½À´Ï´Ù.\n");
-                Console.WriteLine("1. »óÅÂº¸±â");
-                Console.WriteLine("2. ÀÎº¥Åä¸®");
-                Console.WriteLine("3. »óÁ¡");
-                Console.WriteLine("4. Äù½ºÆ®");
-                Console.WriteLine("5. Å¸¿öÀÔÀå");
-                Console.WriteLine("6. °ÔÀÓÀúÀå");
-                Console.WriteLine("0. Á¾·á");
+                Console.WriteLine($"ìŠ¤íŒŒë¥´íƒ€ ë§ˆì„ì— ì˜¤ì‹  {user.Name} ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.\nì´ê³³ì—ì„œ ë˜ì „ìœ¼ë¡œ ë“¤ì–´ê°€ê¸° ì „ í™œë™ì„ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.\n");
+                Console.WriteLine("1. ìƒíƒœë³´ê¸°");
+                Console.WriteLine("2. ì¸ë²¤í† ë¦¬");
+                Console.WriteLine("3. ìƒì ");
+                Console.WriteLine("4. í€˜ìŠ¤íŠ¸");
+                Console.WriteLine("5. íƒ€ì›Œì…ì¥");
+                Console.WriteLine("6. íœ´ì‹í•˜ê¸°");
+                Console.WriteLine("7. ê²Œì„ì €ì¥");
+                Console.WriteLine("0. ì¢…ë£Œ");
                 Console.WriteLine();
-                Console.WriteLine("¿øÇÏ½Ã´Â Çàµ¿À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+                Console.WriteLine("ì›í•˜ì‹œëŠ” í–‰ë™ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
                 Console.Write(">> ");
 
                 int select = InputCheck.Check(0, 6);
                 switch (select)
                 {
                     case 0:
-                        // °ÔÀÓÁ¾·á
+                        // ê²Œì„ì¢…ë£Œ
                         GameSave(user, gameItem);
                         Console.WriteLine("--------------------------------------");
                         Console.WriteLine("|                                    |");
-                        Console.WriteLine("|     ÇÃ·¹ÀÌ ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù!    |");
+                        Console.WriteLine("|     í”Œë ˆì´ í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤!    |");
                         Console.WriteLine("|                                    |");
                         Console.WriteLine("--------------------------------------");
                         Environment.Exit(0);
                         break;
                     case 1:
-                        // »óÅÂÃ¢
+                        // ìƒíƒœì°½
                         user.State(user, gameItem);
                         break;
                     case 2:
-                        // ÀÎº¥Åä¸®
+                        // ì¸ë²¤í† ë¦¬
                         Inventory inventory = new Inventory();
                         inventory.SeeInventory(user, gameItem);
                         break;
                     case 3:
-                        // »óÁ¡ÀÌ¿ë
+                        // ìƒì ì´ìš©
                         Store store = new Store();
                         store.UseStore(user, gameItem);
                         break;
                     case 4:
-                        // Äù½ºÆ®
+                        // í€˜ìŠ¤íŠ¸
+                        Console.Clear();
+                        for (int i = 0; i < quests.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {quests[i].name} (ì§„í–‰ ìƒíƒœ: {(quests[i].isClear ? "ì™„ë£Œ" : quests[i].isAccept ? "ìˆ˜ë½" : "ëŒ€ê¸°")})");
+                        }
+
+                        Console.WriteLine();
+                        Console.WriteLine("ì›í•˜ì‹œëŠ” í€˜ìŠ¤íŠ¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”.");
+                        Console.WriteLine(">>> ");
+
+                        int selectNum = InputCheck.Check(1, quests.Count);
+                        if (selectNum == 0)
+
+                        {
+                            return;
+                        }
+                        else
+                        {   // í€˜ìŠ¤íŠ¸ ìƒì„¸ ë³´ê¸°
+                            Quest selectedQuest = quests[selectNum - 1];
+                            if (selectedQuest.DisplayQuest() == 1)
+                            {
+                                user.Gold += selectedQuest.goldAmends;
+                                quests.Remove(selectedQuest);
+                            }
+                        }
+
                         break;
                     case 5:
-                        // ´øÀüÀÔÀå
+                        // ë˜ì „ì…ì¥
                         Stage stage = new Stage();
                         stage.StartStage(user, gameItem, consumableItem);
                         break;
                     case 6:
-                        // °ÔÀÓÀúÀå
+                        // íœ´ì‹í•˜ê¸°
+                        Recovery recovery = new Recovery();
+                        recovery.UseRest(user);
+                        break;
+                    case 7:
+                        // ê²Œì„ ì €ì¥
                         GameSave(user, gameItem);
                         break;
                     default:
@@ -100,7 +145,7 @@ namespace TextRPG16
             }
         }
 
-        // °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå ¸Ş¼Òµå
+        // ê²Œì„ ë°ì´í„° ì €ì¥ ë©”ì†Œë“œ
         public void GameSave(User user, Item gameItem)
         {
             Console.Clear();
@@ -113,7 +158,7 @@ namespace TextRPG16
 
             Console.WriteLine("--------------------------------------");
             Console.WriteLine("|                                    |");
-            Console.WriteLine("|         °ÔÀÓÀúÀå ¿Ï·á!! ^0^/       |");
+            Console.WriteLine("|         ê²Œì„ì €ì¥ ì™„ë£Œ!! ^0^/       |");
             Console.WriteLine("|                                    |");
             Console.WriteLine("--------------------------------------");
             Thread.Sleep(1000);
@@ -121,3 +166,4 @@ namespace TextRPG16
         }
     }
 }
+

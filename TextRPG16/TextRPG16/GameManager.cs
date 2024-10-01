@@ -36,8 +36,8 @@ namespace TextRPG16
 
             user.ChoiceUserClass(user);
         }
-
-        public void GamePlay(User user, Item gameItem)
+        //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
+        public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {
             while (true)
             {
@@ -88,7 +88,7 @@ namespace TextRPG16
                     case 5:
                         // 던전입장
                         Stage stage = new Stage();
-                        stage.StartStage(user, gameItem);
+                        stage.StartStage(user, gameItem, consumableItem);
                         break;
                     case 6:
                         // 게임저장

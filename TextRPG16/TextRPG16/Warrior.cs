@@ -13,7 +13,6 @@ namespace TextRPG16
             MP = FullMP; // 초기 마나
             DefensPower = 80; // 초기 방어력
             AttackDamage = 20; // 초기 공격력
-
         }
 
     }

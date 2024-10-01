@@ -6,22 +6,16 @@ using System.Threading.Tasks;
 
 namespace TextRPG16
 {
+    static class Constants
+    {
+        public const int MAX = 1000000;
+    }
+
     internal class TextRPG16
     {
         // test
         static void Main(string[] args)
         {
-
-            User user = new Warrior();
-           
-
-           
-            //-----------------------------
-            Stage stage = new Stage();
-            stage.StartStage(user);
-            
-            
-
 
         }
     }

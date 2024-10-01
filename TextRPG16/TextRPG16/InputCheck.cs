@@ -9,7 +9,7 @@
             {
                 try
                 {
-                    select = int.Parse(Console.ReadLine());
+                    select = int.Parse(Console.ReadLine()!);
 
                     if (select < start || select > end)
                     {

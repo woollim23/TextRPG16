@@ -25,7 +25,7 @@
         }
 
         // ------------------ 유저 인터페이스 공통 ------------------
-        protected string _userClass; // 직업
+        protected string _userClass = null!; // 직업
         int _defensPower; // 방어력
         int _gold; // 골드
         int _clearCount; // 던전 클리어 횟수

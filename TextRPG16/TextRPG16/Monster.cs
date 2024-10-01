@@ -8,11 +8,11 @@ namespace TextRPG16
     }
     public class Monster : ICharacter
     {
-        public List<Monster> monsterList;
+        public List<Monster> monsterList = null!;
         // ------------------ 캐릭터 인터페이스 공통 ------------------
-        string _name;
+        string _name = null!;
         int _level;
-        string _tribe; // 몬스터
+        string _tribe = null!; // 몬스터
         int _HP; // 체력
         int _fullHP; // 최대 체력
         int _attackDamage; // 공격력

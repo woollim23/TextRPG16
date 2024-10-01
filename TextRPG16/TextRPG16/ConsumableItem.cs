@@ -10,7 +10,7 @@
         public string ItemEffectInform { get; set; } // 아이템 효과 설명
         public int Quantity { get; set; } // 소모성 아이템 수량
 
-        List<ConsumableItem> _potions; // 포션 리스트
+        List<ConsumableItem> _potions = null!; // 포션 리스트
 
         // 기본 생성자
         public ConsumableItem()

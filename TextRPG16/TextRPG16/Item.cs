@@ -18,7 +18,7 @@ namespace TextRPG16
         public int price { get; set; }
         public int listNum { get; set; } // 목록 번호 
 
-        public Item[] item; // 아이템 배열
+        public Item[] item = null!; // 아이템 배열
 
         public Item(string name, bool equip, bool buy, string effect, int effectInfo, string func, int price)
         {

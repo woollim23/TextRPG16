@@ -63,6 +63,7 @@ namespace TextRPG16
 
         public int DisplayQuest()
         {
+            Random random = new Random();
             IsCleared();
 
             Console.Clear();
@@ -90,8 +91,10 @@ namespace TextRPG16
             }
 
             // 클리어 보상
+            Console.WriteLine();
             Console.WriteLine("- 보상 -");    // - 보상 - 
-            Console.Write($"{goldAmends}");     // 5G
+            Console.WriteLine($"  {goldAmends} G");     // 5G
+            Console.WriteLine();
 
             if (!isAccept)
             {
@@ -123,6 +126,8 @@ namespace TextRPG16
             else if(isAccept && select == 1)
             {
                 isAccept = false;
+                mobCnt = 0;
+                lvUp = random.Next(1, 4);
             }
             else if(isAccept && isClear && select == 1)
             {

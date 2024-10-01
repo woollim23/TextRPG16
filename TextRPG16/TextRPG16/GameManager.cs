@@ -109,13 +109,14 @@ namespace TextRPG16
                         Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
                         Console.WriteLine(">>> ");
 
-                        if (InputCheck.Check(1, quests.Count) == 0)
+                        int selectNum = InputCheck.Check(1, quests.Count);
+                        if (selectNum == 0)
                         {
                             return;
                         }
                         else
                         {   // 퀘스트 상세 보기
-                            Quest selectedQuest = quests[select - 1];
+                            Quest selectedQuest = quests[selectNum - 1];
                             if(selectedQuest.DisplayQuest() == 1)
                             {
                                 user.Gold += selectedQuest.goldAmends;

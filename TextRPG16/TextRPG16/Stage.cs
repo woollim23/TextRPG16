@@ -1,4 +1,6 @@
-﻿namespace TextRPG16
+﻿using NAudio.SoundFont;
+
+namespace TextRPG16
 {
     public class Stage
     {
@@ -20,16 +22,26 @@
             do
             {
                 Console.Clear();
+                ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
+                Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
                 for (int i = 0; i < 3; i++)
                 {
-                    Console.Write($"Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
+
                     if (monster.monsterList[i].IsDead == false)
-                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    {
+                        Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
+                    }
+
                     else
-                        Console.WriteLine("Dead");
+                    {
+                        ConsoleSize.Color(ConsoleColor.DarkGray);
+                        Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead ");
+                        Console.ResetColor();
+                    }
+
                 }
                 Console.WriteLine();
                 Console.WriteLine();
@@ -68,16 +80,26 @@
             while (!exit)
             {
                 Console.Clear();
+                ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
+                Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
                 for (int i = 0; i < 3; i++)
                 {
-                    Console.Write($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
+                    
                     if (monster.monsterList[i].IsDead == false)
-                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    {
+                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
+                    }
+
                     else
-                        Console.WriteLine("Dead");
+                    {
+                        ConsoleSize.Color(ConsoleColor.DarkGray);
+                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead ");
+                        Console.ResetColor();
+                    }
+                       
                 }
                 Console.WriteLine();
                 Console.WriteLine();
@@ -140,9 +162,13 @@
 
             int expTemp = user.EXP; // 현재 경험치 저장
             Console.Clear();
-            Console.WriteLine("Battle!! - Result");
+            ConsoleSize.Color(ConsoleColor.Yellow);
+            Console.WriteLine("Battle!! - Result");  // 글씨 노랑색으로 변경
+            Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine("Victory");
+            ConsoleSize.Color(ConsoleColor.Green);
+            Console.WriteLine("Victory");              // 글씨 초록색으로 변경
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine($"{StageLevel++} 스테이지 클리어!");
             Console.WriteLine($"던전에서 몬스터 3마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
@@ -190,9 +216,13 @@
         public void StageLose(User user, Item item)
         {
             Console.Clear();
+           ConsoleSize.Color(ConsoleColor.Yellow);
             Console.WriteLine("Battle!! - Result");
+            Console.ResetColor();
             Console.WriteLine();
+            ConsoleSize.Color(ConsoleColor.Red);
             Console.WriteLine("You Lose");
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
             Console.WriteLine($"HP {user.FullHP} -> 0");

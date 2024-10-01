@@ -34,13 +34,26 @@ namespace TextRPG16
             Console.WriteLine("사용하실 닉네임을 입력해주세요.");
             Console.WriteLine();
             Console.Write(">> ");
-            user.InputName(Console.ReadLine());
+            user.InputName(Console.ReadLine()!);
 
             user.ChoiceUserClass(user);
         }
-
+        //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
         public void GamePlay(User user, Item gameItem)
         {
+            List<Quest> quests = new List<Quest>();
+            quests.Add(new Quest(2, "마을을 위협하는 미니언 처치",
+            "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나? 마을 주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고! 모험가인 자네가 좀 처치해주게!",
+            500));
+
+            quests.Add(new Quest(1, "장비를 장착해보자",
+                "새로운 장비를 착용하여 힘을 높여보세요.",
+                100));
+
+            quests.Add(new Quest(0, "더욱 더 강해지기!",
+                "훈련을 통해 강해지세요!",
+                300));
+
             while (true)
             {
                 Console.Clear();
@@ -86,6 +99,30 @@ namespace TextRPG16
                         break;
                     case 4:
                         // 퀘스트
+                        Console.Clear();
+                        for(int i = 0; i < quests.Count; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
+                        }
+
+                        Console.WriteLine();
+                        Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
+                        Console.WriteLine(">>> ");
+
+                        if (InputCheck.Check(1, quests.Count) == 0)
+                        {
+                            return;
+                        }
+                        else
+                        {   // 퀘스트 상세 보기
+                            Quest selectedQuest = quests[select - 1];
+                            if(selectedQuest.DisplayQuest() == 1)
+                            {
+                                user.Gold += selectedQuest.goldAmends;
+                                quests.Remove(selectedQuest);
+                            }
+                        }
+
                         break;
                     case 5:
                         // 던전입장

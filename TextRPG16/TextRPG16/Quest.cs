@@ -7,8 +7,8 @@ namespace TextRPG16
         enum QuestType { Equip, Growth, Hunt };
 
         QuestType qType;
-        string name = null!;
-        string context = null!;
+        public string name = null!;
+        public string context = null!;
 
         public bool isEquip = false;
 
@@ -18,19 +18,19 @@ namespace TextRPG16
         public int totalMob = Constants.MAX;
         public int mobCnt = 0;
 
-        bool isAccept = false;
-        bool isClear = false;
+        public bool isAccept = false;
+        public bool isClear = false;
 
-        int goldAmends = 0;
-        Item itemAmends = null!;
+        public int goldAmends = 0;
+        //Item itemAmends = null!;
 
-        public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
+        public Quest(int questType, string name, string context, int goldAmends)
         {
             this.name = name;
             this.context = context;
 
             this.goldAmends = goldAmends;
-            this.itemAmends = itemAmends;
+            // this.itemAmends = itemAmends;
 
             Random random = new Random();
 
@@ -55,15 +55,17 @@ namespace TextRPG16
 
         public void IsCleared()
         {
-            if(isEquip || lvUp == 0 || mobCnt == totalMob)
+            if(isEquip || lvUp == 0 || mobCnt >= totalMob)
             {
                 isClear = true;
             }
         }
 
-        public void DisplayQuest()
+        public int DisplayQuest()
         {
             IsCleared();
+
+            Console.Clear();
 
             Console.WriteLine("Quest!!!");  // Quest!!
             Console.WriteLine();
@@ -88,9 +90,9 @@ namespace TextRPG16
             }
 
             // 클리어 보상
-            Console.WriteLine("- 보상 -");                // - 보상 - 
-            Console.Write($"{itemAmends}, {goldAmends}"); // 쓸만한 방패 x 1
-                                                          // 5G
+            Console.WriteLine("- 보상 -");    // - 보상 - 
+            Console.Write($"{goldAmends}");     // 5G
+
             if (!isAccept)
             {
                 Console.WriteLine("1. 퀘스트 수락");
@@ -124,8 +126,10 @@ namespace TextRPG16
             }
             else if(isAccept && isClear && select == 1)
             {
-                // 보상 받기
+                return 1;
             }
+
+            return 0;
         }
     }
 }

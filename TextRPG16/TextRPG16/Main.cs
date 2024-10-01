@@ -1,5 +1,10 @@
 ﻿namespace TextRPG16
 {
+    static class Constants
+    {
+        public const int MAX = 1000000;
+    }
+
     internal class TextRPG16
     {
         // test
@@ -13,7 +18,6 @@
 
             // 로딩창
             gameManager.LodingScreen();
-
 
             // 객체 생성
             user = new User();

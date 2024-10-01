@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG16
 {
-    internal interface IConsumableItem
+    interface IConsumableItem
     {
         public string ItemName { get; set; } // 아이템 이름
         public string ItemType { get; set; } // 아이템 종류

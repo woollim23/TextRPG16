@@ -15,14 +15,19 @@
 
             User user;
             Item item;
-
+            ConsumableItem consumableItem;
             // 로딩창
             gameManager.LodingScreen();
+            Thread.Sleep(1000);
+            Console.Clear();
 
             // 객체 생성
             user = new User();
             item = new Item();
             item.AddItem();
+            consumableItem = new ConsumableItem();
+            consumableItem.AddPotionList();
+
             // 최초 시작창
             gameManager.StartScreen(user);
 

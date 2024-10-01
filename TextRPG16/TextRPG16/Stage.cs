@@ -43,6 +43,7 @@
                 Console.WriteLine("2. 회복");
                 Console.WriteLine("0. 도망");
                 Console.WriteLine();
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
                 switch(InputCheck.Check(0, 2))
@@ -54,7 +55,7 @@
                         BattleStage(user, monster, item);
                         break;
                     case 2:
-                        // 회복
+                        //회복
                         break;
                 }
             }while(!exit);
@@ -88,6 +89,7 @@
 
                 Console.WriteLine("0. 취소");
                 Console.WriteLine();
+                Console.WriteLine("공격할 몬스터를 선택하세요.");
                 Console.Write(">> ");
 
                 int insert = InputCheck.Check(0, 3);
@@ -163,6 +165,8 @@
 
             Console.WriteLine("1. 계속 도전");
             Console.WriteLine("0. 나가기");
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">> ");
 
             user.HP = 100; // 체력 회복

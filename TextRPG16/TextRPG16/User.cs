@@ -76,7 +76,7 @@
         }
 
 
-        public void UserAttack(Monster monster, int index) // 유저가 공격할때
+        public void UserAttack(Monster monster, int index, Item item) // 유저가 공격할때
         {
             Console.Clear();
             int tempMonsterHP = monster.HP;
@@ -124,6 +124,7 @@
                 user.Level++;
                 user.EXP -= user.FullEXP; // 남은 경험치 이관
                 user.FullEXP = 20 + (tempLevel * 5);
+                UserLevelUpStatus(user);
 
                 Console.WriteLine($" -> Lv.{user.Level}");
             }
@@ -131,6 +132,12 @@
             {
                 Console.Write("\n");
             }
+        }
+
+        // 스테이터스 증가량
+        private void UserLevelUpStatus(User user)
+        {
+
         }
 
         // 유저 이름 입력 메소드
@@ -158,7 +165,7 @@
         }
 
         // 상태창 메소드
-        public void State(User user)
+        public void State(User user, Item item)
         {
             bool exit = false;
             while (!exit)
@@ -169,6 +176,7 @@
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
                 Console.WriteLine();
                 Console.WriteLine("레  벨 : {0} Lv", user.Level);
+                Console.WriteLine("경험치 : {0} / {1} EXP", user.EXP, user.FullEXP);
                 Console.WriteLine("직  업 : {0}", user.UserClass);
                 Console.WriteLine("방어력 : {0} (+ {1})", user.DefensPower, user.EquipArmorStatusNum);
                 Console.WriteLine("공격력 : {0} (+ {1})", user.AttackDamage, user.EquipWeaponStatusNum);

@@ -73,7 +73,7 @@ namespace TextRPG16
             }
         }
 
-        public void MonsterAttack(User user, Item item) // 몬스터가 공격할때
+        public void MonsterAttack(User user, Item item, ConsumableItem consumableItem) // 몬스터가 공격할때
         {
             Console.Clear();
             int tempUserHP = user.HP;
@@ -112,7 +112,7 @@ namespace TextRPG16
             if (user.IsDead)
             {
                 Stage stage = new Stage();
-                stage.StageLose(user, item);
+                stage.StageLose(user, item, consumableItem);
             }
         }
 

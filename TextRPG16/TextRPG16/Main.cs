@@ -33,7 +33,7 @@
 
 
             // ------------------- 게임 플레이 -------------------
-            gameManager.GamePlay(user, item);
+            gameManager.GamePlay(user, item, consumableItem);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿namespace TextRPG16
-{   
+{
     //소모성 아이템 클래스
     // 회복 시스템 구현
     public class ConsumableItem : IConsumableItem
@@ -44,8 +44,9 @@
         public void UsePotionList(User user, ConsumableItem consumableItem)
         {
             bool exit = false;
-            while(true)
+            do
             {
+                Console.Clear();
                 Console.WriteLine("회복");
                 Console.WriteLine("포션을 사용하면 HP 또는 MP를 회복 할 수 있습니다.");
                 Console.WriteLine();
@@ -67,51 +68,62 @@
                 Console.WriteLine("0. 취소");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 포션을 선택하여 사용하세요.");
-                Console.WriteLine(">> ");
+                Console.Write(">> ");
 
                 int insert = InputCheck.Check(0, consumableItem._potions.Count);
 
                 if (insert == 0)
-                    break;
-
-
-            }
+                {
+                    exit = true;
+                }
+                else
+                {
+                    if (_potions[insert - 1].Quantity < 1)
+                    {
+                        Console.WriteLine("수량이 없습니다. 다른 포션을 선택하세요.");
+                        Thread.Sleep(800);
+                    }
+                    else
+                    {
+                        UsePotion(user, _potions, insert - 1);
+                    }
+                }
+            } while (!exit);
 
         }
 
         // 포션 사용 함수
-        public void UsePotion(User user, string _itemName)
+        public void UsePotion(User user, List<ConsumableItem> _potions, int index)
         {
-            // 어느 것이 적합한지 상의 할것
-
-            var _itemUse = _potions.Find(_item => _item.ItemName.Equals(_itemName, StringComparison.OrdinalIgnoreCase));
-
-            // 아이템의 존재여부 확인, 수량체크
-            if (_itemUse != null && _itemUse.Quantity > 0)
+            int healUp = 0;
+            if (_potions[index].ItemType == "HP")
             {
-                if(ItemType == "HP")
-                {
-                    user.HP = user.HP / 100 * this.ItemEffectNum;
-                }
-                else if(ItemType == "MP")
-                {
-                    user.MP = user.MP / 100 * this.ItemEffectNum;
-                }
-            }
-            else
-            {
-                Console.WriteLine($"{_itemUse.ItemName}을 가지고 있지 않습니다");
-            }
-            //기존의 코드는 밑에 주석
+                healUp  = (int)Math.Round((double)user.HP / 100 * this.ItemEffectNum);
 
-            //if (ItemType == "HP")
-            //{
-            //    user.HP = user.HP / 100 * this.ItemEffectNum;
-            //}
-            //else
-            //{
-            //    user.MP = user.MP / 100 * this.ItemEffectNum;
-            //}
+                // 이프문으로 최대 체력 넘나 검사
+                if ((healUp + user.HP) > user.FullHP)
+                {
+                    healUp = user.FullHP - (healUp + user.HP);
+                }
+
+                Console.WriteLine($"HP가 {0} 회복합니다.", healUp);
+
+                user.HP += healUp;
+            }
+            else if (ItemType == "MP")
+            {
+                healUp  = (int)Math.Round((double)user.MP / 100 * this.ItemEffectNum);
+
+                if ((healUp + user.MP) > user.FullMP)
+                {
+                    healUp = user.FullMP - (healUp + user.MP);
+                }
+
+                Console.WriteLine($"MP가 {0} 회복합니다.", healUp);
+
+                user.MP += healUp;
+            }
+            Thread.Sleep(800);
         }
     }
 }

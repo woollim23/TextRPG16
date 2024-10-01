@@ -14,7 +14,7 @@ namespace TextRPG16
         }
 
         // 스테이지 시작 메서드
-        public void StartStage(User user, Item item)
+        public void StartStage(User user, Item item, ConsumableItem consumableItem)
         {
             bool exit = false;
             Monster monster = new Monster();
@@ -64,17 +64,17 @@ namespace TextRPG16
                         exit = true;
                         break;
                     case 1:
-                        BattleStage(user, monster, item);
+                        BattleStage(user, monster, item, consumableItem);
                         break;
                     case 2:
-                        //회복
+                        consumableItem.UsePotionList(user, consumableItem);
                         break;
                 }
             }while(!exit);
         }
 
         // 공격 페이즈 - 공격할 몬스터 선택
-        public void BattleStage(User user, Monster monster, Item item)
+        public void BattleStage(User user, Monster monster, Item item, ConsumableItem consumableItem)
         {
             bool exit = false;
             while (!exit)
@@ -93,9 +93,9 @@ namespace TextRPG16
                     }
                     else
                     {
-                        // 색깔 변경 필여!!!!!!!
+                        ConsoleSize.Color(ConsoleColor.DarkGray);
                         Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead");
-                        // 색깔 변경 필여!!!!!!!
+                        Console.ResetColor();
                     }
                 }
                 Console.WriteLine();
@@ -136,17 +136,17 @@ namespace TextRPG16
                     if (monster.monsterList[i].IsDead == false)
                     {
                        
-                        monster.monsterList[i].MonsterAttack(user, item);
+                        monster.monsterList[i].MonsterAttack(user, item, consumableItem);
                         exit = true;
                         break;
                     }
                     else if (i == 2)
-                        StageClear(user, item, monster);
+                        StageClear(user, item, monster, consumableItem);
                 }
             }
         }
         // 스테이지 클리어 메서드
-        public void StageClear(User user, Item item, Monster monster)
+        public void StageClear(User user, Item item, Monster monster, ConsumableItem consumableItem)
         {
             Reward reward = new Reward();
 
@@ -197,10 +197,10 @@ namespace TextRPG16
             {
                 case 0:
                     GameManager gameManager = new GameManager();
-                    gameManager.GamePlay(user, item);
+                    gameManager.GamePlay(user, item, consumableItem);
                     break;
                 case 1 :
-                    StartStage(user, item);
+                    StartStage(user, item, consumableItem);
                     break;
                 default:
                     Console.WriteLine();
@@ -209,7 +209,7 @@ namespace TextRPG16
         }
 
         // 스테이지 실패 메서드
-        public void StageLose(User user, Item item)
+        public void StageLose(User user, Item item, ConsumableItem consumableItem)
         {
             Console.Clear();
            ConsoleSize.Color(ConsoleColor.Yellow);
@@ -234,7 +234,7 @@ namespace TextRPG16
             }
 
             GameManager gameManager = new GameManager();
-            gameManager.GamePlay(user, item);
+            gameManager.GamePlay(user, item, consumableItem);
         }
     }
 }

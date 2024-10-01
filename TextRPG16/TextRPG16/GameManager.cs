@@ -37,7 +37,7 @@ namespace TextRPG16
             user.ChoiceUserClass(user);
         }
         //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
-        public void GamePlay(User user, Item gameItem)
+        public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {
             List<Quest> quests = new List<Quest>();
             quests.Add(new Quest(2, "마을을 위협하는 미니언 처치",
@@ -128,7 +128,7 @@ namespace TextRPG16
                     case 5:
                         // 던전입장
                         Stage stage = new Stage();
-                        stage.StartStage(user, gameItem);
+                        stage.StartStage(user, gameItem, consumableItem);
                         break;
                     case 6:
                         // 휴식하기

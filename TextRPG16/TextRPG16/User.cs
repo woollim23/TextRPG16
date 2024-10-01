@@ -76,7 +76,7 @@
         }
 
 
-        public void UserAttack(Monster monster, int index) // 유저가 공격할때
+        public void UserAttack(Monster monster, int index, Item item) // 유저가 공격할때
         {
             Console.Clear();
             int tempMonsterHP = monster.HP;
@@ -124,6 +124,7 @@
                 user.Level++;
                 user.EXP -= user.FullEXP; // 남은 경험치 이관
                 user.FullEXP = 20 + (tempLevel * 5);
+                UserLevelUpStatus(user);
 
                 Console.WriteLine($" -> Lv.{user.Level}");
             }
@@ -131,6 +132,12 @@
             {
                 Console.Write("\n");
             }
+        }
+
+        // 스테이터스 증가량
+        private void UserLevelUpStatus(User user)
+        {
+
         }
 
         // 유저 이름 입력 메소드
@@ -158,7 +165,7 @@
         }
 
         // 상태창 메소드
-        public void State(User user)
+        public void State(User user, Item item)
         {
             bool exit = false;
             while (!exit)
@@ -169,6 +176,7 @@
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
                 Console.WriteLine();
                 Console.WriteLine("레  벨 : {0} Lv", user.Level);
+                Console.WriteLine("경험치 : {0} / {1} EXP", user.EXP, user.FullEXP);
                 Console.WriteLine("직  업 : {0}", user.UserClass);
                 Console.WriteLine("방어력 : {0} (+ {1})", user.DefensPower, user.EquipArmorStatusNum);
                 Console.WriteLine("공격력 : {0} (+ {1})", user.AttackDamage, user.EquipWeaponStatusNum);
@@ -227,5 +235,137 @@
                 if (select != -1) break;
             }
         }
+    }
+}
+class Wizard : User
+{
+    public Wizard() // 생성자
+    {
+        UserClass = "마법사";
+        FullHP = 100; // 초기 체력
+        HP = FullHP; // 초기 체력
+        FullMP = 300; // 초기 마나
+        MP = FullMP; // 초기 마나
+        DefensPower = 0; // 초기 방어력
+        AttackDamage = 35; // 초기 공격력
+    }
+
+    public int WizardSkill1(int attackDamage)
+    {
+        Console.WriteLine("파이어볼 스킬 사용!");
+        int skillDamage = (int)(attackDamage * 1.3);
+
+        return skillDamage;
+    }
+
+    public int WizardSkill2(int attackDamage)
+    {
+        int skillDamage = (int)(attackDamage * 1.3);
+
+        return skillDamage;
+    }
+}
+class Warrior : User
+{
+    public Warrior() // 생성자
+    {
+        UserClass = "전사";
+        FullHP = 100; // 초기 체력
+        HP = FullHP; // 현재 체력
+        FullMP = 100; // 초기 마나
+        MP = FullMP; // 초기 마나
+        DefensPower = 80; // 초기 방어력
+        AttackDamage = 20; // 초기 공격력
+    }
+
+    public int WarriorSkill(int attackDamage)
+    {
+        Random random = new Random();
+        int count = random.Next(1, 3); // 1 or 2
+
+        int skillDamage = 0;
+
+        for (int i = 0; i < count; i++)
+        {
+            Console.WriteLine(""); // 카운트 수 만큼 대사!
+        }
+
+        return skillDamage * count;
+    }
+
+}
+class Thief : User
+{
+    public Thief() // 생성자
+    {
+        UserClass = "도적";
+        FullHP = 100; // 초기 체력
+        HP = FullHP; // 초기 체력
+        FullMP = 200; // 초기 마나
+        MP = FullMP; // 초기 마나
+        DefensPower = 40; // 초기 방어력
+        AttackDamage = 12; // 초기 공격력
+    }
+
+    public int ThiefSkill(int attackDamage)
+    {
+        Random rand = new Random();
+        int count = rand.Next(1, 3);
+
+        int skillDamage = 0;
+
+        for(int i = 0; i < count; i++)
+        {
+            Console.WriteLine(""); // 카운트 수만큼 대사
+        }
+
+        return skillDamage * count;
+    }
+}
+class Preist : User
+{
+    public Preist() // 생성자
+    {
+        UserClass = "성직자";
+        FullHP = 100; // 초기 체력
+        HP = FullHP; // 초기 체력
+        FullMP = 300; // 초기 마나
+        MP = FullMP; // 초기 마나
+        DefensPower = 90; // 초기 방어력
+        AttackDamage = 5; // 초기 공격력
+    }
+
+    public int PreistSkill(int attackDamage)
+    {
+        int skillDamage = 0;
+
+        return skillDamage;
+    }
+
+    public void PreistHeal(User user)
+    {
+        // 계산 식 추가
+        user.HP += 30;
+        // FullHP
+    }
+}
+class Archer : User
+{
+    public Archer() // 생성자
+    {
+        UserClass = "궁수";
+        FullHP = 100; // 초기 체력
+        HP = FullHP; // 초기 체력
+        FullMP = 200; // 초기 마나
+        MP = FullMP; // 초기 마나
+        DefensPower = 40; // 초기 방어력
+        AttackDamage = 12; // 초기 공격력
+    }
+
+    public int ArcherSkill(int attackDamage)
+    {
+        int skillDamage = 0;
+
+        return skillDamage;
     }
 }

@@ -16,6 +16,7 @@ namespace TextRPG16
         int _HP; // 체력
         int _fullHP; // 최대 체력
         int _attackDamage; // 공격력
+        int _monsterEXP; // 몬스터 처치시 주는 경험치
 
         public String Name { get { return _name; } protected set { _name = value; } }
         public int Level { get { return _level; } set { _level = value; } } // 레벨
@@ -23,6 +24,7 @@ namespace TextRPG16
         public int HP { get { return _HP; } set { _HP = value; } }
         public int FullHP { get { return _fullHP; } set { _fullHP = value; } }
         public int AttackDamage { get { return _attackDamage; } set { _attackDamage = value; } }
+        public int MonsterEXP { get { return _monsterEXP; } set { _monsterEXP = value; } }
         public bool IsDead => HP <= 0;
         // ------------------ 몬스터 전용 ------------------
         public int Index { get; set; } // enum 인덱스
@@ -36,9 +38,11 @@ namespace TextRPG16
             FullHP = 10;
             HP = FullHP;
             AttackDamage = 10;
+            MonsterEXP = 10;
             Index = -1;
         }
 
+        // 몬스터리스트 객체 생성(스테이지 레벨에 맞춰 더 강한 몬스터 출현)
         public void AddMonsterList(Stage stage)
         {
             monsterList = new List<Monster>();
@@ -48,7 +52,7 @@ namespace TextRPG16
                 int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
 
                 Random random = new Random(); // 랜덤
-                int level = random.Next(1, stage.StageLevel + 3); // 랜덤으로 레벨 지정
+                int level = random.Next(1, stage.StageLevel + 2); // 랜덤으로 레벨 지정******추후 수정 필요
 
                 // enum 안에 있는 몬스터를 랜덤으로 지정한다
                 switch ((Monsters)random.Next(0, monsterCount))
@@ -69,7 +73,7 @@ namespace TextRPG16
             }
         }
 
-        public void MonsterAttack(User user) // 몬스터가 공격할때
+        public void MonsterAttack(User user, Item item) // 몬스터가 공격할때
         {
             Console.Clear();
             int tempUserHP = user.HP;
@@ -108,13 +112,27 @@ namespace TextRPG16
             if (user.IsDead)
             {
                 Stage stage = new Stage();
-                stage.StageLose(user);
+                stage.StageLose(user, item);
             }
         }
 
         public void TakeDamage(int damage)
         {
             HP -= damage;
+        }
+
+        // 몬스터 레벨업시 스테이터스 증가율
+        protected int MonsterLevelUpStatus(int level, int insert)
+        {
+            // 레벨당 0.3 씩 계산
+            return (int)(Math.Round(((double)insert * (level * 0.3))));
+        }
+
+        // 몬스터가 레벨업시 주는 경험치 증가율
+        protected int MonsterLevelUpEXP(int level, int insert)
+        {
+            // 레벨당 0.3 씩 계산
+            return (int)(Math.Round(((double)insert * (level * 0.3))));
         }
     }
     class Minion : Monster
@@ -123,9 +141,10 @@ namespace TextRPG16
         {
             this.Level = Level;
             this.Name = "미니언";
-            this.FullHP = 10 * Level;
+            this.FullHP = MonsterLevelUpStatus(Level, FullHP);
             this.HP = this.FullHP;
-            this.AttackDamage = 2 * Level;
+            this.AttackDamage = MonsterLevelUpStatus(Level, AttackDamage);
+            this.MonsterEXP = MonsterLevelUpEXP(Level, MonsterEXP);
             this.Index = 0;
         }
     }
@@ -136,23 +155,24 @@ namespace TextRPG16
         {
             this.Level = Level;
             this.Name = "대포 미니언";
-            this.FullHP = 15 * Level;
+            this.FullHP = 5 + MonsterLevelUpStatus(Level, FullHP);
             this.HP = this.FullHP;
-            this.AttackDamage = 4 * Level;
+            this.AttackDamage = 5 + MonsterLevelUpStatus(Level, AttackDamage);
+            this.MonsterEXP = MonsterLevelUpEXP(Level, MonsterEXP);
             this.Index = 1;
         }
     }
 
     class Voidling : Monster
     {
-
         public Voidling(int Level)
         {
             this.Level = Level;
             this.Name = "공허충";
-            this.FullHP = 17 * Level;
+            this.FullHP = 10 + MonsterLevelUpStatus(Level, FullHP);
             this.HP = this.FullHP;
-            this.AttackDamage = 5 * Level;
+            this.AttackDamage = 7 + MonsterLevelUpStatus(Level, AttackDamage);
+            this.MonsterEXP = MonsterLevelUpEXP(Level, MonsterEXP);
             this.Index = 2;
         }
     }

@@ -40,11 +40,12 @@
                 Console.WriteLine();
 
                 Console.WriteLine("1. 공격");
+                Console.WriteLine("2. 회복");
                 Console.WriteLine("0. 도망");
                 Console.WriteLine();
                 Console.Write(">> ");
 
-                switch(InputCheck.Check(0, 1))
+                switch(InputCheck.Check(0, 2))
                 {
                     case 0:
                         exit = true;
@@ -52,8 +53,76 @@
                     case 1:
                         BattleStage(user, monster, item);
                         break;
+                    case 2:
+                        // 회복
+                        break;
                 }
             }while(!exit);
+        }
+
+        // 공격 페이즈
+        public void BattleStage(User user, Monster monster, Item item)
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine($"Battle!! - Stage {StageLevel}");
+                Console.WriteLine();
+                Console.WriteLine("[몬스터]");
+                for (int i = 0; i < 3; i++)
+                {
+                    Console.Write($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
+                    if (monster.monsterList[i].IsDead == false)
+                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
+                    else
+                        Console.WriteLine("Dead");
+                }
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine("[내정보]");
+                Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
+                Console.WriteLine($"HP {user.HP}/{user.FullHP}");
+                Console.WriteLine($"MP {user.MP}/{user.FullMP}");
+                Console.WriteLine();
+
+                Console.WriteLine("0. 취소");
+                Console.WriteLine();
+                Console.Write(">> ");
+
+                int insert = InputCheck.Check(0, 3);
+
+                if (insert == 0)
+                {
+                    exit = true;
+                    continue;
+                }
+
+                // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)
+                if (insert < 1 || insert > monster.monsterList.Count || monster.monsterList[insert - 1].IsDead)
+                {
+                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine(">> ");
+                    Thread.Sleep(800);
+                    continue;
+                }
+
+                // 유효한 인덱스일 때 공격 처리
+                user.UserAttack(monster.monsterList[insert - 1], monster.monsterList[insert - 1].Index, item);
+
+                for (int i = 0; i < 3; i++)
+                {
+                    if (monster.monsterList[i].IsDead == false)
+                    {
+
+                        monster.monsterList[i].MonsterAttack(user, item);
+                        exit = true;
+                        break;
+                    }
+                    else if (i == 2)
+                        StageClear(user, item, monster);
+                }
+            }
         }
 
         // 스테이지 클리어 메서드
@@ -136,71 +205,6 @@
 
             GameManager gameManager = new GameManager();
             gameManager.GamePlay(user, item);
-        }
-
-        // 공격 페이즈
-        public void BattleStage(User user, Monster monster, Item item)
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                Console.Clear();
-                Console.WriteLine($"Battle!! - Stage {StageLevel}");
-                Console.WriteLine();
-                Console.WriteLine("[몬스터]");
-                for (int i = 0; i < 3; i++)
-                {
-                    Console.Write($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} ");
-                    if (monster.monsterList[i].IsDead == false)
-                        Console.WriteLine($"HP {monster.monsterList[i].HP}");
-                    else
-                        Console.WriteLine("Dead");
-                }
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
-                Console.WriteLine($"HP {user.HP}/{user.FullHP}");
-                Console.WriteLine($"MP {user.MP}/{user.FullMP}");
-                Console.WriteLine();
-
-                Console.WriteLine("0. 취소");
-                Console.WriteLine();
-                Console.Write(">> ");
-
-                int insert = InputCheck.Check(0, 3);
-
-                if (insert == 0)
-                {
-                    exit = true;
-                    continue;
-                }
-
-                // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)
-                if (insert < 1 || insert > monster.monsterList.Count || monster.monsterList[insert - 1].IsDead)
-                {
-                    Console.WriteLine("잘못된 입력입니다.");
-                    Console.WriteLine(">> ");
-                    Thread.Sleep(800);
-                    continue;
-                }
-
-                // 유효한 인덱스일 때 공격 처리
-                user.UserAttack(monster.monsterList[insert - 1], monster.monsterList[insert - 1].Index, item);
-
-                for (int i = 0; i < 3; i++)
-                {
-                    if (monster.monsterList[i].IsDead == false)
-                    {
-
-                        monster.monsterList[i].MonsterAttack(user, item);
-                        exit = true;
-                        break;
-                    }
-                    else if (i == 2)
-                        StageClear(user, item, monster);
-                }
-            }
         }
     }
 }

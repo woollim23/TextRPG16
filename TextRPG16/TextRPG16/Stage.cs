@@ -73,7 +73,7 @@ namespace TextRPG16
             }while(!exit);
         }
 
-        // 공격 페이즈
+        // 공격 페이즈 - 공격할 몬스터 선택
         public void BattleStage(User user, Monster monster, Item item)
         {
             bool exit = false;
@@ -87,19 +87,16 @@ namespace TextRPG16
                 Console.WriteLine("[몬스터]");
                 for (int i = 0; i < 3; i++)
                 {
-                    
                     if (monster.monsterList[i].IsDead == false)
                     {
                         Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
                     }
-
                     else
                     {
-                        ConsoleSize.Color(ConsoleColor.DarkGray);
-                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead ");
-                        Console.ResetColor();
+                        // 색깔 변경 필여!!!!!!!
+                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead");
+                        // 색깔 변경 필여!!!!!!!
                     }
-                       
                 }
                 Console.WriteLine();
                 Console.WriteLine();
@@ -138,7 +135,7 @@ namespace TextRPG16
                 {
                     if (monster.monsterList[i].IsDead == false)
                     {
-
+                       
                         monster.monsterList[i].MonsterAttack(user, item);
                         exit = true;
                         break;
@@ -148,7 +145,6 @@ namespace TextRPG16
                 }
             }
         }
-
         // 스테이지 클리어 메서드
         public void StageClear(User user, Item item, Monster monster)
         {

@@ -111,6 +111,7 @@ namespace TextRPG16
 
                         int selectNum = InputCheck.Check(1, quests.Count);
                         if (selectNum == 0)
+
                         {
                             return;
                         }

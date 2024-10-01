@@ -31,6 +31,7 @@
                 Console.WriteLine("HP와 MP 회복중입니다...");
                 while (user.HP < user.FullHP || user.MP < user.FullMP) // 하나라도 최대치가 아닐 경우
                 {
+                    
                     if (user.HP < user.FullHP)
                     {
                         user.HP++;
@@ -41,28 +42,10 @@
                     }
 
                     Console.WriteLine($"현재 체력: {user.HP} 현재 마나: {user.MP}");
+                    Thread.Sleep(50);
                 }
             }
-            // 조건 3: HP만 회복이 필요한 경우
-            else if (user.HP != user.FullHP)
-            {
-                Console.WriteLine("HP 회복중입니다...");
-                while (user.HP < user.FullHP)
-                {
-                    user.HP++;
-                    Console.WriteLine($"현재 체력: {user.HP}");
-                }
-            }
-            // 조건 4: MP만 회복이 필요한 경우
-            else if (user.MP != user.FullMP)
-            {
-                Console.WriteLine("MP 회복중입니다...");
-                while (user.MP < user.FullMP)
-                {
-                    user.MP++;
-                    Console.WriteLine($"현재 마나: {user.MP}");
-                }
-            }
+            
 
             Console.Clear();
             Console.WriteLine("회복이 완료되었습니다");

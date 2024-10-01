@@ -1,5 +1,3 @@
-using System.Xml;
-
 namespace TextRPG16
 {
     public class GameManager
@@ -64,7 +62,8 @@ namespace TextRPG16
                 Console.WriteLine("3. 상점");
                 Console.WriteLine("4. 퀘스트");
                 Console.WriteLine("5. 타워입장");
-                Console.WriteLine("6. 게임저장");
+                Console.WriteLine("6. 휴식하기");
+                Console.WriteLine("7. 게임저장");
                 Console.WriteLine("0. 종료");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -100,7 +99,7 @@ namespace TextRPG16
                     case 4:
                         // 퀘스트
                         Console.Clear();
-                        for(int i = 0; i < quests.Count; i++)
+                        for (int i = 0; i < quests.Count; i++)
                         {
                             Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
                         }
@@ -117,7 +116,7 @@ namespace TextRPG16
                         else
                         {   // 퀘스트 상세 보기
                             Quest selectedQuest = quests[selectNum - 1];
-                            if(selectedQuest.DisplayQuest() == 1)
+                            if (selectedQuest.DisplayQuest() == 1)
                             {
                                 user.Gold += selectedQuest.goldAmends;
                                 quests.Remove(selectedQuest);
@@ -131,7 +130,12 @@ namespace TextRPG16
                         stage.StartStage(user, gameItem);
                         break;
                     case 6:
-                        // 게임저장
+                        // 휴식하기
+                        Recovery recovery = new Recovery();
+                        recovery.UseRest(user);
+                        break;
+                    case 7:
+                        // 게임 저장
                         GameSave(user, gameItem);
                         break;
                     default:

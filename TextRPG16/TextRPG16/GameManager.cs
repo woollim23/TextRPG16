@@ -1,4 +1,4 @@
-﻿namespace TextRPG16
+namespace TextRPG16
 {
     public class GameManager
     {

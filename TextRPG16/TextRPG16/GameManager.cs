@@ -109,7 +109,7 @@ namespace TextRPG16
                         Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
                         Console.WriteLine(">>> ");
 
-                        if (InputCheck.Check(1, quests.Count) == 0)
+                        if (InputCheck.Check(0, quests.Count) == 0)
                         {
                             return;
                         }

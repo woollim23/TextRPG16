@@ -52,7 +52,7 @@ namespace TextRPG16
                 int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
 
                 Random random = new Random(); // 랜덤
-                int level = random.Next(1, stage.StageLevel + 2); // 랜덤으로 레벨 지정******추후 수정 필요
+                int level = random.Next(stage.StageLevel, stage.StageLevel + 2); // 랜덤으로 레벨 지정
 
                 // enum 안에 있는 몬스터를 랜덤으로 지정한다
                 switch ((Monsters)random.Next(0, monsterCount))

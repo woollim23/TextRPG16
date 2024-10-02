@@ -75,16 +75,52 @@
 
             quests = new List<Quest>();
             AddQuest();
-
-            SkillList = new List<Skill>();
+            SkillList = new Skill[2];
         }
 
         // ------------------ 플레이어 전투 관련 ------------------
         public int[] MonsterCount; // 몬스터 잡은 수 배열
         public int BestStageLevel; // 최고 스테이지 레벨 
 
-        public List<Skill> SkillList;
+        public Skill[] SkillList;
 
+        public void AddSkill()
+        {
+            if (UserClass == "마법사")
+            {
+                SkillList[0] = new Skill("파이어볼", "타겟된 적과 주변의 적에게 데미지를 줍니다.", 80, 80, 3, true);
+            }
+            else if (UserClass =="전사")
+            {
+                SkillList[0] = new Skill("처형", "적에게 강한 데미지를 줍니다.", 50, 44, 1, false);
+                SkillList[1] = new Skill("슬래쉬", "랜덤으로 적 2명에게 데미지를 줍니다.", 50, 28, 2, true);
+           }
+        }
+
+        public int WarriorSkill1_Execute(User user, Monster monster)
+        {
+            // 공격력*스킬 계수 = 스킬 데미지
+            float tempAttackDamage = user.AttackDamage * (user.SkillList[0].IncreaseRate);
+
+            // 오차값을 10%로 계산
+            float num = tempAttackDamage * 0.1f;
+
+            //랜덤한 데미지를 구할 때 범위를 실수형으로 설정  // 공격력이 10이면, 9 ~ 11
+            Random random = new Random();
+            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
+
+            // 최종 데미지를 몬스터에게 전달 (반올림해서)
+            //monster.TakeDamage(((int)resultDamage)); // 최종 대미지를 몬스터한테전달
+
+            return (int)resultDamage;
+        }
+
+        public int WizardSkill1(int attackDamage)
+        {
+            Console.WriteLine("파이어볼 스킬 사용!");
+            int skillDamage = (int)(attackDamage * 10);
+            return skillDamage;
+        }
 
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
@@ -308,8 +344,7 @@
             Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
             Console.WriteLine();
             Console.WriteLine("1. 전사");
-            Console.WriteLine("2. 도적");
-            Console.WriteLine("3. 마법사");
+            Console.WriteLine("2. 마법사");
             Console.WriteLine();
             Console.Write(">> ");
 
@@ -318,12 +353,11 @@
             {
                 case 1:
                     user = new Warrior(user);
+                    user.AddSkill();
                     break;
                 case 2:
-                    user = new Thief(user);
-                    break;
-                case 3:
                     user = new Wizard(user);
+                    user.AddSkill();
                     break;
                 default:
                     break;

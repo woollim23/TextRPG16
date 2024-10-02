@@ -56,7 +56,7 @@
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
-                switch (InputCheck.Check(0, 2))
+                switch (InputCheck.Check(0, 3))
                 {
                     case 0:
                         GameManager gameManager = new GameManager();
@@ -183,7 +183,7 @@
                 Console.Write(">> ");
 
                 // ------------ 번호 선택 유효 검사 -------------
-                int insert = InputCheck.Check(0, user.SkillList.Count);
+                int insert = InputCheck.Check(0, 2);
                 if (insert == 0)
                 {
                     break;

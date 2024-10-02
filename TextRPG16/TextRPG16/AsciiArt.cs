@@ -1,9 +1,9 @@
 ﻿namespace TextRPG16
 {
-    public class AsciiArt
+    public static class AsciiArt
     {
 
-        public void DisplayArt(string str)
+        public static void DisplayArt(string str)
         {
             Console.Clear();
             if (str == "_gameOver") Console.WriteLine(_gameOver);
@@ -16,7 +16,7 @@
             Thread.Sleep(1000);
         }
 
-        public void DisplayHeadLine(int num)
+        public static void DisplayHeadLine(int num)
         {
             Console.Clear();
             if (num == 0) Console.WriteLine(_towerOfMokokoHeadline);
@@ -168,10 +168,10 @@
 ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
 ";
 
-        public void SparklingEffect()
+        public static void SparklingEffect()
         {
             ConsoleColor[] colors = {  ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Yellow };
-
+            string[] lodings = { "   "," *", " * *", " * * *"};
             // 현재 콘솔 위치 저장
             
             int cnt = 0;
@@ -182,15 +182,29 @@
                 {
 
                     Console.ForegroundColor = color;
-                    ConsoleSize.SetCursor(0, 0); // 커서를 원래 위치로 이동
-                    Console.WriteLine(_welCome); // 텍스트 출력
-                    if(cnt != 1 || color != ConsoleColor.Yellow) Thread.Sleep(200);
+                    ConsoleSize.SetCursor(0, 0); 
+                    Console.WriteLine(_welCome); 
+                    
 
+                    for (int i = 0; i < lodings.Length; i++)
+                    {
+                        Console.ResetColor();
+                        ConsoleSize.SetCursor(30, 10);
+                        Console.Write("Loding");
+                        ConsoleSize.SetCursor(37, 10);
+                        Console.WriteLine(lodings[i]);
+                        Thread.Sleep(150);
+                        ConsoleSize.SetCursor(37, 10);
+                        Console.WriteLine(new string(' ', lodings[i].Length)); 
+                    }
+
+                    if (cnt != 1 || color != ConsoleColor.Yellow) Thread.Sleep(200);
                 }
+               
 
             }
             
-            Console.ResetColor();
+            
         }
 
     }

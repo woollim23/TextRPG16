@@ -2,41 +2,53 @@ namespace TextRPG16
 {
     public static class Battle
     {
-        // À¯Àú ½ºÅ³ ¼±ÅÃ Ã¢
-        // 0. ½ºÅ³1 ¼±ÅÃ
-        // 1. ½ºÅ³2 ¼±ÅÃ
+        // ìœ ì € ìŠ¤í‚¬ ì„ íƒ ì°½
+        // 0. ìŠ¤í‚¬1 ì„ íƒ
+        // 1. ìŠ¤í‚¬2 ì„ íƒ
 
-        // À¯Àú ½ºÅ³ ¼±ÅÃ °á°úÃ¢
-        // {""}½ºÅ³ ¹ßµ¿!
-        // ½ºÅ³À» »ç¿ëÇÏ¿©, ¸ó½ºÅÍ¿¡°Ô ~¸¦ ÇÕ´Ï´Ù.
+        // ìœ ì € ìŠ¤í‚¬ ì„ íƒ ê²°ê³¼ì°½
+        // {""}ìŠ¤í‚¬ ë°œë™!
+        // ìŠ¤í‚¬ì„ ì‚¬ìš©í•˜ì—¬, ëª¬ìŠ¤í„°ì—ê²Œ ~ë¥¼ í•©ë‹ˆë‹¤.
 
 
-        // À¯Àú ½ºÅ³ °ø°İ °á°úÃ¢
+        // ìœ ì € ìŠ¤í‚¬ ê³µê²© ê²°ê³¼ì°½
         public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {
-<<<<<<< Updated upstream
+
+            //Random random = new Random();
+            //int num = random.Next(1, 101); // 1 ~ 100
+            //if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
+            //{
+                int tempMonsterHP = monster.monsterList[monsterIndex].HP; // í˜„ì¬ ëª¬ìŠ¤í„° HP
 
 
-            int tempMonsterHP = monster.HP; // ÇöÀç ¸ó½ºÅÍ HP
-            Console.WriteLine($"Battle!!");
-            Console.WriteLine();
-            Console.WriteLine($"{user.Name} ÀÇ °ø°İ!");
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù!. [µ¥¹ÌÁö : {resultDamage}]");
-            Console.WriteLine();
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
-            Console.Write($"HP {tempMonsterHP} -> ");
+                monster.monsterList[monsterIndex].HP -= resultDamage;
 
-            if (monster.IsDead)
-            {
-                Console.WriteLine("Dead");
-                user.MonsterCount[monsterIndex]++;
-                user.AddKillCount();
-            }
-            else
-            {
-                Console.WriteLine(monster.HP);
-            }
-            Console.WriteLine();
+                Console.WriteLine($"Battle!!");
+                Console.WriteLine();
+                Console.WriteLine($"{user.Name} ì˜ ê³µê²©!");
+                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}ì„(ë¥¼) ë§ì·„ìŠµë‹ˆë‹¤!. [ë°ë¯¸ì§€ : {resultDamage}] ");
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}");
+                Console.Write($"HP {tempMonsterHP} -> ");
+
+                if (monster.IsDead || monster.monsterList[monsterIndex].HP < 0)
+                {
+                    Console.WriteLine("Dead");
+                    user.MonsterCount[monsterIndex]++;
+                    user.AddKillCount();
+                }
+                else
+                {
+                    Console.WriteLine(monster.monsterList[monsterIndex].HP);
+                }
+                Console.WriteLine();
+            
+            //}
+            //else if ()// 60 ~ 80 -> 20% ì¹˜ëª…íƒ€ëŠ” resultDamage * 1.5
+            //{ }
+            //else // 80 ~ 100 -> 20% íšŒí”¼ëŠ” resultDamage = 0;
+            //{ }
 
         }
 
@@ -47,57 +59,55 @@ namespace TextRPG16
             int randomTemp = -1;
             int count = 0;
             while(count != 2)
-=======
             Random random = new Random();
             int num = random.Next(1, 101); // 1 ~ 100
 
-            int finalDamage = resultDamage; // ÃÖÁ¾ ´ë¹ÌÁö ÃÊ±âÈ­
-            string attackType = ""; // °ø°İ À¯Çü ¸Ş¼¼Áö
+            int finalDamage = resultDamage; // ìµœì¢… ëŒ€ë¯¸ì§€ ì´ˆê¸°í™”
+            string attackType = ""; // ê³µê²© ìœ í˜• ë©”ì„¸ì§€
 
             if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
             {
-                attackType = "ÀÏ¹İ °ø°İ";
+                attackType = "ì¼ë°˜ ê³µê²©";
             }
-            else if (num > 60 && num <= 80) // 61 ~ 80 -> 20% Ä¡¸íÅ¸
+            else if (num > 60 && num <= 80) // 61 ~ 80 -> 20% ì¹˜ëª…íƒ€
             {
-                finalDamage = (int)(resultDamage * 1.5); // Ä¡¸íÅ¸´Â 1.5¹è ´ë¹ÌÁö
-                attackType = "Ä¡¸íÅ¸ °ø°İ!!";
+                finalDamage = (int)(resultDamage * 1.5); // ì¹˜ëª…íƒ€ëŠ” 1.5ë°° ëŒ€ë¯¸ì§€
+                attackType = "ì¹˜ëª…íƒ€ ê³µê²©!!";
             }
-            else // 81 ~ 100 -> 20% È¸ÇÇ
+            else // 81 ~ 100 -> 20% íšŒí”¼
             {
-                finalDamage = 0; // È¸ÇÇ ½Ã µ¥¹ÌÁö´Â 0
-                attackType = "È¸ÇÇ ¼º°ø!!";
+                finalDamage = 0; // íšŒí”¼ ì‹œ ë°ë¯¸ì§€ëŠ” 0
+                attackType = "íšŒí”¼ ì„±ê³µ!!";
             }
 
-            int tempMonsterHP = monster.HP; // ÇöÀç ¸ó½ºÅÍ HP
+            int tempMonsterHP = monster.HP; // í˜„ì¬ ëª¬ìŠ¤í„° HP
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
-            Console.WriteLine($"{user.Name} ÀÇ °ø°İ!");
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù. [µ¥¹ÌÁö : {finalDamage}] - {attackType}");
+            Console.WriteLine($"{user.Name} ì˜ ê³µê²©!");
+            Console.WriteLine($"Lv.{monster.Level} {monster.Name}ì„(ë¥¼) ë§ì·„ìŠµë‹ˆë‹¤. [ë°ë¯¸ì§€ : {finalDamage}] - {attackType}");
 
-            if (finalDamage > 0) // µ¥¹ÌÁö°¡ ÀÖÀ» ¶§¸¸ HP º¯µ¿
+            if (finalDamage > 0) // ë°ë¯¸ì§€ê°€ ìˆì„ ë•Œë§Œ HP ë³€ë™
             {
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
                 Console.Write($"HP {tempMonsterHP} -> ");
 
-                monster.TakeDamage(finalDamage); // ¸ó½ºÅÍ¿¡°Ô µ¥¹ÌÁö Àû¿ë
+                monster.TakeDamage(finalDamage); // ëª¬ìŠ¤í„°ì—ê²Œ ë°ë¯¸ì§€ ì ìš©
 
                 if (monster.IsDead)
                 {
                     Console.WriteLine("Dead");
-                    user.MonsterCount[monsterIndex]++; // ¸ó½ºÅÍ Ä«¿îÆ® Áõ°¡
+                    user.MonsterCount[monsterIndex]++; // ëª¬ìŠ¤í„° ì¹´ìš´íŠ¸ ì¦ê°€
                     user.AddKillCount();
                 }
                 else
                 {
-                    Console.WriteLine(monster.HP); // ³²Àº HP Ãâ·Â
+                    Console.WriteLine(monster.HP); // ë‚¨ì€ HP ì¶œë ¥
                 }
             }
             else
->>>>>>> Stashed changes
             {
-                Console.WriteLine("°ø°İÀÌ È¸ÇÇµÇ¾ú½À´Ï´Ù!");
+                Console.WriteLine("ê³µê²©ì´ íšŒí”¼ë˜ì—ˆìŠµë‹ˆë‹¤!");
             }
 
 

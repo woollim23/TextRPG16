@@ -1,4 +1,6 @@
-﻿namespace TextRPG16
+﻿using System;
+
+namespace TextRPG16
 {
     public class User : ICharacter, IUser
     {
@@ -100,7 +102,7 @@
         public int WarriorSkill1_Execute(User user, Monster monster)
         {
             // 공격력*스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (user.SkillList[0].IncreaseRate);
+            float tempAttackDamage = user.AttackDamage * 1.5f;
 
             // 오차값을 10%로 계산
             float num = tempAttackDamage * 0.1f;
@@ -114,13 +116,12 @@
 
             return (int)resultDamage;
         }
-
         public int WarriorSkill2_Slash(User user, Monster monster)
         {
             Console.WriteLine("슬래쉬 스킬 사용! 랜덤한 적 2명에게 데미지를 가합니다.");
 
             // 공격력 * 스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (user.SkillList[1].IncreaseRate);
+            float tempAttackDamage = user.AttackDamage * (2);
 
             // 오차값을 10%로 계산
             float num = tempAttackDamage * 0.1f;
@@ -130,54 +131,54 @@
             Random random = new Random();
             float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
 
-            // 이미 공격한 적을 저장하기 위한 리스트
-            List<int> attackedTargets = new List<int>();
+            //// 이미 공격한 적을 저장하기 위한 리스트
+            //List<int> attackedTargets = new List<int>();
 
-            // 총 2명의 몬스터에게 데미지를 가함
-            for (int i = 0; i < 2; i++)
-            {
-                int randomIndex;
+            //// 총 2명의 몬스터에게 데미지를 가함
+            //for (int i = 0; i < 2; i++)
+            //{
+            //    int randomIndex;
 
-                // 중복되지 않는 몬스터를 선택하기 위한 로직
-                do
-                {
-                    randomIndex = random.Next(0, monster.monsterList.Count);
-                }
-                while (attackedTargets.Contains(randomIndex) || monster.monsterList[randomIndex].IsDead); // 중복 체크 및 사망한 몬스터 제외
+            //    // 중복되지 않는 몬스터를 선택하기 위한 로직
+            //    do
+            //    {
+            //        randomIndex = random.Next(0, monster.monsterList.Count);
+            //    }
+            //    while (attackedTargets.Contains(randomIndex) || monster.monsterList[randomIndex].IsDead); // 중복 체크 및 사망한 몬스터 제외
 
-                attackedTargets.Add(randomIndex); // 공격한 적의 인덱스를 기록
+            //    attackedTargets.Add(randomIndex); // 공격한 적의 인덱스를 기록
 
-                // 최종 데미지를 몬스터에게 전달 (반올림해서)
-                int finalDamage = (int)resultDamage;
-                monster.monsterList[randomIndex].TakeDamage(finalDamage);
+            //    // 최종 데미지를 몬스터에게 전달 (반올림해서)
+            //    int finalDamage = (int)resultDamage;
+            //    monster.monsterList[randomIndex].TakeDamage(finalDamage);
 
-                // 결과 출력
-                Console.WriteLine($"랜덤으로 선택된 적 {monster.monsterList[randomIndex].Name}에게 {finalDamage} 대미지를 입혔습니다.");
-            }
+            //    // 결과 출력
+            //    Console.WriteLine($"랜덤으로 선택된 적 {monster.monsterList[randomIndex].Name}에게 {finalDamage} 대미지를 입혔습니다.");
+            //}
 
             return (int)resultDamage;
         }
 
 
-        public int WizardSkill1_Fireball(User user, Monster monster, int targetIndex)
+        public int WizardSkill1_Fireball(User user, Monster monster)
         {
             Console.WriteLine("파이어볼 스킬 사용!");
             int skillDamage = (int)(user.AttackDamage * 10);
 
             // 타겟 몬스터에게 풀 데미지 적용
-            monster.monsterList[targetIndex].TakeDamage(skillDamage);
-            Console.WriteLine($"타겟된 적에게 {monster.monsterList[targetIndex].Name}에게 {skillDamage} 대미지를 입혔습니다."); // tagetIndex, skillDamage
+            //monster.monsterList[targetIndex].TakeDamage(skillDamage);
+            //Console.WriteLine($"타겟된 적에게 {monster.monsterList[targetIndex].Name}에게 {skillDamage} 대미지를 입혔습니다."); // tagetIndex, skillDamage
 
             // 주변 몬스터에게 1/3 데미지 적용
-            for (int i = 0; i < monster.monsterList.Count; i++)
-            {
-                if (i != targetIndex && !monster.monsterList[i].IsDead)
-                {
-                    int splashDamage = skillDamage / 3;
-                    monster.monsterList[i].TakeDamage(splashDamage);
-                    Console.WriteLine($"주변 적 {monster.monsterList[i].Name}에게 {splashDamage} 대미지를 입혔습니다."); // i, splahDamage
-                }
-            }
+            //for (int i = 0; i < monster.monsterList.Count; i++)
+            //{
+            //    if (i != targetIndex && !monster.monsterList[i].IsDead)
+            //    {
+            //        int splashDamage = skillDamage / 3;
+            //        monster.monsterList[i].TakeDamage(splashDamage);
+            //        Console.WriteLine($"주변 적 {monster.monsterList[i].Name}에게 {splashDamage} 대미지를 입혔습니다."); // i, splahDamage
+            //    }
+            //}
             return skillDamage;
         }
 
@@ -227,9 +228,12 @@
             while (true)
             {
                 Console.Clear();
+                AsciiArt.DisplayHeadLine(4);
+
 
                 for (int i = 0; i < quests.Count; i++)
                 {
+                    quests[i].IsCleared();
                     Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
                 }
                 Console.WriteLine();
@@ -392,7 +396,7 @@
             while (!exit)
             {
                 Console.Clear();
-
+                AsciiArt.DisplayHeadLine(1);
                 Console.WriteLine("[상태보기]");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
                 Console.WriteLine();

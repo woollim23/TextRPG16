@@ -68,7 +68,7 @@ namespace TextRPG16
         public int DisplayQuest()
         {
             Random random = new Random();
-            IsCleared();
+            
 
             Console.Clear();
 

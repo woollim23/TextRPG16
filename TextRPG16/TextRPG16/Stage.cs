@@ -20,6 +20,7 @@
             do
             {
                 Console.Clear();
+                AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.ResetColor();
@@ -82,6 +83,7 @@
             while (!exit)
             {
                 Console.Clear();
+                AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.ResetColor();
@@ -144,6 +146,7 @@
             while (!exit)
             {
                 Console.Clear();
+                AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.ResetColor();
@@ -201,10 +204,12 @@
                 {
                     if(insert == 1)
                     {
+                        resultDamage = user.WarriorSkill1_Execute(user, monster);
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
                     else
                     {
+                        resultDamage = user.WarriorSkill2_Slash(user, monster);
                         Battle.SkillRandomAttackResult(user, monster, resultDamage);
                         Console.WriteLine();
                         Console.WriteLine("0. 다음");
@@ -222,6 +227,7 @@
                 {
                     if (insert == 1)
                     {
+                        resultDamage = user.WizardSkill1_Fireball(user, monster);
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
                     else
@@ -240,6 +246,7 @@
             while (!exit)
             {
                 Console.Clear();
+                AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
                 Console.WriteLine($"Battle!! - Stage {StageLevel}");
                 Console.ResetColor();
@@ -288,6 +295,14 @@
                 if (user.UserClass == "전사")
                 {
                     Battle.SkillAttckResult(user, monster, resultDamage, insert - 1);
+                    Console.WriteLine();
+                    Console.WriteLine("0. 다음");
+                    Console.WriteLine();
+                    Console.Write(">> ");
+                    while (InputCheck.Check(0, 0) != 0)
+                    {
+                        Console.Write(">> ");
+                    }
                 }
                 else if (user.UserClass == "마법사")
                 {// 파이어볼에 대한 예외처리 추가
@@ -300,7 +315,6 @@
                         }
                     }
 
-
                     Console.WriteLine();
                     Console.WriteLine("0. 다음");
                     Console.WriteLine();
@@ -309,11 +323,11 @@
                     {
                         Console.Write(">> ");
                     }
-
-                    // ------------ 몬스터 공격 페이즈 ------------
-                    MonsterAttackPhase(user, monster, item, consumableItem);
-                    break;
                 }
+
+                // ------------ 몬스터 공격 페이즈 ------------
+                MonsterAttackPhase(user, monster, item, consumableItem);
+                break;
             }
         }
 

@@ -182,16 +182,25 @@ namespace TextRPG16
             return skillDamage;
         }
 
-
         public void WizardSkill2_ManaShield(User user, Monster monster)
         {
-            Console.Clear();
+            Console.Clear(); // 콘솔 화면 초기화
 
+            Console.WriteLine("공격을 받아 마나가 몬스터의 데미지에서 차감됩니다.");
+
+            Console.WriteLine($"남은 마나: {user.MP}");
+
+            // "다음" 선택 버튼 처리
             Console.WriteLine();
+            Console.WriteLine("0. 다음");
 
-
-            Thread.Sleep(1200);
+            while (InputCheck.Check(0, 0) != 0)
+            {
+                Console.Write(">> ");
+            }
         }
+
+
 
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;

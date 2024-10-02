@@ -8,11 +8,11 @@ namespace TextRPG16
     }
     public class Monster : ICharacter
     {
-        public List<Monster> monsterList;
+        public List<Monster> monsterList = null!;
         // ------------------ 캐릭터 인터페이스 공통 ------------------
-        string _name;
+        string _name = null!;
         int _level;
-        string _tribe; // 몬스터
+        string _tribe = null!; // 몬스터
         int _HP; // 체력
         int _fullHP; // 최대 체력
         int _attackDamage; // 공격력
@@ -52,7 +52,7 @@ namespace TextRPG16
                 int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
 
                 Random random = new Random(); // 랜덤
-                int level = random.Next(1, stage.StageLevel + 2); // 랜덤으로 레벨 지정******추후 수정 필요
+                int level = random.Next(stage.StageLevel, stage.StageLevel + 2); // 랜덤으로 레벨 지정
 
                 // enum 안에 있는 몬스터를 랜덤으로 지정한다
                 switch ((Monsters)random.Next(0, monsterCount))
@@ -111,13 +111,14 @@ namespace TextRPG16
 
             if (user.IsDead)
             {
-                Stage stage = new Stage();
+                Stage stage = new Stage(user);
                 stage.StageLose(user, item, consumableItem);
             }
         }
 
         public void TakeDamage(int damage)
         {
+            // 회피/ 치명타 / 아무x
             HP -= damage;
         }
 
@@ -125,14 +126,14 @@ namespace TextRPG16
         protected int MonsterLevelUpStatus(int level, int insert)
         {
             // 레벨당 0.3 씩 계산
-            return (int)(Math.Round(((double)insert * (level * 0.3))));
+            return insert + (int)(Math.Round(((double)insert * (level * 0.3))));
         }
 
         // 몬스터가 레벨업시 주는 경험치 증가율
         protected int MonsterLevelUpEXP(int level, int insert)
         {
             // 레벨당 0.3 씩 계산
-            return (int)(Math.Round(((double)insert * (level * 0.3))));
+            return insert + (int)(Math.Round(((double)insert * (level * 0.3))));
         }
     }
     class Minion : Monster

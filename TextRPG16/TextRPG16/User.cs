@@ -25,7 +25,7 @@
         }
 
         // ------------------ 유저 인터페이스 공통 ------------------
-        protected string _userClass; // 직업
+        protected string _userClass = null!; // 직업
         int _defensPower; // 방어력
         int _gold; // 골드
         int _clearCount; // 던전 클리어 횟수
@@ -47,9 +47,7 @@
         public int EXP { get { return _EXP; } set { _EXP = value; } } // 현재 EXP
         public int FullEXP { get { return _fullEXP; } set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
 
-        // ------------------ 플레이어 고유 ------------------
-        public int[] MonsterCount; // 몬스터 잡은 수 배열
-        // 기본 생성자
+        // ------------------ 기본 생성자 ------------------ 
         public User()
         {
             this.Name = "홍길동";
@@ -73,20 +71,105 @@
             this.FullEXP = 10;
 
             MonsterCount = new int[Enum.GetValues(typeof(Monsters)).Length]; // 이넘에 저장된 몬스터 갯수 만큼 배열 크기 설정
+            BestStageLevel = 1;
+
+            quests = new List<Quest>();
+            AddQuest();
         }
 
+        // ------------------ 플레이어 전투 관련 ------------------
+        public int[] MonsterCount; // 몬스터 잡은 수 배열
+        public int BestStageLevel; // 최고 스테이지 레벨 
+
+        public List<Skill> SkillList;
+
+
+        // ------------------- 퀘스트 관련 -------------------
+        List<Quest> quests;
+        public void AddQuest()
+        {
+            quests.Add(new Quest(2, "마을을 위협하는 몬스터 처치",
+            "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나? 마을 주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고! 모험가인 자네가 좀 처치해주게!",
+            500));
+
+            quests.Add(new Quest(0, "장비를 장착해보자",
+                "새로운 장비를 착용하여 힘을 높여보세요.",
+                100));
+
+            quests.Add(new Quest(1, "더욱 더 강해지기!",
+                "훈련을 통해 강해지세요!",
+                300));
+        }
+
+        public int QuestCnt() { return quests.Count; }
+
+        public void TakeEquip()
+        {
+            foreach (Quest quest in quests)
+            {
+                if (quest.GetType() == 0)
+                {
+                    quest.isEquip = true;
+                }
+            }
+        }
+
+        public void AddKillCount()
+        {
+            foreach (Quest quest in quests)
+            {
+                if (quest.totalMob != Constants.MAX)
+                {
+                    quest.mobCnt += 1;
+                }
+            }
+        }
+
+        public void DisplayQuests()
+        {
+            while (true)
+            {
+                Console.Clear();
+
+                for (int i = 0; i < quests.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
+                }
+                Console.WriteLine();
+                Console.WriteLine("0. 나가기");
+                Console.WriteLine();
+                Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
+                Console.WriteLine(">>> ");
+
+                int selectNum = InputCheck.Check(0, QuestCnt());
+                if (selectNum == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    Quest selectedQuest = quests[selectNum - 1];
+                    if (selectedQuest.DisplayQuest() == 1)
+                    {
+                        Gold += selectedQuest.goldAmends;
+                        quests.Remove(selectedQuest);
+                    }
+                }
+            }
+        }
 
         public void UserAttack(Monster monster, int index, Item item) // 유저가 공격할때
         {
             Console.Clear();
-            int tempMonsterHP = monster.HP;
-            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
+            int tempMonsterHP = monster.HP; // 현재 몬스터 HP
+            //////
+            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 유저의 공격력 10퍼센트 오차값 저장
 
             Random random = new Random();
-            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
+            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num + 1); // 공격력이 10이면, 9 ~ 11
 
-            monster.TakeDamage(resultDamage);
-
+            monster.TakeDamage(resultDamage); // 최종 대미지를 몬스터한테전달, 
+            /////
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
             Console.WriteLine($"{Name} 의 공격!");
@@ -99,6 +182,7 @@
             {
                 Console.WriteLine("Dead");
                 MonsterCount[index]++;
+                AddKillCount();
             }
             else
             {
@@ -114,6 +198,7 @@
             }
         }
 
+        // ------------------- 유저 관리 관련 ------------------- 
         public void LevelUp(User user, int expSum)
         {
             int tempLevel = user.Level; // 이전 레벨 저장
@@ -121,6 +206,16 @@
 
             if (user.FullEXP <= user.EXP)
             {
+                Quest quest = null!;
+                foreach (Quest q in quests)
+                {
+                    if (q.lvUp != Constants.MAX)
+                    {
+                        quest = q;
+                    }
+                }
+
+                quest.lvUp -= 1;
                 user.Level++;
                 user.EXP -= user.FullEXP; // 남은 경험치 이관
                 user.FullEXP = 20 + (tempLevel * 5);
@@ -205,169 +300,32 @@
         public void ChoiceUserClass(User user)
         {
             // ---------------- 캐릭터 직업 선택 -------------------
-            while (true)
+            Console.Clear();
+            Console.WriteLine("[직업 선택]");
+            // 직업 선택
+            Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
+            Console.WriteLine();
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 도적");
+            Console.WriteLine("3. 마법사");
+            Console.WriteLine();
+            Console.Write(">> ");
+
+            int select = InputCheck.Check(1, 3);
+            switch (select)
             {
-                Console.Clear();
-                Console.WriteLine("[직업 선택]");
-                // 직업 선택
-                Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
-                Console.WriteLine();
-                Console.WriteLine("1. 전사");
-                Console.WriteLine("2. 마법사");
-                Console.WriteLine();
-                Console.Write(">> ");
-
-                int select = InputCheck.Check(1, 2);
-                switch (select)
-                {
-                    case 1:
-                        user.UserClass = "전사";
-                        user = new Warrior();
-                        break;
-                    case 2:
-                        user.UserClass = "마법사";
-                        user = new Wizard();
-                        break;
-                    default:
-                        break;
-                }
-
-                if (select != -1) break;
+                case 1:
+                    user = new Warrior(user);
+                    break;
+                case 2:
+                    user = new Thief(user);
+                    break;
+                case 3:
+                    user = new Wizard(user);
+                    break;
+                default:
+                    break;
             }
-        }
-    }
-
-
-    public class Wizard : User
-    {
-        public Wizard() // 생성자
-        {
-            UserClass = "마법사";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 300; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 0; // 초기 방어력
-            AttackDamage = 35; // 초기 공격력
-        }
-
-        public int WizardSkill1(int attackDamage)
-        {
-            Console.WriteLine("파이어볼 스킬 사용!");
-            int skillDamage = (int)(attackDamage * 1.3);
-
-            return skillDamage;
-        }
-
-        public int WizardSkill2(int attackDamage)
-        {
-            int skillDamage = (int)(attackDamage * 1.3);
-
-            return skillDamage;
-        }
-    }
-    public class Warrior : User
-    {
-        public Warrior() // 생성자
-        {
-            UserClass = "전사";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 현재 체력
-            FullMP = 100; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 80; // 초기 방어력
-            AttackDamage = 20; // 초기 공격력
-        }
-
-        public int WarriorSkill(int attackDamage)
-        {
-            Random random = new Random();
-            int count = random.Next(1, 3); // 1 or 2
-
-            int skillDamage = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine(""); // 카운트 수 만큼 대사!
-            }
-
-            return skillDamage * count;
-        }
-
-    }
-    public class Thief : User
-    {
-        public Thief() // 생성자
-        {
-            UserClass = "도적";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 200; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 40; // 초기 방어력
-            AttackDamage = 12; // 초기 공격력
-        }
-
-        public int ThiefSkill(int attackDamage)
-        {
-            Random rand = new Random();
-            int count = rand.Next(1, 3);
-
-            int skillDamage = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine(""); // 카운트 수만큼 대사
-            }
-
-            return skillDamage * count;
-        }
-    }
-    public class Preist : User
-    {
-        public Preist() // 생성자
-        {
-            UserClass = "성직자";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 300; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 90; // 초기 방어력
-            AttackDamage = 5; // 초기 공격력
-        }
-
-        public int PreistSkill(int attackDamage)
-        {
-            int skillDamage = 0;
-
-            return skillDamage;
-        }
-
-        public void PreistHeal(User user)
-        {
-            // 계산 식 추가
-            user.HP += 30;
-            // FullHP
-        }
-    }
-    public class Archer : User
-    {
-        public Archer() // 생성자
-        {
-            UserClass = "궁수";
-            FullHP = 100; // 초기 체력
-            HP = FullHP; // 초기 체력
-            FullMP = 200; // 초기 마나
-            MP = FullMP; // 초기 마나
-            DefensPower = 40; // 초기 방어력
-            AttackDamage = 12; // 초기 공격력
-        }
-
-        public int ArcherSkill(int attackDamage)
-        {
-            int skillDamage = 0;
-
-            return skillDamage;
         }
     }
 }

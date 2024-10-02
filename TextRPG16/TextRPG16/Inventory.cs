@@ -88,7 +88,9 @@ namespace TextRPG16
                         Console.Write($"- {gameItem.item[i].listNum} ");
                         Console.Write($"{gameItem.item[i].name}");
                         if (gameItem.item[i].equip == true)
+                        {
                             Console.Write("[E]");
+                        }
                         else
                             Console.Write("\t");
                         Console.Write($"\t| {gameItem.item[i].effect} +{gameItem.item[i].effectIfo}\t| {gameItem.item[i].func}");
@@ -135,6 +137,7 @@ namespace TextRPG16
                     }
                     else
                     {
+                        user.TakeEquip();
                         // 장착
                         // 이전 장착한 아이템에 관련된 후처리
                         for (int i = 0; gameItem.item[i] != null; i++)

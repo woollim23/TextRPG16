@@ -1,9 +1,32 @@
 ﻿namespace TextRPG16
 {
-    public static class AsciiArt
+    public class AsciiArt
     {
 
+        public  void DisplayArt(string str)
+        {
+            Console.Clear();
+            if (str == "_gameOver") Console.WriteLine(_gameOver);
+            else if (str == "_stageClear") Console.WriteLine(_stageClear);
+            else if (str == "_youDie") Console.WriteLine(_youDie);
+            else if (str == "_battleStage") Console.WriteLine(_battleStage);
+            else if (str == "_gameTitle2") Console.WriteLine(_gameTitle2);
 
+
+            Thread.Sleep(1000);
+        }
+
+        public void DisplayHeadLine(int num)
+        {
+            Console.Clear();
+            if (num == 6) Console.WriteLine(_recoveryHeadline);
+            else if (num == 3) Console.WriteLine(_storeHeadline);
+            else if (num == 2) Console.WriteLine(_inventoryHeadline);
+            else if (num == 5) Console.WriteLine(_battleStageHeadline);
+            else if (num == 0) Console.WriteLine(_towerOfMokokoHeadline);
+            else if (num == 1) Console.WriteLine(_userStatusHeadline);
+
+        }
 
         public static string _gameOver = @"
 

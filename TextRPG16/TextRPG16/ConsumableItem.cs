@@ -10,7 +10,7 @@
         public string ItemEffectInform { get; set; } // 아이템 효과 설명
         public int Quantity { get; set; } // 소모성 아이템 수량
 
-        List<ConsumableItem> _potions; // 포션 리스트
+        public List<ConsumableItem> _potions = null!; // 포션 리스트
 
         // 기본 생성자
         public ConsumableItem()
@@ -35,9 +35,10 @@
         public void AddPotionList()
         {
             _potions = new List<ConsumableItem>();
-            _potions.Add(new ConsumableItem($"하급 HP포션", "HP", 25, "초급 연금술사가  조금 성공한 회복 물약입니다", 1));
-            _potions.Add(new ConsumableItem($"하급 MP포션", "MP", 25, "초급 연금술사가  조금 성공한 마나 물약입니다", 1));
-            _potions.Add(new ConsumableItem($"중급 HP포션", "HP", 50, "초급 연금술사가  절반이상 성공한 회복 물약입니다", 1));
+            _potions.Add(new ConsumableItem("하급 HP포션", "HP", 25, "초급 연금술사가  조금 성공한 회복 물약입니다", 3));
+            _potions.Add(new ConsumableItem("하급 MP포션", "MP", 25, "초급 연금술사가  조금 성공한 마나 물약입니다", 3));
+            _potions.Add(new ConsumableItem("중급 HP포션", "HP", 50, "초급 연금술사가  절반이상 성공한 회복 물약입니다", 1));
+            _potions.Add(new ConsumableItem("중급 MP포션", "MP", 50, "초급 연금술사가  절반이상 성공한 마나 물약입니다", 1));
         }
 
         // 소유 포션 리스트 창 & 회복포션 창
@@ -52,17 +53,25 @@
                 Console.WriteLine();
                 Console.WriteLine("[포션목록]");
                 Console.WriteLine();
-                foreach (var items in _potions)
-                {                                       // 아이템 수량을 변수로 지정해서 값을 지정하게 하는거 추가
-                    int count = 0;                      // 아래 코드 주석은 추후 팀원들과 상의하고 판단할것
-                    if (items.Quantity > 0)
+                for (int i = 0; i < _potions.Count; i++)
+                { // 아이템 수량을 변수로 지정해서 값을 지정하게 하는거 추가
+                  // 아래 코드 주석은 추후 팀원들과 상의하고 판단할것
+                    if (_potions[i].Quantity > 0)
                     {
-                        count++;
-                        Console.WriteLine($"- {count} {items.ItemName} | 아이템 효과:{items.ItemType} {items.ItemEffectNum}% | 수량: {items.Quantity} 개");
+                        Console.WriteLine($"- {i + 1} {_potions[i].ItemName} | 아이템 효과:{_potions[i].ItemType} {_potions[i].ItemEffectNum}% | 수량: {_potions[i].Quantity} 개");
+                    }
+                    else
+                    {
+                        ConsoleSize.Color(ConsoleColor.DarkGray);
+                        Console.WriteLine($"- {i + 1} {_potions[i].ItemName} | 아이템 효과:{_potions[i].ItemType} {_potions[i].ItemEffectNum}% | 수량: {_potions[i].Quantity} 개");
+                        Console.ResetColor();
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("[현재 체력] : {0} / {1}", user.HP, user.FullHP);
+                Console.WriteLine("[내정보]");
+                Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
+                Console.WriteLine($"HP {user.HP}/{user.FullHP}");
+                Console.WriteLine($"MP {user.MP}/{user.FullMP}");
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("0. 취소");
@@ -98,31 +107,49 @@
             int healUp = 0;
             if (_potions[index].ItemType == "HP")
             {
-                healUp  = (int)Math.Round((double)user.HP / 100 * this.ItemEffectNum);
-
-                // 이프문으로 최대 체력 넘나 검사
-                if ((healUp + user.HP) > user.FullHP)
+                if (user.HP == user.FullHP)
                 {
-                    healUp = user.FullHP - (healUp + user.HP);
+                    Console.WriteLine("회복할 체력이 없습니다.");
                 }
+                else
+                {
+                    healUp = (int)Math.Round((double)user.FullHP / 100 * _potions[index].ItemEffectNum);
 
-                Console.WriteLine($"HP가 {0} 회복합니다.", healUp);
+                    //// 이프문으로 최대 체력 넘나 검사
+                    if ((healUp + user.HP) > user.FullHP)
+                    {
+                        healUp -= ((healUp + user.HP) - user.FullHP);
+                    }
+                    Console.WriteLine("HP가 {0} 회복합니다.", healUp);
 
-                user.HP += healUp;
+                    user.HP += healUp;
+                    // 포션 갯수 줄이기
+                    _potions[index].Quantity--;
+                }
             }
-            else if (ItemType == "MP")
+            else if (_potions[index].ItemType == "MP")
             {
-                healUp  = (int)Math.Round((double)user.MP / 100 * this.ItemEffectNum);
-
-                if ((healUp + user.MP) > user.FullMP)
+                if (user.MP == user.FullMP)
                 {
-                    healUp = user.FullMP - (healUp + user.MP);
+                    Console.WriteLine("회복할 마나가 없습니다.");
                 }
+                else
+                {
+                    healUp = (int)Math.Round((double)user.FullMP / 100 * _potions[index].ItemEffectNum);
 
-                Console.WriteLine($"MP가 {0} 회복합니다.", healUp);
+                    if ((healUp + user.MP) > user.FullMP)
+                    {
+                        healUp -= ((healUp + user.MP) - user.FullMP);
+                    }
 
-                user.MP += healUp;
+                    Console.WriteLine("MP가 {0} 회복합니다.", healUp);
+
+                    user.MP += healUp;
+                    // 포션 갯수 줄이기
+                    _potions[index].Quantity--;
+                }
             }
+
             Thread.Sleep(800);
         }
     }

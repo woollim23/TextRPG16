@@ -31,7 +31,6 @@ namespace TextRPG16
         {
             Console.WriteLine("파이어볼 스킬 사용!");
             int skillDamage = (int)(attackDamage * 10);
-
             return skillDamage;
         }
     }

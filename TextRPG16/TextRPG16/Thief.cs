@@ -25,7 +25,6 @@ namespace TextRPG16
         public void AddSkill()
         {
             SkillList.Add(new Skill("연타", "랜덤으로 최대 3명에게 데미지를 줍니다.", 80, 80, 3, true));
-        }
 
         public int ThiefSkill(int attackDamage)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace TextRPG16
 {
@@ -14,7 +15,6 @@ namespace TextRPG16
 
         public int lvUp = Constants.MAX;
 
-        public string mobName = null!;
         public int totalMob = Constants.MAX;
         public int mobCnt = 0;
 
@@ -45,7 +45,6 @@ namespace TextRPG16
                     break;
                 case QuestType.Hunt:
                     qType = QuestType.Hunt;
-                    //mobName = null;
                     totalMob = random.Next(3, 8);
                     break;
             }
@@ -91,7 +90,7 @@ namespace TextRPG16
                     Console.WriteLine($"- {lvUp} Lv 올리기");
                     break;
                 case QuestType.Hunt:
-                    Console.WriteLine($"- {mobName} {totalMob}마리 처치 ({mobCnt}/{totalMob})");
+                    Console.WriteLine($"- 몬스터 {totalMob}마리 처치 ({mobCnt}/{totalMob})");
                     break;
             }
 
@@ -120,10 +119,12 @@ namespace TextRPG16
                 Console.WriteLine();
             }
 
+            Console.WriteLine("0. 이전으로 돌아가기");
+            Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
             Console.Write(">>> ");
 
-            int select = InputCheck.Check(1, 2);
+            int select = InputCheck.Check(0, 2);
             if (!isAccept && select == 1)
             {
                 isAccept = true;

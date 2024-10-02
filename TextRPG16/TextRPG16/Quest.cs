@@ -128,7 +128,7 @@ namespace TextRPG16
             {
                 isAccept = true;
             }
-            else if(isAccept && select == 1)
+            else if(isAccept && !isClear && select == 1)
             {
                 isAccept = false;
                 mobCnt = 0;

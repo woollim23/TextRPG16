@@ -23,7 +23,8 @@ namespace TextRPG16
         }
         public void AddSkill()
         {
-            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25));
+            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25, 1, false));
+            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25, 2, true));
         }
 
         public int WarriorSkill(int attackDamage)

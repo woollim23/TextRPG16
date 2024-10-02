@@ -24,21 +24,13 @@ namespace TextRPG16
 
         public void AddSkill()
         {
-            //SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25));
+            SkillList.Add(new Skill("파이어볼", "타겟된 적과 주변의 적에게 데미지를 줍니다.", 80, 80, 3, true));
         }
 
         public int WizardSkill1(int attackDamage)
         {
             Console.WriteLine("파이어볼 스킬 사용!");
-            int skillDamage = (int)(attackDamage * 1.3);
-
-            return skillDamage;
-        }
-
-        public int WizardSkill2(int attackDamage)
-        {
-            int skillDamage = (int)(attackDamage * 1.3);
-
+            int skillDamage = (int)(attackDamage * 10);
             return skillDamage;
         }
     }

@@ -22,14 +22,16 @@
         
         public void UseRest(User user)
         {
-            Console.Clear();
+            
 
             
+            Console.Clear();
             asciiArt.DisplayHeadLine(6);
             
             // 조건 1: HP와 MP가 모두 회복이 필요없는 상태
             if (user.HP == user.FullHP || user.MP == user.FullMP)
             {
+                
                 Console.WriteLine("휴식이 필요하지 않습니다");
                 Thread.Sleep(1000);
                 
@@ -50,7 +52,7 @@
                     {
                         user.MP++;
                     }
-
+                    ConsoleSize.SetCursor(0, 8);
                     Console.WriteLine($"현재 체력: {user.HP} 현재 마나: {user.MP}");
                     Thread.Sleep(50);
                    

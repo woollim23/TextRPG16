@@ -34,5 +34,6 @@ namespace TextRPG16
             
 
         }
+        public static void SetCursor(int left, int top) { Console.SetCursorPosition(left, top); }
     }
 }

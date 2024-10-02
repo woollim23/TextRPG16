@@ -18,7 +18,7 @@ namespace TextRPG16
         public void SoundEffectUseRest() // 회복 끝날때 나올 효과음
         {
             // 효과음 파일 경로 설정
-            string _soundFilePath = @"C:\Git\TextRPG16\TextRPG16\TextRPG16\bin\Debug\net6.0\Pokemon-Platinum-Recovery"; // bin\Debug\net6.0파일에 효과음 몇개 추가 했습니다.
+            string _soundFilePath = @"C:\Git\TextRPG16\TextRPG16\TextRPG16\bin\Debug\net6.0\Pokemon-Platinum-Recovery.wav"; // bin\Debug\net6.0파일에 효과음 몇개 추가 했습니다.
 
             try
             {

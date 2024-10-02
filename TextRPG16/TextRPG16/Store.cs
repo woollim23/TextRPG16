@@ -8,6 +8,8 @@ namespace TextRPG16
 {
     public class Store
     {
+        AsciiArt asciiArt = new AsciiArt();
+
         // 상점 이용 메소드
         public void UseStore(User user, Item gameItem)
         {
@@ -15,7 +17,7 @@ namespace TextRPG16
             while (!exit)
             {
                 Console.Clear();
-
+                asciiArt.DisplayHeadLine(3);
                 Console.WriteLine("[상점]");
                 Console.WriteLine("아이템을 구매, 판매할 수 있는 상점입니다.");
 

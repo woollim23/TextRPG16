@@ -12,13 +12,11 @@
         {
             // 객체생성
             GameManager gameManager = new GameManager();
-
             User user;
             Item item;
             ConsumableItem consumableItem;
             // 로딩창
             gameManager.LodingScreen();
-            Thread.Sleep(1000);
             Console.Clear();
 
             // 객체 생성

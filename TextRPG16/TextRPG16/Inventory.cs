@@ -8,13 +8,18 @@ namespace TextRPG16
 {
     public class Inventory
     {
+     
+     AsciiArt asciiArt = new AsciiArt();
+
         // 인벤토리 메소드
         public void SeeInventory(User user, Item gameItem)
         {
+            
             bool exit = false;
             while (!exit)
             {
                 Console.Clear();
+                asciiArt.DisplayHeadLine(2);
                 Console.WriteLine("[인벤토리]");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
                 Console.WriteLine();

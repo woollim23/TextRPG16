@@ -2,6 +2,7 @@ namespace TextRPG16
 {
     public class GameManager
     {
+        AsciiArt asciiArt = new AsciiArt();
         // 파일 경로
         public string filePath1 = "TextRPG_Reform_User";
         public string filePath2 = "TextRPG_Reform_Item";
@@ -9,14 +10,7 @@ namespace TextRPG16
         // 로딩창 메소드
         public void LodingScreen()
         {
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("|                                    |");
-            Console.WriteLine("|             Wellcome!!             |");
-            Console.WriteLine("|          Sparta  TextRPG           |");
-            Console.WriteLine("|                                    |");
-            Console.WriteLine("--------------------------------------");
-
-            Thread.Sleep(1200);
+            asciiArt.SparklingEffect();
             Console.Clear();
         }
 

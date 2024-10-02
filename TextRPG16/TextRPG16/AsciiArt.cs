@@ -3,7 +3,7 @@
     public class AsciiArt
     {
 
-        public  void DisplayArt(string str)
+        public void DisplayArt(string str)
         {
             Console.Clear();
             if (str == "_gameOver") Console.WriteLine(_gameOver);
@@ -19,12 +19,13 @@
         public void DisplayHeadLine(int num)
         {
             Console.Clear();
-            if (num == 6) Console.WriteLine(_recoveryHeadline);
-            else if (num == 3) Console.WriteLine(_storeHeadline);
-            else if (num == 2) Console.WriteLine(_inventoryHeadline);
-            else if (num == 5) Console.WriteLine(_battleStageHeadline);
-            else if (num == 0) Console.WriteLine(_towerOfMokokoHeadline);
+            if (num == 0) Console.WriteLine(_towerOfMokokoHeadline);
             else if (num == 1) Console.WriteLine(_userStatusHeadline);
+            else if (num == 2) Console.WriteLine(_inventoryHeadline);
+            else if (num == 3) Console.WriteLine(_storeHeadline);
+            else if (num == 4) Console.WriteLine(_questHeadline);
+            else if (num == 5) Console.WriteLine(_battleStageHeadline);
+            else if (num == 6) Console.WriteLine(_recoveryHeadline);
 
         }
 
@@ -103,82 +104,94 @@
           : ##:::: ##:. #######:: ##::. ##:. #######:: ##::. ##:. #######::
           :..:::::..:::.......:::..::::..:::.......:::..::::..:::.......:::
            ";
-        public static string _recoveryHeadline = @"
+        public static string _welCome = @"
+            ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+            ▣                                              ▣
+                    Games are welcome at their games                 
+            ▣                                              ▣
+            ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+         ";
 
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                   회복 하기                 
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+        public static string _recoveryHeadline = @"
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                     회복 하기                 
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static string _storeHeadline = @"
-
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                    상 점                    
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                       상 점                    
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static string _inventoryHeadline = @"
-
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                 인 벤 토 리                  
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                    인 벤 토 리                  
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static string _battleStageHeadline = @"
-
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                 배틀 스테이지               
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                   배틀 스테이지               
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static string _towerOfMokokoHeadline = @"
-
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                 모코코들의 탑               
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                   모코코들의 탑               
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static string _userStatusHeadline = @"
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                      상 태 창                
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ▣                                          ▣
-                                   상 태 창                
-                ▣                                          ▣
-                ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
-                ";
+        public static string _questHeadline = @"
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                      퀘 스 트                
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
+        public void SparklingEffect()
+        {
+            ConsoleColor[] colors = {  ConsoleColor.Red, ConsoleColor.Green, ConsoleColor.Blue, ConsoleColor.Yellow };
 
+            // 현재 콘솔 위치 저장
+            
+            int cnt = 0;
+            while (cnt < 2)
+            {
+                cnt++;
+                foreach (var color in colors)
+                {
 
+                    Console.ForegroundColor = color;
+                    ConsoleSize.SetCursor(0, 0); // 커서를 원래 위치로 이동
+                    Console.WriteLine(_welCome); // 텍스트 출력
+                    if(cnt != 1 || color != ConsoleColor.Yellow) Thread.Sleep(200);
 
+                }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            }
+            
+            Console.ResetColor();
+        }
 
     }
 }

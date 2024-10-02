@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TextRPG16
@@ -40,6 +41,18 @@ namespace TextRPG16
             }
 
             return skillDamage * count;
+        }
+
+        public void WarriorSkill2(User user, Monster monster)
+        {
+            int tempAttackDamage = user.AttackDamage * (user.SkillList[0].IncreaseRate); // 공격력 * 스킬데미지증가
+
+            int num = (int)Math.Round(((double)tempAttackDamage / 100 * 10), 0); // 유저의 스킬 공격력 10퍼센트 오차값 저장
+
+            Random random = new Random();
+            int resultDamage = random.Next((int)tempAttackDamage - num, (int)AttackDamage + num + 1); // 공격력이 10이면, 9 ~ 11
+
+            monster.TakeDamage(resultDamage); // 최종 대미지를 몬스터한테전달
         }
 
     }

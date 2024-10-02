@@ -118,6 +118,7 @@ namespace TextRPG16
 
         public void TakeDamage(int damage)
         {
+            // 회피/ 치명타 / 아무x
             HP -= damage;
         }
 

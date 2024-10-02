@@ -20,6 +20,4 @@ namespace TextRPG16
             user.AttackDamage = 20; // 초기 공격력
         }
     }
-
-    
 }

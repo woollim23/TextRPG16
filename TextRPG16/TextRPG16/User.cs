@@ -115,10 +115,25 @@
             return (int)resultDamage;
         }
 
-        public int WizardSkill1(int attackDamage)
+        public int WizardSkill1_Fireball(User user, Monster monster, int targetIndex)
         {
             Console.WriteLine("파이어볼 스킬 사용!");
-            int skillDamage = (int)(attackDamage * 10);
+            int skillDamage = (int)(user.AttackDamage * 10);
+
+            // 타겟 몬스터에게 풀 데미지 적용
+            monster.monsterList[targetIndex].TakeDamage(skillDamage);
+            Console.WriteLine($"타겟된 적에게 {monster.monsterList[targetIndex].Name}에게 {skillDamage} 대미지를 입혔습니다."); // tagetIndex, skillDamage
+
+            // 주변 몬스터에게 1/3 데미지 적용
+            for (int i = 0; i < monster.monsterList.Count; i++)
+            {
+                if (i != targetIndex && !monster.monsterList[i].IsDead)
+                {
+                    int splashDamage = skillDamage / 3;
+                    monster.monsterList[i].TakeDamage(splashDamage);
+                    Console.WriteLine($"주변 적 {monster.monsterList[i].Name}에게 {splashDamage} 대미지를 입혔습니다."); // i, splahDamage
+                }
+            }
             return skillDamage;
         }
 
@@ -237,6 +252,35 @@
         }
 
         // ------------------- 유저 관리 관련 ------------------- 
+        // 캐릭터선택창 메소드
+        public void ChoiceUserClass(User user)
+        {
+            // ---------------- 캐릭터 직업 선택 -------------------
+            Console.Clear();
+            Console.WriteLine("[직업 선택]");
+            // 직업 선택
+            Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
+            Console.WriteLine();
+            Console.WriteLine("1. 전사");
+            Console.WriteLine("2. 마법사");
+            Console.WriteLine();
+            Console.Write(">> ");
+
+            int select = InputCheck.Check(1, 3);
+            switch (select)
+            {
+                case 1:
+                    user = new Warrior(user);
+                    user.AddSkill();
+                    break;
+                case 2:
+                    user = new Wizard(user);
+                    user.AddSkill();
+                    break;
+                default:
+                    break;
+            }
+        }
         public void LevelUp(User user, int expSum)
         {
             int tempLevel = user.Level; // 이전 레벨 저장
@@ -331,36 +375,6 @@
                     default:
                         continue;
                 }
-            }
-        }
-
-        // 캐릭터선택창 메소드
-        public void ChoiceUserClass( User user)
-        {
-            // ---------------- 캐릭터 직업 선택 -------------------
-            Console.Clear();
-            Console.WriteLine("[직업 선택]");
-            // 직업 선택
-            Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
-            Console.WriteLine();
-            Console.WriteLine("1. 전사");
-            Console.WriteLine("2. 마법사");
-            Console.WriteLine();
-            Console.Write(">> ");
-
-            int select = InputCheck.Check(1, 3);
-            switch (select)
-            {
-                case 1:
-                    user = new Warrior(user);
-                    user.AddSkill();
-                    break;
-                case 2:
-                    user = new Wizard(user);
-                    user.AddSkill();
-                    break;
-                default:
-                    break;
             }
         }
     }

@@ -30,6 +30,7 @@ namespace TextRPG16
 
             user.ChoiceUserClass(user);
         }
+
         //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
         public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {

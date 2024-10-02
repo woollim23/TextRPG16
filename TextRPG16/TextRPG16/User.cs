@@ -182,6 +182,17 @@ namespace TextRPG16
             return skillDamage;
         }
 
+
+        public void WizardSkill2_ManaShield(User user, Monster monster)
+        {
+            Console.Clear();
+
+            Console.WriteLine();
+
+
+            Thread.Sleep(1200);
+        }
+
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
         public void AddQuest()

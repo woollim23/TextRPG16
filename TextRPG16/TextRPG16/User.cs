@@ -233,6 +233,7 @@ namespace TextRPG16
 
                 for (int i = 0; i < quests.Count; i++)
                 {
+                    quests[i].IsCleared();
                     Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
                 }
                 Console.WriteLine();

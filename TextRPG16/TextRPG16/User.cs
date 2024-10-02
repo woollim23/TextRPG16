@@ -1,4 +1,6 @@
-﻿namespace TextRPG16
+﻿using System;
+
+namespace TextRPG16
 {
     public class User : ICharacter, IUser
     {
@@ -100,7 +102,7 @@
         public int WarriorSkill1_Execute(User user, Monster monster)
         {
             // 공격력*스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (user.SkillList[0].IncreaseRate);
+            float tempAttackDamage = user.AttackDamage * 1.5f;
 
             // 오차값을 10%로 계산
             float num = tempAttackDamage * 0.1f;
@@ -114,57 +116,12 @@
 
             return (int)resultDamage;
         }
-
         public int WarriorSkill2_Slash(User user, Monster monster)
         {
             Console.WriteLine("슬래쉬 스킬 사용! 랜덤한 적 2명에게 데미지를 가합니다.");
 
             // 공격력 * 스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (user.SkillList[1].IncreaseRate);
-
-            // 오차값을 10%로 계산
-            float num = tempAttackDamage * 0.1f;
-
-
-            // 랜덤한 데미지를 구할 때 범위를 실수형으로 설정 // 공격력이 10이면, 9 ~ 11
-            Random random = new Random();
-            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
-
-            // 이미 공격한 적을 저장하기 위한 리스트
-            List<int> attackedTargets = new List<int>();
-
-            // 총 2명의 몬스터에게 데미지를 가함
-            for (int i = 0; i < 2; i++)
-            {
-                int randomIndex;
-
-                // 중복되지 않는 몬스터를 선택하기 위한 로직
-                do
-                {
-                    randomIndex = random.Next(0, monster.monsterList.Count);
-                }
-                while (attackedTargets.Contains(randomIndex) || monster.monsterList[randomIndex].IsDead); // 중복 체크 및 사망한 몬스터 제외
-
-                attackedTargets.Add(randomIndex); // 공격한 적의 인덱스를 기록
-
-                // 최종 데미지를 몬스터에게 전달 (반올림해서)
-                int finalDamage = (int)resultDamage;
-                monster.monsterList[randomIndex].TakeDamage(finalDamage);
-
-                // 결과 출력
-                Console.WriteLine($"랜덤으로 선택된 적 {monster.monsterList[randomIndex].Name}에게 {finalDamage} 대미지를 입혔습니다.");
-            }
-
-            return (int)resultDamage;
-        }
-
-
-        public int WarriorSkill2_Slash(User user, Monster monster)
-        {
-            Console.WriteLine("슬래쉬 스킬 사용! 랜덤한 적 2명에게 데미지를 가합니다.");
-
-            // 공격력 * 스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (user.SkillList[1].IncreaseRate);
+            float tempAttackDamage = user.AttackDamage * (2);
 
             // 오차값을 10%로 계산
             float num = tempAttackDamage * 0.1f;
@@ -227,7 +184,6 @@
 
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
-        AsciiArt asciiArt;
         public void AddQuest()
         {
             quests.Add(new Quest(2, "마을을 위협하는 몬스터 처치",
@@ -272,7 +228,7 @@
             while (true)
             {
                 Console.Clear();
-                asciiArt.DisplayHeadLine(4);
+                AsciiArt.DisplayHeadLine(4);
 
 
                 for (int i = 0; i < quests.Count; i++)
@@ -439,7 +395,7 @@
             while (!exit)
             {
                 Console.Clear();
-
+                AsciiArt.DisplayHeadLine(1);
                 Console.WriteLine("[상태보기]");
                 Console.WriteLine("캐릭터의 정보가 표시됩니다.");
                 Console.WriteLine();

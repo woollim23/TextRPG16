@@ -14,20 +14,23 @@ namespace TextRPG16
         // 유저 스킬 공격 결과창
         public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {
-            Random random = new Random();
-            int num = random.Next(1, 101); // 1 ~ 100
-            if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
-            {
-                int tempMonsterHP = monster.HP; // 현재 몬스터 HP
+            //Random random = new Random();
+            //int num = random.Next(1, 101); // 1 ~ 100
+            //if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
+            //{
+                int tempMonsterHP = monster.monsterList[monsterIndex].HP; // 현재 몬스터 HP
+
+                monster.monsterList[monsterIndex].HP -= resultDamage;
+
                 Console.WriteLine($"Battle!!");
                 Console.WriteLine();
                 Console.WriteLine($"{user.Name} 의 공격!");
-                Console.WriteLine($"Lv.{monster.Level} {monster.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}] ");
+                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}] ");
                 Console.WriteLine();
-                Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
+                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}");
                 Console.Write($"HP {tempMonsterHP} -> ");
 
-                if (monster.IsDead)
+                if (monster.IsDead || monster.monsterList[monsterIndex].HP < 0)
                 {
                     Console.WriteLine("Dead");
                     user.MonsterCount[monsterIndex]++;
@@ -35,14 +38,15 @@ namespace TextRPG16
                 }
                 else
                 {
-                    Console.WriteLine(monster.HP);
+                    Console.WriteLine(monster.monsterList[monsterIndex].HP);
                 }
                 Console.WriteLine();
-            }
-            else if ()// 60 ~ 80 -> 20% 치명타는 resultDamage * 1.5
-            { }
-            else // 80 ~ 100 -> 20% 회피는 resultDamage = 0;
-            { }
+            
+            //}
+            //else if ()// 60 ~ 80 -> 20% 치명타는 resultDamage * 1.5
+            //{ }
+            //else // 80 ~ 100 -> 20% 회피는 resultDamage = 0;
+            //{ }
 
         }
 

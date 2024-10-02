@@ -5,7 +5,6 @@
         public Recovery()
         {
              soundManager = new SoundManager();
-             asciiArt = new AsciiArt();
         }
 
         
@@ -17,7 +16,6 @@
 
         // 마을에서 휴식하는것과 같은방식
         SoundManager soundManager;
-        AsciiArt asciiArt;
 
         
         public void UseRest(User user)
@@ -26,7 +24,7 @@
 
             
             Console.Clear();
-            asciiArt.DisplayHeadLine(6);
+            AsciiArt.DisplayHeadLine(6);
             
             // 조건 1: HP와 MP가 모두 회복이 필요없는 상태
             if (user.HP == user.FullHP || user.MP == user.FullMP)

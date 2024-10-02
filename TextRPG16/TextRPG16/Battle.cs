@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
-
 namespace TextRPG16
 {
     public static class Battle
@@ -44,24 +40,21 @@ namespace TextRPG16
         }
 
 
-        public static void SkillRandomAttackResult(User user, Monster monster, int skillNumber, int resultDamage)
+        public static void SkillRandomAttackResult(User user, Monster monster, int resultDamage)
         {
             Console.Clear();
-            if (user.SkillList[skillNumber].TargetNumber == 3)
+            int randomTemp = -1;
+            int count = 0;
+            while(count != 2)
             {
-                for (int i = 0; i < monster.monsterList.Count; i++)
+                Random random = new Random();
+                int index = random.Next(0, monster.monsterList.Count);
+
+                if(index != randomTemp)
                 {
-                    Battle.SkillAttckResult(user, monster, resultDamage, i);
-                }
-            }
-            else
-            {
-                int randomTemp = 0;
-                for (int i = 0; i < user.SkillList[skillNumber].TargetNumber; i++)
-                {
-                    Random random = new Random();
-                    int index = random.Next(0, monster.monsterList.Count);
                     Battle.SkillAttckResult(user, monster, resultDamage, index);
+                    randomTemp = index;
+                    count++;
                 }
             }
         }

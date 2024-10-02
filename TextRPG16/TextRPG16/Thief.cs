@@ -25,22 +25,35 @@ namespace TextRPG16
         public void AddSkill()
         {
             SkillList.Add(new Skill("연타", "랜덤으로 최대 3명에게 데미지를 줍니다.", 80, 80, 3, true));
+        }
 
-        public int ThiefSkill(int attackDamage)
+        public int ThiefSkill1_Combo(int attackDamage)
         {
             Random rand = new Random();
+            // 1에서 3까지의 랜덤한 숫자 생성 (최대 3명에게 공격)
             int count = rand.Next(1, 4);
 
-            int skillDamage = 0;
+            // attackDamage로 스킬 데미지를 계산
+            int skillDamage = attackDamage; 
 
             for (int i = 0; i < count; i++)
             {
-                Console.WriteLine("하나!"); // 카운트 수만큼 대사
-                Console.WriteLine("둘!"); // 카운트 수만큼 대사
-                Console.WriteLine("셋!"); // 카운트 수만큼 대사
+                // 카운트 수만큼 대사 출력
+                switch (i)
+                {
+                    case 0:
+                        Console.WriteLine("하나!");
+                        break;
+                    case 1:
+                        Console.WriteLine("둘!");
+                        break;
+                    case 2:
+                        Console.WriteLine("셋!");
+                        break;
+                }
             }
-
             return skillDamage * count;
         }
+
     }
 }

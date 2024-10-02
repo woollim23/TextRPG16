@@ -304,29 +304,21 @@
             Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
             Console.WriteLine();
             Console.WriteLine("1. 전사");
-            Console.WriteLine("2. 궁수");
-            Console.WriteLine("3. 도적");
-            Console.WriteLine("4. 사제");
-            Console.WriteLine("5. 마법사");
+            Console.WriteLine("2. 도적");
+            Console.WriteLine("3. 마법사");
             Console.WriteLine();
             Console.Write(">> ");
 
-            int select = InputCheck.Check(1, 5);
+            int select = InputCheck.Check(1, 3);
             switch (select)
             {
                 case 1:
                     user = new Warrior(user);
                     break;
                 case 2:
-                    user = new Archer(user);
-                    break;
-                case 3:
                     user = new Thief(user);
                     break;
-                case 4:
-                    user = new Preist(user);
-                    break;
-                case 5:
+                case 3:
                     user = new Wizard(user);
                     break;
                 default:

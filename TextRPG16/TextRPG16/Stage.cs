@@ -60,7 +60,7 @@
                 {
                     case 0:
                         GameManager gameManager = new GameManager();
-                        gameManager.GamePlay(user, item, consumableItem);
+                        gameManager.GamePlay( user, item, consumableItem);
                         break;
                     case 1:
                         BattleStage(user, monster, item, consumableItem);
@@ -170,7 +170,9 @@
                 Console.WriteLine($"MP {user.MP}/{user.FullMP}");
                 Console.WriteLine();
                 Console.WriteLine("[스킬]");
-                for (int i = 0; i < user.SkillList.Count; i++)
+                
+
+                for (int i = 0; i < 2; i++)
                 {
                     Console.WriteLine($"{1 + i}. {user.SkillList[i].SkillName} - MP {user.SkillList[i].UseMP}");
                     Console.WriteLine($"{user.SkillList[i].SkillDescription}");
@@ -206,22 +208,9 @@
                     {
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
-                    else if (user.SkillList[insert - 1].TargetNumber == 3)
-                    {
-                        for (int i = 0; i < monster.monsterList.Count; i++)
-                        {
-                            Battle.SkillAttckResult(user, monster, resultDamage, i);
-                        }
-                    }
                     else
                     {
-                        int randomTemp = 0;
-                        for(int i = 0; i < user.SkillList[insert - 1].TargetNumber; i++)
-                        {
-                            Random random = new Random();
-                            int index = random.Next(0, monster.monsterList.Count);
-                            Battle.SkillAttckResult(user, monster, resultDamage, index);
-                        }
+                        Battle.SkillRandomAttackResult(user, monster, insert - 1, resultDamage);
                     }
 
                     Console.WriteLine();
@@ -269,19 +258,16 @@
                 Console.WriteLine($"HP {user.HP}/{user.FullHP}");
                 Console.WriteLine($"MP {user.MP}/{user.FullMP}");
                 Console.WriteLine();
-
-                Console.WriteLine("0. 취소");
                 Console.WriteLine();
                 Console.WriteLine("공격할 몬스터를 선택하세요.");
                 Console.Write(">> ");
 
-                int insert = InputCheck.Check(0, 3);
+                int insert = InputCheck.Check(1, 3);
 
                 if (insert == 0)
                 {
                     break;
                 }
-
                 // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)
                 if (monster.monsterList[insert - 1].IsDead)
                 {
@@ -290,7 +276,7 @@
                     Thread.Sleep(800);
                     continue;
                 }
-
+                Console.Clear();
                 // 두신님의 스킬 공격 관련 연산 함수 -> result Damage 받기
                 Battle.SkillAttckResult(user, monster, resultDamage, insert - 1);
                 // 파이어볼에 대한 예외처리 추가
@@ -378,7 +364,7 @@
             {
                 case 0:
                     GameManager gameManager = new GameManager();
-                    gameManager.GamePlay(user, item, consumableItem);
+                    gameManager.GamePlay( user, item, consumableItem);
                     break;
                 case 1:
                     StartStage(user, item, consumableItem);
@@ -415,7 +401,7 @@
             }
 
             GameManager gameManager = new GameManager();
-            gameManager.GamePlay(user, item, consumableItem);
+            gameManager.GamePlay( user, item, consumableItem);
         }
     }
 }

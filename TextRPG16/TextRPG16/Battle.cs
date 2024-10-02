@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace TextRPG16
@@ -8,6 +9,8 @@ namespace TextRPG16
         // 유저 스킬 공격 결과창
         public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {
+
+
             int tempMonsterHP = monster.HP; // 현재 몬스터 HP
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
@@ -29,6 +32,29 @@ namespace TextRPG16
             }
             Console.WriteLine();
 
+        }
+
+
+        public static void SkillRandomAttackResult(User user, Monster monster, int skillNumber, int resultDamage)
+        {
+            Console.Clear();
+            if (user.SkillList[skillNumber].TargetNumber == 3)
+            {
+                for (int i = 0; i < monster.monsterList.Count; i++)
+                {
+                    Battle.SkillAttckResult(user, monster, resultDamage, i);
+                }
+            }
+            else
+            {
+                int randomTemp = 0;
+                for (int i = 0; i < user.SkillList[skillNumber].TargetNumber; i++)
+                {
+                    Random random = new Random();
+                    int index = random.Next(0, monster.monsterList.Count);
+                    Battle.SkillAttckResult(user, monster, resultDamage, index);
+                }
+            }
         }
     }
 }

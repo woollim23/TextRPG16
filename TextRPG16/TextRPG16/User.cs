@@ -75,6 +75,8 @@
 
             quests = new List<Quest>();
             AddQuest();
+
+            SkillList = new List<Skill>();
         }
 
         // ------------------ 플레이어 전투 관련 ------------------
@@ -297,7 +299,7 @@
         }
 
         // 캐릭터선택창 메소드
-        public void ChoiceUserClass(User user)
+        public void ChoiceUserClass( User user)
         {
             // ---------------- 캐릭터 직업 선택 -------------------
             Console.Clear();

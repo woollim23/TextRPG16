@@ -1,44 +1,34 @@
+using System;
 using System.Xml.Linq;
 
 namespace TextRPG16
 {
-    class Battle
+    public static class Battle
     {
-        public void Attack(ICharacter attacker, ICharacter deffenser) // 공격할때
+        // 유저 스킬 공격 결과창
+        public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {
-            Console.Clear();
-            int tempMonsterHP = deffenser.HP;
-            int num = (int)Math.Round(((double)attacker.AttackDamage / 100 * 10), 0); // 오차값
-
-            Random random = new Random();
-            int resultDamage = random.Next((int)attacker.AttackDamage - num, (int)attacker.AttackDamage + num);
-
-            deffenser.TakeDamage(resultDamage);
-
+            int tempMonsterHP = monster.HP; // 현재 몬스터 HP
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
-            Console.WriteLine($"{attacker.Name} 의 공격!");
-            Console.WriteLine($"Lv.{deffenser.Level} {deffenser.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
+            Console.WriteLine($"{user.Name} 의 공격!");
+            Console.WriteLine($"Lv.{monster.Level} {monster.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
             Console.WriteLine();
-            Console.WriteLine($"Lv.{deffenser.Level} {deffenser.Name}");
+            Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
             Console.Write($"HP {tempMonsterHP} -> ");
 
-            if (deffenser.IsDead)
+            if (monster.IsDead)
             {
                 Console.WriteLine("Dead");
+                user.MonsterCount[monsterIndex]++;
+                user.AddKillCount();
             }
             else
             {
-                Console.WriteLine(deffenser.HP);
+                Console.WriteLine(monster.HP);
             }
-            Console.WriteLine();
-            Console.WriteLine("0. 다음");
             Console.WriteLine();
 
-            while (InputCheck.Check(0, 0) == 0)
-            {
-                Console.Write(">> ");
-            }
         }
     }
 }

@@ -24,22 +24,30 @@ namespace TextRPG16
 
         public void AddSkill()
         {
-            //SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25));
+            SkillList.Add(new Skill("파이어볼", "타겟된 적과 주변의 적에게 대미지를 줍니다.", 80, 80, 3, true));
         }
 
-        public int WizardSkill1(int attackDamage)
+        public int WizardSkill1_Fireball(User user, Monster monster, int targetIndex)
         {
             Console.WriteLine("파이어볼 스킬 사용!");
-            int skillDamage = (int)(attackDamage * 1.3);
+            int skillDamage = (int)(user.AttackDamage * 10);
 
+            // 타겟 몬스터에게 풀 데미지 적용
+            monster.monsterList[targetIndex].TakeDamage(skillDamage);
+            Console.WriteLine($"타겟된 적에게 {monster.monsterList[targetIndex].Name}에게 {skillDamage} 대미지를 입혔습니다."); // tagetIndex, skillDamage
+
+            // 주변 몬스터에게 1/3 데미지 적용
+            for (int i = 0; i < monster.monsterList.Count; i++)
+            {
+                if (i != targetIndex && !monster.monsterList[i].IsDead)
+                {
+                    int splashDamage = skillDamage / 3;
+                    monster.monsterList[i].TakeDamage(splashDamage);
+                    Console.WriteLine($"주변 적 {monster.monsterList[i].Name}에게 {splashDamage} 대미지를 입혔습니다."); // i, splahDamage
+                }
+            }
             return skillDamage;
         }
-
-        public int WizardSkill2(int attackDamage)
-        {
-            int skillDamage = (int)(attackDamage * 1.3);
-
-            return skillDamage;
-        }
+        
     }
 }

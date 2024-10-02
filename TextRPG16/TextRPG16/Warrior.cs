@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TextRPG16
@@ -23,24 +24,28 @@ namespace TextRPG16
         }
         public void AddSkill()
         {
-            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25, 1, false));
-            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25, 2, true));
+            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 50, 44, 1, false));
+            SkillList.Add(new Skill("슬래쉬", "랜덤으로 적 2명에게 데미지를 줍니다.", 50, 28, 2, true));
         }
 
-        public int WarriorSkill(int attackDamage)
+        public int WarriorSkill1_Execute(User user, Monster monster)
         {
+            // 공격력*스킬 계수 = 스킬 데미지
+            float tempAttackDamage = user.AttackDamage * (user.SkillList[0].IncreaseRate);
+
+            // 오차값을 10%로 계산
+            float num = tempAttackDamage * 0.1f;
+
+            //랜덤한 데미지를 구할 때 범위를 실수형으로 설정  // 공격력이 10이면, 9 ~ 11
             Random random = new Random();
-            int count = random.Next(1, 3); // 1 or 2
+            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
 
-            int skillDamage = 0;
+            // 최종 데미지를 몬스터에게 전달 (반올림해서)
+            //monster.TakeDamage(((int)resultDamage)); // 최종 대미지를 몬스터한테전달
 
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine(""); // 카운트 수 만큼 대사!
-            }
-
-            return skillDamage * count;
+            return (int)resultDamage;
         }
-
     }
+
+    
 }

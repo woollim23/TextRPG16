@@ -13,7 +13,7 @@ namespace TextRPG16
         public int IncreaseRate { get; set; } // 증가율
         public int UseMP { get; set; } // 소모마나
         public int TargetNumber { get; set; } // 타겟수
-        public bool TargetRandom { get; set; } // 타겟 랜덤 여부
+        public bool TargetRandom { get; set; } // 타겟 랜덤 여부 
 
         public Skill() { }
 

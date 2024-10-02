@@ -47,13 +47,7 @@
         public int EXP { get { return _EXP; } set { _EXP = value; } } // 현재 EXP
         public int FullEXP { get { return _fullEXP; } set { _fullEXP = value; } }  // 최대 EXP -> 레벨이 오를 때마다 증가하도록
 
-        // ------------------ 플레이어 고유 ------------------
-        public int[] MonsterCount; // 몬스터 잡은 수 배열
-        public int BestStageLevel; // 최고 스테이지 레벨 
-
-        public List<Skill> SkillList;
-
-        // 기본 생성자
+        // ------------------ 기본 생성자 ------------------ 
         public User()
         {
             this.Name = "홍길동";
@@ -81,8 +75,18 @@
 
             quests = new List<Quest>();
             AddQuest();
+
+            SkillList = new List<Skill>();
         }
 
+        // ------------------ 플레이어 전투 관련 ------------------
+        public int[] MonsterCount; // 몬스터 잡은 수 배열
+        public int BestStageLevel; // 최고 스테이지 레벨 
+
+        public List<Skill> SkillList;
+
+
+        // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
         public void AddQuest()
         {
@@ -127,8 +131,6 @@
         {
             while (true)
             {
-
-
                 Console.Clear();
 
                 for (int i = 0; i < quests.Count; i++)
@@ -161,14 +163,15 @@
         public void UserAttack(Monster monster, int index, Item item) // 유저가 공격할때
         {
             Console.Clear();
-            int tempMonsterHP = monster.HP;
-            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
+            int tempMonsterHP = monster.HP; // 현재 몬스터 HP
+            //////
+            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 유저의 공격력 10퍼센트 오차값 저장
 
             Random random = new Random();
-            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
+            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num + 1); // 공격력이 10이면, 9 ~ 11
 
-            monster.TakeDamage(resultDamage);
-
+            monster.TakeDamage(resultDamage); // 최종 대미지를 몬스터한테전달, 
+            /////
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
             Console.WriteLine($"{Name} 의 공격!");
@@ -197,6 +200,7 @@
             }
         }
 
+        // ------------------- 유저 관리 관련 ------------------- 
         public void LevelUp(User user, int expSum)
         {
             int tempLevel = user.Level; // 이전 레벨 저장
@@ -295,7 +299,7 @@
         }
 
         // 캐릭터선택창 메소드
-        public void ChoiceUserClass(User user)
+        public void ChoiceUserClass( User user)
         {
             // ---------------- 캐릭터 직업 선택 -------------------
             Console.Clear();

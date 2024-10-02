@@ -17,6 +17,14 @@ namespace TextRPG16
             user.MP = FullMP; // 초기 마나
             user.DefensPower = 0; // 초기 방어력
             user.AttackDamage = 35; // 초기 공격력
+
+            SkillList = new List<Skill>();
+            AddSkill();
+        }
+
+        public void AddSkill()
+        {
+            SkillList.Add(new Skill("처형", "적에게 강한 데미지를 줍니다.", 2, 25));
         }
 
         public int WizardSkill1(int attackDamage)

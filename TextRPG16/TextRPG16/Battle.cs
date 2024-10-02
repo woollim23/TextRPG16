@@ -5,6 +5,15 @@ namespace TextRPG16
 {
     public static class Battle
     {
+        // 유저 스킬 선택 창
+        // 0. 스킬1 선택
+        // 1. 스킬2 선택
+
+        // 유저 스킬 선택 결과창
+        // {""}스킬 발동!
+        // 스킬을 사용하여, 몬스터에게 ~를 합니다.
+        
+
         // 유저 스킬 공격 결과창
         public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {

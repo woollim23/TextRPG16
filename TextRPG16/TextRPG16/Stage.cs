@@ -201,10 +201,12 @@
                 {
                     if(insert == 1)
                     {
+                        user.WarriorSkill1_Execute(user, monster);
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
                     else
                     {
+                        user.WarriorSkill2_Slash(user, monster);
                         Battle.SkillRandomAttackResult(user, monster, resultDamage);
                         Console.WriteLine();
                         Console.WriteLine("0. 다음");
@@ -222,6 +224,7 @@
                 {
                     if (insert == 1)
                     {
+                        user.WizardSkill1_Fireball(user, monster);
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
                     else

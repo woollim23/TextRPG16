@@ -1,11 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Xml.Linq;
-
 namespace TextRPG16
 {
     public static class Battle
     {
+        // 유저 스킬 선택 창
+        // 0. 스킬1 선택
+        // 1. 스킬2 선택
+
+        // 유저 스킬 선택 결과창
+        // {""}스킬 발동!
+        // 스킬을 사용하여, 몬스터에게 ~를 합니다.
+        
+
         // 유저 스킬 공격 결과창
         public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
         {
@@ -35,24 +40,21 @@ namespace TextRPG16
         }
 
 
-        public static void SkillRandomAttackResult(User user, Monster monster, int skillNumber, int resultDamage)
+        public static void SkillRandomAttackResult(User user, Monster monster, int resultDamage)
         {
             Console.Clear();
-            if (user.SkillList[skillNumber].TargetNumber == 3)
+            int randomTemp = -1;
+            int count = 0;
+            while(count != 2)
             {
-                for (int i = 0; i < monster.monsterList.Count; i++)
+                Random random = new Random();
+                int index = random.Next(0, monster.monsterList.Count);
+
+                if(index != randomTemp)
                 {
-                    Battle.SkillAttckResult(user, monster, resultDamage, i);
-                }
-            }
-            else
-            {
-                int randomTemp = 0;
-                for (int i = 0; i < user.SkillList[skillNumber].TargetNumber; i++)
-                {
-                    Random random = new Random();
-                    int index = random.Next(0, monster.monsterList.Count);
                     Battle.SkillAttckResult(user, monster, resultDamage, index);
+                    randomTemp = index;
+                    count++;
                 }
             }
         }

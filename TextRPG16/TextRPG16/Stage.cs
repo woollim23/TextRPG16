@@ -56,7 +56,7 @@
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
-                switch (InputCheck.Check(0, 2))
+                switch (InputCheck.Check(0, 3))
                 {
                     case 0:
                         GameManager gameManager = new GameManager();
@@ -171,57 +171,64 @@
                 Console.WriteLine();
                 Console.WriteLine("[스킬]");
                 
-
-                for (int i = 0; i < 2; i++)
+                if(user.UserClass == "전사")
                 {
-                    Console.WriteLine($"{1 + i}. {user.SkillList[i].SkillName} - MP {user.SkillList[i].UseMP}");
-                    Console.WriteLine($"{user.SkillList[i].SkillDescription}");
+                    Console.WriteLine($"1. 처형 - MP  공격력 * 2 로 하나의 적을 공격합니다.");
+                    Console.WriteLine($"2. 슬래시 - MP  범위 공격(적 2명을 랜덤으로 공격합니다.)");
                 }
+                else if(user.UserClass == "마법사")
+                {
+                    Console.WriteLine($"1. 파이어볼 - MP  범위 공격(주변 대상에게는 공격력 / 3을 적용");
+                    Console.WriteLine($"2. 마나실드 - MP  본인이 받는 데미지를 체력이 아닌, 마나로 소모");
+                }
+
                 Console.WriteLine("0. 취소");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
 
                 // ------------ 번호 선택 유효 검사 -------------
-                int insert = InputCheck.Check(0, user.SkillList.Count);
+                int insert = InputCheck.Check(0, 2);
                 if (insert == 0)
                 {
                     break;
                 }
 
                 // ------------ 유저가 선택한 스킬 작업 -------------
+                int resultDamage = 0;
                 // 유효한 인덱스일 때 공격 처리
-                if (user.SkillList[insert - 1].IncreaseRate == -1)
+                if (user.UserClass == "전사")
                 {
-                    // 실드 스킬이나 회피스킬
-                    // 도적 회피 스킬이라면 break를 써서 탈출하자
-                    // 두신님이 작업한 스킬 함수 불러오기
-                    // ------------ 몬스터 공격 페이즈 ------------
-                    MonsterAttackPhase(user, monster, item, consumableItem);
-                    break;
-                }
-                else
-                {   // 공격스킬 
-                    // 두신님이 작업한 스킬 함수 불러오기
-                    int resultDamage = 0; // 불러와서 대미지 여기에 저장
-                    if (user.SkillList[insert - 1].TargetRandom == false)
+                    if(insert == 1)
                     {
                         SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
                     }
                     else
                     {
-                        Battle.SkillRandomAttackResult(user, monster, insert - 1, resultDamage);
-                    }
-
-                    Console.WriteLine();
-                    Console.WriteLine("0. 다음");
-                    Console.WriteLine();
-                    Console.Write(">> ");
-                    while (InputCheck.Check(0, 0) != 0)
-                    {
+                        Battle.SkillRandomAttackResult(user, monster, resultDamage);
+                        Console.WriteLine();
+                        Console.WriteLine("0. 다음");
+                        Console.WriteLine();
                         Console.Write(">> ");
+                        while (InputCheck.Check(0, 0) != 0)
+                        {
+                            Console.Write(">> ");
+                        }
+                        MonsterAttackPhase(user, monster, item, consumableItem);
+                        break;
                     }
-                    break;
+                }
+                else if (user.UserClass == "마법사")
+                {
+                    if (insert == 1)
+                    {
+                        SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
+                    }
+                    else
+                    {
+                        // 마나실드
+                        MonsterAttackPhase(user, monster, item, consumableItem);
+                    }
                 }
             }
         }
@@ -277,27 +284,55 @@
                     continue;
                 }
                 Console.Clear();
-                // 두신님의 스킬 공격 관련 연산 함수 -> result Damage 받기
-                Battle.SkillAttckResult(user, monster, resultDamage, insert - 1);
-                // 파이어볼에 대한 예외처리 추가
 
-
-                Console.WriteLine();
-                Console.WriteLine("0. 다음");
-                Console.WriteLine();
-                Console.Write(">> ");
-                while (InputCheck.Check(0, 0) != 0)
+                if (user.UserClass == "전사")
                 {
-                    Console.Write(">> ");
+                    Battle.SkillAttckResult(user, monster, resultDamage, insert - 1);
                 }
+                else if (user.UserClass == "마법사")
+                {// 파이어볼에 대한 예외처리 추가
+                    Battle.SkillAttckResult(user, monster, (int)(resultDamage/3), insert - 1);
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (i != (insert - 1) && monster.monsterList[i].IsDead == false)
+                        {
+                            Battle.SkillAttckResult(user, monster, resultDamage, i);
+                        }
+                    }
 
-                // ------------ 몬스터 공격 페이즈 ------------
-                MonsterAttackPhase(user, monster, item, consumableItem);
-                break;
+
+                    Console.WriteLine();
+                    Console.WriteLine("0. 다음");
+                    Console.WriteLine();
+                    Console.Write(">> ");
+                    while (InputCheck.Check(0, 0) != 0)
+                    {
+                        Console.Write(">> ");
+                    }
+
+                    // ------------ 몬스터 공격 페이즈 ------------
+                    MonsterAttackPhase(user, monster, item, consumableItem);
+                    break;
+                }
             }
         }
 
         public void MonsterAttackPhase(User user, Monster monster, Item item, ConsumableItem consumableItem)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (monster.monsterList[i].IsDead == false)
+                {
+                    monster.monsterList[i].MonsterAttack(user, item, consumableItem);
+                    break;
+                }
+                else if (i == 2)
+                    StageClear(user, item, monster, consumableItem);
+            }
+        }
+
+        // 마나실드 때 몬스터 페이즈
+        public void MonsterAttackPhaseMana(User user, Monster monster, Item item, ConsumableItem consumableItem)
         {
             for (int i = 0; i < 3; i++)
             {

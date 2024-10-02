@@ -86,8 +86,8 @@
         List<Quest> quests;
         public void AddQuest()
         {
-            quests.Add(new Quest(2, "마을을 위협하는 미니언 처치",
-            "이봐! 마을 근처에 미니언들이 너무 많아졌다고 생각하지 않나? 마을 주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고! 모험가인 자네가 좀 처치해주게!",
+            quests.Add(new Quest(2, "마을을 위협하는 몬스터 처치",
+            "이봐! 마을 근처에 몬스터들이 너무 많아졌다고 생각하지 않나? 마을 주민들의 안전을 위해서라도 저것들 수를 좀 줄여야 한다고! 모험가인 자네가 좀 처치해주게!",
             500));
 
             quests.Add(new Quest(0, "장비를 장착해보자",
@@ -125,29 +125,35 @@
 
         public void DisplayQuests()
         {
-            Console.Clear();
-
-            for (int i = 0; i < quests.Count; i++)
+            while (true)
             {
-                Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
-            }
-            Console.WriteLine();
 
-            Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
-            Console.WriteLine(">>> ");
 
-            int selectNum = InputCheck.Check(1, QuestCnt());
-            if (selectNum == 0)
-            {
-                return;
-            }
-            else
-            {
-                Quest selectedQuest = quests[selectNum - 1];
-                if (selectedQuest.DisplayQuest() == 1)
+                Console.Clear();
+
+                for (int i = 0; i < quests.Count; i++)
                 {
-                    Gold += selectedQuest.goldAmends;
-                    quests.Remove(selectedQuest);
+                    Console.WriteLine($"{i + 1}. {quests[i].name} (진행 상태: {(quests[i].isClear ? "완료" : quests[i].isAccept ? "수락" : "대기")})");
+                }
+                Console.WriteLine();
+                Console.WriteLine("0. 나가기");
+                Console.WriteLine();
+                Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
+                Console.WriteLine(">>> ");
+
+                int selectNum = InputCheck.Check(0, QuestCnt());
+                if (selectNum == 0)
+                {
+                    break;
+                }
+                else
+                {
+                    Quest selectedQuest = quests[selectNum - 1];
+                    if (selectedQuest.DisplayQuest() == 1)
+                    {
+                        Gold += selectedQuest.goldAmends;
+                        quests.Remove(selectedQuest);
+                    }
                 }
             }
         }
@@ -175,6 +181,7 @@
             {
                 Console.WriteLine("Dead");
                 MonsterCount[index]++;
+                AddKillCount();
             }
             else
             {

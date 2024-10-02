@@ -75,6 +75,7 @@
 
             quests = new List<Quest>();
             AddQuest();
+            SkillList = new List<Skill>();
             SkillList = new Skill[2];
         }
 
@@ -139,6 +140,7 @@
 
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
+        AsciiArt asciiArt;
         public void AddQuest()
         {
             quests.Add(new Quest(2, "마을을 위협하는 몬스터 처치",
@@ -183,6 +185,8 @@
             while (true)
             {
                 Console.Clear();
+                asciiArt.DisplayHeadLine(4);
+
 
                 for (int i = 0; i < quests.Count; i++)
                 {

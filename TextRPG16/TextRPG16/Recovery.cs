@@ -31,6 +31,7 @@
                 Console.WriteLine("HP와 MP 회복중입니다...");
                 while (user.HP < user.FullHP || user.MP < user.FullMP) // 하나라도 최대치가 아닐 경우
                 {
+
                     
                     if (user.HP < user.FullHP)
                     {
@@ -43,13 +44,16 @@
 
                     Console.WriteLine($"현재 체력: {user.HP} 현재 마나: {user.MP}");
                     Thread.Sleep(50);
-                }
-            }
-            
 
-            Console.Clear();
-            Console.WriteLine("회복이 완료되었습니다");
-            soundManager.SoundEffectUseRest();
+                }
+                Console.Clear();
+                Console.WriteLine("회복이 완료되었습니다");
+                soundManager.SoundEffectUseRest();
+            }
+
+            Thread.Sleep(1500);
+            
+            
         }
 
     }

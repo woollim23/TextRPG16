@@ -15,7 +15,7 @@ namespace TextRPG16
         int _attackDamage; // 공격력
 
         // 캐릭터 인터페이스 필드의 프로퍼티들
-        public String Name { get { return _name; } protected set { _name = value; } }
+        public String Name { get { return _name; }  set { _name = value; } }
         public int Level { get { return _level; } set { _level = value; } } // 레벨
         public String Tribe { get { return _tribe; } private set { _tribe = value; } }
         public int HP { get { return _HP; } set { _HP = value; } }
@@ -159,33 +159,7 @@ namespace TextRPG16
         }
 
         // ------------------- 유저 관리 관련 ------------------- 
-        // 캐릭터선택창 메소드
-        public void ChoiceUserClass(User user)
-        {
-            // ---------------- 캐릭터 직업 선택 -------------------
-            Console.Clear();
-            Console.WriteLine("[직업 선택]");
-            // 직업 선택
-            Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
-            Console.WriteLine();
-            Console.WriteLine("1. 전사");
-            Console.WriteLine("2. 마법사");
-            Console.WriteLine();
-            Console.Write(">> ");
 
-            int select = InputCheck.Check(1, 2);
-            switch (select)
-            {
-                case 1:
-                    user = new Warrior(user);
-                    break;
-                case 2:
-                    user = new Wizard(user);
-                    break;
-                default:
-                    break;
-            }
-        }
         // 레벨업 함수
         public void LevelUp(User user, int expSum)
         {

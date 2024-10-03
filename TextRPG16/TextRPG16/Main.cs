@@ -9,7 +9,6 @@ namespace TextRPG16
 
     internal class TextRPG16
     {
-        // test
         static void Main(string[] args)
         {
             // 객체생성
@@ -36,14 +35,49 @@ namespace TextRPG16
             else // 없다면
             {
                 // 객체 생성
-                user = new User();
                 item = new Item();
                 item.AddItem();
                 consumableItem = new ConsumableItem();
                 consumableItem.AddPotionList();
 
-                // 최초 시작창
-                gameManager.StartScreen(user);
+                // ------------------- 시작창 -------------------
+                Console.WriteLine("[계정 생성]");
+                Console.WriteLine("Sparta TextRPG 게임을 처음 시작합니다.");
+                Console.WriteLine();
+                // 닉네임 설정
+                Console.WriteLine("환영합니다. 모험가님!");
+                Console.WriteLine("사용하실 닉네임을 입력해주세요.");
+                Console.WriteLine();
+                Console.Write(">> ");
+                string userName = Console.ReadLine()!;
+
+                // ---------------- 캐릭터 직업 선택 -------------------
+                Console.Clear();
+                Console.WriteLine("[직업 선택]");
+                // 직업 선택
+                Console.WriteLine("직업을 선택해주세요.(해당 번호 입력)");
+                Console.WriteLine();
+                Console.WriteLine("1. 전사");
+                Console.WriteLine("2. 마법사");
+                Console.WriteLine();
+                Console.Write(">> ");
+
+                int select = InputCheck.Check(1, 2);
+                switch (select)
+                {
+                    case 1:
+                        user = new Warrior();
+                        break;
+                    case 2:
+                        user = new Wizard();
+                        break;
+                    default:
+                        user = new Warrior();
+                        break;
+                }
+
+                user.InputName(userName);
+
             }
             // ------------------- 게임 플레이 -------------------
             gameManager.GamePlay(user, item, consumableItem);

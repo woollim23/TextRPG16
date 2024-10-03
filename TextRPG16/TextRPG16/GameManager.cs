@@ -16,23 +16,6 @@ namespace TextRPG16
             Console.Clear();
         }
 
-        // 시작창 메소드
-        public void StartScreen(User user)
-        {
-            // ------------------- 시작창 -------------------
-            Console.WriteLine("[계정 생성]");
-            Console.WriteLine("Sparta TextRPG 게임을 처음 시작합니다.");
-            Console.WriteLine();
-            // 닉네임 설정
-            Console.WriteLine("환영합니다. 모험가님!");
-            Console.WriteLine("사용하실 닉네임을 입력해주세요.");
-            Console.WriteLine();
-            Console.Write(">> ");
-            user.InputName(Console.ReadLine()!);
-
-            user.ChoiceUserClass(user);
-        }
-
         // 게임 플레이 메인 마을 창 메소드
         public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {
@@ -58,7 +41,7 @@ namespace TextRPG16
                 {
                     case 0:
                         // 게임종료
-                        GameSave(user, gameItem);
+                        GameSave(user, gameItem, consumableItem);
                         Console.WriteLine("--------------------------------------");
                         Console.WriteLine("|                                    |");
                         Console.WriteLine("|     플레이 해주셔서 감사합니다!    |");
@@ -96,7 +79,7 @@ namespace TextRPG16
                         break;
                     case 7:
                         // 게임 저장
-                        GameSave(user, gameItem);
+                        GameSave(user, gameItem, consumableItem);
                         break;
                     default:
                         continue;
@@ -105,7 +88,7 @@ namespace TextRPG16
         }
 
         // 게임 데이터 저장 메소드
-        public void GameSave(User user, Item gameItem)
+        public void GameSave(User user, Item gameItem, ConsumableItem consumableItem)
         {
             Console.Clear();
 
@@ -115,7 +98,7 @@ namespace TextRPG16
             string jsonData2 = JsonConvert.SerializeObject(gameItem, Formatting.Indented);
             File.WriteAllText(filePath2, jsonData2);
 
-            string jsonData3 = JsonConvert.SerializeObject(gameItem, Formatting.Indented);
+            string jsonData3 = JsonConvert.SerializeObject(consumableItem, Formatting.Indented);
             File.WriteAllText(filePath3, jsonData3);
 
             Console.WriteLine("--------------------------------------");

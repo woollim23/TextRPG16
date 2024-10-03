@@ -167,6 +167,20 @@
 ▣                                              ▣
 ▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
 ";
+        public static string _exitHeadline = @"
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+            플레이 해주셔서 감사합니다!                
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
+        public static string _saveHeadline = @"
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+▣                                              ▣
+                게임저장 완료!! ^0^/               
+▣                                              ▣
+▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣▣
+";
 
         public static void SparklingEffect()
         {
@@ -175,7 +189,7 @@
             // 현재 콘솔 위치 저장
             
             int cnt = 0;
-            while (cnt < 2)
+            while (cnt < 1)
             {
                 cnt++;
                 foreach (var color in colors)

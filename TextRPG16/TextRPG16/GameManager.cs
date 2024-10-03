@@ -35,18 +35,14 @@ namespace TextRPG16
                 Console.WriteLine();
                 Console.WriteLine("원하시는 행동을 입력해주세요.");
                 Console.Write(">> ");
-
+                
                 int select = InputCheck.Check(0, 7);
                 switch (select)
                 {
                     case 0:
                         // 게임종료
                         GameSave(user, gameItem, consumableItem);
-                        Console.WriteLine("--------------------------------------");
-                        Console.WriteLine("|                                    |");
-                        Console.WriteLine("|     플레이 해주셔서 감사합니다!    |");
-                        Console.WriteLine("|                                    |");
-                        Console.WriteLine("--------------------------------------");
+                        Console.WriteLine(AsciiArt._exitHeadline);
                         Environment.Exit(0);
                         break;
                     case 1:
@@ -101,11 +97,7 @@ namespace TextRPG16
             string jsonData3 = JsonConvert.SerializeObject(consumableItem, Formatting.Indented);
             File.WriteAllText(filePath3, jsonData3);
 
-            Console.WriteLine("--------------------------------------");
-            Console.WriteLine("|                                    |");
-            Console.WriteLine("|         게임저장 완료!! ^0^/       |");
-            Console.WriteLine("|                                    |");
-            Console.WriteLine("--------------------------------------");
+            Console.WriteLine(AsciiArt._saveHeadline);
             Thread.Sleep(1000);
             Console.Clear();
         }

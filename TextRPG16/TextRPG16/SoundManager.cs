@@ -8,18 +8,13 @@ using NAudio.Wave;
 
 namespace TextRPG16
 {
-    public class SoundManager
+    public static class SoundManager
     {
-        public SoundManager() 
-        {
 
-        }
-
-        public void SoundEffectUseRest() // 회복 끝날때 나올 효과음
+        public static void SoundEffectUseRest() // 회복 끝날때 나올 효과음
         {
             // 효과음 파일 경로 설정
             string _soundFilePath = @"C:\Git\TextRPG16\TextRPG16\TextRPG16\bin\Debug\net6.0\Pokemon-Platinum-Recovery.wav"; // bin\Debug\net6.0파일에 효과음 몇개 추가 했습니다.
-
             try
             {
                 using (var _audioFile = new AudioFileReader(_soundFilePath))
@@ -40,7 +35,35 @@ namespace TextRPG16
             }
         }
 
+        public static async Task SoundEffectUseVillageLoopAsync() // 마을 배경음 무한 반복
+        {
+            // 효과음 파일 경로 설정
+            string _villageSoundFilePath = @"C:\Git\TextRPG16\TextRPG16\TextRPG16\bin\Debug\net6.0\Pokemon-Platinum-Pokemon-Center.wav";
+            try
+            {
+                while (true) // 무한 반복
+                {
+                    using (var _audioFile = new AudioFileReader(_villageSoundFilePath))
+                    using (var _outputDevice = new WaveOutEvent())
+                    {
+                        _outputDevice.Init(_audioFile);
+                        _outputDevice.Play();
+                        while (_outputDevice.PlaybackState == PlaybackState.Playing)
+                        {
+                            // 재생이 끝날 때까지 비동기적으로 대기
+                            await Task.Delay(100);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"효과음 재생 중 오류 발생: {ex.Message}");
+            }
+        }
 
+
+        /*
         public void WarriorSkill1() // 전사 스킬 나올때 효과음1
         {
             // 효과음 파일 경로 설정
@@ -293,9 +316,8 @@ namespace TextRPG16
                 Console.WriteLine($"효과음 재생 중 오류 발생: {ex.Message}");
             }
         }
+        */
     }
-
-    
 } 
 
     

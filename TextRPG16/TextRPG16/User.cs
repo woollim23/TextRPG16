@@ -139,7 +139,7 @@ namespace TextRPG16
                 Console.WriteLine("0. 나가기");
                 Console.WriteLine();
                 Console.WriteLine("원하시는 퀘스트를 선택해주세요.");
-                Console.WriteLine(">>> ");
+                Console.Write(">> ");
 
                 int selectNum = InputCheck.Check(0, QuestCnt());
                 if (selectNum == 0)

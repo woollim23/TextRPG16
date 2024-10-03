@@ -49,24 +49,25 @@ namespace TextRPG16
 
             for (int i = 0; i < 3; i++)
             {
-                int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수
+                int monsterCount = Enum.GetValues(typeof(Monsters)).Length; // enum에 있는 몬스터 최대 갯수 저장
 
                 Random random = new Random(); // 랜덤
-                int level = random.Next(stage.StageLevel, stage.StageLevel + 2); // 랜덤으로 레벨 지정
+                int level = random.Next(stage.StageLevel, stage.StageLevel + 2); // 스테이지 레벨에 맡게 랜덤으로 레벨 지정
 
                 // enum 안에 있는 몬스터를 랜덤으로 지정한다
+                // 랜덤 함수를 사용하여 몬스터를 랜덤으로 가져옴
                 switch ((Monsters)random.Next(0, monsterCount))
                 {
                     case Monsters.Minion:
-                        Monster minion = new Minion(level);
+                        Monster minion = new Minion(level); // 미니언 생성
                         monsterList.Add(minion);
                         break;
                     case Monsters.CannonMinion:
-                        Monster cannonMinion = new CannonMinion(level);
+                        Monster cannonMinion = new CannonMinion(level); // 대포 미니언 생성
                         monsterList.Add(cannonMinion);
                         break;
                     case Monsters.Voidling:
-                        Monster voidling = new Voidling(level);
+                        Monster voidling = new Voidling(level); // 공허충 생성
                         monsterList.Add(voidling);
                         break;
                 }

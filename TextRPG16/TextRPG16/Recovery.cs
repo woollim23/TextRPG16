@@ -2,11 +2,6 @@
 {
     public class Recovery
     {
-        SoundManager soundManager;
-        public Recovery()
-        {
-             soundManager = new SoundManager();
-        }
 
         // 의도: 반복문과 출력문을 쓴 이유는 출력속도를 조절해서 회복 상황을 눈으로 확인 할수 있게 할려고...
         // 그러나 차후 팀원과 상의가 필요할듯...
@@ -46,10 +41,11 @@
                     Console.WriteLine($"현재 체력: {user.HP} 현재 마나: {user.MP}");
                     Thread.Sleep(50);
                 }
+                ConsoleSize.Color(ConsoleColor.Green);
                 Console.WriteLine("회복이 완료되었습니다");
-                //soundManager.SoundEffectUseRest();
+                Console.ResetColor();
+                SoundManager.SoundEffectUseRest();
             }
-            Thread.Sleep(1500);
         }
     }
 }

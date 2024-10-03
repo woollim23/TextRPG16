@@ -262,8 +262,6 @@ namespace TextRPG16
         public static void SkillRandomAttackResult2(User user, Monster monster, int resultDamage)
         {
             Console.Clear();
-            int randomTemp = -1;
-            int count = 0;
             Random random = new Random();
             int num = random.Next(1, 101); // 1 ~ 100
 
@@ -330,7 +328,7 @@ namespace TextRPG16
             return resultDamage;
         }
         // 몬스터 공격 결과 창
-        public void MonsterAttackResultScreen(User user, Monster monster, int resultDamage)
+        public void MonsterAttackResultScreen(User user, Monster monster, int resultDamage) // 몬스터 공격 결과창
         {
             Console.Clear();
             int tempUserHP = user.HP; // 공격 이전 유저 체력 저장
@@ -344,7 +342,7 @@ namespace TextRPG16
 
             if (resultDamage > 0)
             {
-                user.TakeDamage(resultDamage);
+                user.TakeDamage(resultDamage); // 유저에게 대미지 적용
                 Console.Write($"Lv.{user.Level} {user.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}] ");
                 if (tempResultDamage < resultDamage)
                 {
@@ -353,9 +351,7 @@ namespace TextRPG16
                     Console.ResetColor();
                 }
                 else
-                {
                     Console.Write("\n");
-                }
                 // 피 차감 출력
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{user.Level} {user.Name}");
@@ -370,9 +366,7 @@ namespace TextRPG16
                 }
             }
             else // 회피일 경우
-            {
                 Console.Write($"Lv.{user.Level} {user.Name}을(를) 공격했지만 아무일도 일어나지 않았습니다..");
-            }
             Console.WriteLine();
             NextScreenButton();
         }

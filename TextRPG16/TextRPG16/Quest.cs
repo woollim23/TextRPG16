@@ -122,7 +122,7 @@ namespace TextRPG16
             Console.WriteLine("0. 이전으로 돌아가기");
             Console.WriteLine();
             Console.WriteLine("원하시는 행동을 입력해주세요");
-            Console.Write(">>> ");
+            Console.Write(">> ");
 
             int select = InputCheck.Check(0, 2);
             if (!isAccept && select == 1)

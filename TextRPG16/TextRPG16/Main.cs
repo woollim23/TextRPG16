@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace TextRPG16
 {
@@ -11,6 +12,9 @@ namespace TextRPG16
     {
         static void Main(string[] args)
         {
+            Console.WriteLine(AsciiArt._gameTitle2);
+            Thread.Sleep(1200);
+            Console.Clear();
             // 객체생성
             GameManager gameManager = new GameManager();
             User user;
@@ -19,8 +23,8 @@ namespace TextRPG16
             // 로딩창
             gameManager.LodingScreen(); // -> 위치 고민좀 해봐야할듯
             Console.Clear();
-
-            if(File.Exists(gameManager.filePath1)) // 저장 파일이 있다면
+            Task.Run(() => SoundManager.SoundEffectUseVillageLoopAsync());
+            if (File.Exists(gameManager.filePath1)) // 저장 파일이 있다면
             {
                 // 저장 데이터 파일 경올 읽어오기
                 string jsonData1 = File.ReadAllText(gameManager.filePath1); // 유저 정보

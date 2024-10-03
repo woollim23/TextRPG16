@@ -1,4 +1,7 @@
-﻿namespace TextRPG16
+﻿using System;
+using System.Threading;
+
+namespace TextRPG16
 {
     public class Stage
     {
@@ -8,6 +11,7 @@
 
         public Stage(User user)
         {
+            // 마지막에 도전 중이던 스테이지 레벨로 생성
             this.StageLevel = user.BestStageLevel;
         }
 
@@ -15,27 +19,32 @@
         public void StartStage(User user, Item item, ConsumableItem consumableItem)
         {
             bool exit = false;
+            Battle battle = new Battle();
+
             Monster monster = new Monster();
+            // 스테이지 레벨을 받아서, 스테이지 레벨에 맞는 몬스터 객체 리스트 생성
             monster.AddMonsterList(this);
-            do
+
+            while (!exit)
             {
                 Console.Clear();
                 AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
-                Console.WriteLine($"Battle!! - Stage {StageLevel}");
+                Console.WriteLine($"Battle!! - 타워 {StageLevel} 층");
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
-                for (int i = 0; i < 3; i++)
+                // 몬스터 리스트 출력
+                for (int i = 0; i < monster.monsterList.Count; i++)
                 {
-
                     if (monster.monsterList[i].IsDead == false)
                     {
+                        // 살아있는 몬스터
                         Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
                     }
-
                     else
                     {
+                        // 죽어있는 몬스터
                         ConsoleSize.Color(ConsoleColor.DarkGray);
                         Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead ");
                         Console.ResetColor();
@@ -43,212 +52,106 @@
                 }
                 Console.WriteLine();
                 Console.WriteLine();
+                // 내 정보 출력
                 Console.WriteLine("[내정보]");
                 Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
                 Console.WriteLine($"HP {user.HP}/{user.FullHP}");
                 Console.WriteLine($"MP {user.MP}/{user.FullMP}");
                 Console.WriteLine();
 
-                Console.WriteLine("1. 공격");
-                Console.WriteLine("2. 스킬");
-                Console.WriteLine("3. 회복");
-                Console.WriteLine("0. 도망");
-                Console.WriteLine();
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-
-                switch (InputCheck.Check(0, 3))
-                {
-                    case 0:
-                        GameManager gameManager = new GameManager();
-                        gameManager.GamePlay( user, item, consumableItem);
-                        break;
-                    case 1:
-                        BattleStage(user, monster, item, consumableItem);
-                        break;
-                    case 2:
-                        SkillStage(user, monster, item, consumableItem);
-                        break;
-                    case 3:
-                        consumableItem.UsePotionList(user, consumableItem);
-                        break;
-                }
-            } while (!exit);
-        }
-
-        // 공격 페이즈 - 공격할 몬스터 선택
-        public void BattleStage(User user, Monster monster, Item item, ConsumableItem consumableItem)
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                Console.Clear();
-                AsciiArt.DisplayHeadLine(5);
-                ConsoleSize.Color(ConsoleColor.Yellow);
-                Console.WriteLine($"Battle!! - Stage {StageLevel}");
-                Console.ResetColor();
-                Console.WriteLine();
-                Console.WriteLine("[몬스터]");
-                for (int i = 0; i < 3; i++)
-                {
-                    if (monster.monsterList[i].IsDead == false)
-                    {
-                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
-                    }
-                    else
-                    {
-                        ConsoleSize.Color(ConsoleColor.DarkGray);
-                        Console.WriteLine($"{1 + i} Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead");
-                        Console.ResetColor();
-                    }
-                }
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
-                Console.WriteLine($"HP {user.HP}/{user.FullHP}");
-                Console.WriteLine($"MP {user.MP}/{user.FullMP}");
-                Console.WriteLine();
-
-                Console.WriteLine("0. 취소");
-                Console.WriteLine();
-                Console.WriteLine("공격할 몬스터를 선택하세요.");
-                Console.Write(">> ");
-
-                int insert = InputCheck.Check(0, 3);
-
-                if (insert == 0)
-                {
-                    break;
-                }
-
-                // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)
-                if (monster.monsterList[insert - 1].IsDead)
-                {
-                    Console.WriteLine("이미 죽은 몬스터입니다");
-                    Console.Write(">> ");
-                    Thread.Sleep(800);
-                    continue;
-                }
-
-                // 유효한 인덱스일 때 공격 처리
-                user.UserAttack(monster.monsterList[insert - 1], monster.monsterList[insert - 1].Index, item);
-
-                // ------------ 몬스터 공격 페이즈 ------------
-                MonsterAttackPhase(user, monster, item, consumableItem);
-            }
-        }
-
-        // 스킬 페이즈1 - 스킬 선택
-        public void SkillStage(User user, Monster monster, Item item, ConsumableItem consumableItem)
-        {
-            bool exit = false;
-            while (!exit)
-            {
-                Console.Clear();
-                AsciiArt.DisplayHeadLine(5);
-                ConsoleSize.Color(ConsoleColor.Yellow);
-                Console.WriteLine($"Battle!! - Stage {StageLevel}");
-                Console.ResetColor();
-                Console.WriteLine();
-                Console.WriteLine("[몬스터]");
-                for (int i = 0; i < 3; i++)
-                {
-                    if (monster.monsterList[i].IsDead == false)
-                    {
-                        Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} HP {monster.monsterList[i].HP}");
-                    }
-                    else
-                    {
-                        ConsoleSize.Color(ConsoleColor.DarkGray);
-                        Console.WriteLine($"- Lv.{monster.monsterList[i].Level} {monster.monsterList[i].Name} Dead ");
-                        Console.ResetColor();
-                    }
-                }
-                Console.WriteLine();
-                Console.WriteLine();
-                Console.WriteLine("[내정보]");
-                Console.WriteLine($"Lv. {user.Level} {user.Name} ({user.UserClass})");
-                Console.WriteLine($"HP {user.HP}/{user.FullHP}");
-                Console.WriteLine($"MP {user.MP}/{user.FullMP}");
-                Console.WriteLine();
-                Console.WriteLine("[스킬]");
-                
-                if(user.UserClass == "전사")
-                {
-                    Console.WriteLine($"1. 처형 - MP  공격력 * 2 로 하나의 적을 공격합니다.");
-                    Console.WriteLine($"2. 슬래시 - MP  범위 공격(적 2명을 랜덤으로 공격합니다.)");
-                }
-                else if(user.UserClass == "마법사")
-                {
-                    Console.WriteLine($"1. 파이어볼 - MP  범위 공격(주변 대상에게는 공격력 / 3을 적용");
-                    Console.WriteLine($"2. 마나실드 - MP  본인이 받는 데미지를 체력이 아닌, 마나로 소모");
-                }
-
-                Console.WriteLine("0. 취소");
-                Console.WriteLine();
-                Console.WriteLine("원하시는 행동을 입력해주세요.");
-                Console.Write(">> ");
-
-                // ------------ 번호 선택 유효 검사 -------------
-                int insert = InputCheck.Check(0, 2);
-                if (insert == 0)
-                {
-                    break;
-                }
-
-                // ------------ 유저가 선택한 스킬 작업 -------------
-                int resultDamage = 0;
-                // 유효한 인덱스일 때 공격 처리
+                // 선택지
+                Console.WriteLine("[선택지]");
+                Console.WriteLine("1. 공  격 - MP 0  (단일공격)일반 공격으로 하나의 적을 공격합니다.");
                 if (user.UserClass == "전사")
                 {
-                    if(insert == 1)
-                    {
-                        resultDamage = user.WarriorSkill1_Execute(user, monster);
-                        SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
-                    }
-                    else
-                    {
-                        resultDamage = user.WarriorSkill2_Slash(user, monster);
-                        Battle.SkillRandomAttackResult(user, monster, resultDamage);
-                        Console.WriteLine();
-                        Console.WriteLine("0. 다음");
-                        Console.WriteLine();
-                        Console.Write(">> ");
-                        while (InputCheck.Check(0, 0) != 0)
-                        {
-                            Console.Write(">> ");
-                        }
-                        MonsterAttackPhase(user, monster, item, consumableItem);
-                        break;
-                    }
+                    Console.WriteLine($"2. 처  형 - MP 20  (단일공격)공격력 * 2 로 하나의 적을 공격합니다.");
+                    Console.WriteLine($"3. 슬래시 - MP 30  (범위공격)공격력 * 1.5 로 적 2명을 랜덤으로 공격합니다.");
                 }
                 else if (user.UserClass == "마법사")
                 {
-                    if (insert == 1)
+                    Console.WriteLine($"2. 파이어볼 - MP 80  범위 공격합니다.(주변 대상에게는 공격력 1/3 을 적용)");
+                    Console.WriteLine($"3. 마나실드 - MP 30  본인이 받는 데미지를 체력이 아닌, 마나로 소모합니다.");
+                }
+                Console.WriteLine("4. 회  복");
+                Console.WriteLine("0. 도  망");
+                Console.WriteLine();
+                Console.WriteLine("원하시는 행동을 입력해주세요.");
+                Console.Write(">> ");
+
+                int insert = InputCheck.Check(0, 4); // 선택 번호 저장
+                int attackDamage = user.AttackDamage + user.EquipWeaponStatusNum; // 기본공격력 + 장비 공격력 저장
+
+                // 번호 선택에 따른 처리작업
+                if (insert == 0)
+                    break;
+                else if (insert == 4)
+                {
+                    consumableItem.UsePotionList(user, consumableItem); // 포션 사용
+                    continue;
+                }
+                else
+                {
+                    if (insert == 3)
                     {
-                        resultDamage = user.WizardSkill1_Fireball(user, monster);
-                        SkillStageMonsterChoice(user, monster, item, consumableItem, resultDamage);
+                        if (user.UserClass == "전사") // 랜덤 타겟 공격
+                        {
+                            attackDamage = battle.WarriorSkill3_Slash(user, monster, attackDamage);
+                            if (attackDamage == -5)
+                                continue;
+                            battle.SkillRandomAttackResult(user, monster, attackDamage);
+                        }
+                        else
+                        {
+                            // 마법사 마나실드 사용
+                            attackDamage = battle.WizardSkill3_ManaShield(user, monster);
+                            if (attackDamage == -5)
+                                continue;
+                            ShieldMonsterAttackPhase(user, monster, item, consumableItem);
+                            continue;
+                        }
                     }
                     else
                     {
-                        // 마나실드
-                        MonsterAttackPhase(user, monster, item, consumableItem);
+                        if (insert == 1)
+                            attackDamage = battle.UserAttack(user, monster, attackDamage);
+                        else if (user.UserClass == "전사")
+                            attackDamage = battle.WarriorSkill2_Execute(user, monster, attackDamage);
+                        else if (user.UserClass == "마법사")
+                            attackDamage = battle.WizardSkill2_Fireball(user, monster, attackDamage);
+
+                        if (attackDamage == -5)
+                            continue;
+
+                        StageMonsterChoice(user, monster, item, consumableItem, attackDamage, insert); // 공격할 몬스터 선택
                     }
                 }
+                if (attackDamage == -5)
+                    continue;
+
+                // 몬스터 공격 차례 & 클리어 여부 확인
+                if (MonsterAttackPhase(user, monster, item, consumableItem))
+                    exit = true;
+
+                // 유저 생존 여부 체크 -> 죽으면 스테이지 실패창
+                if (user.IsDead)
+                {
+                    StageLose(user, item, consumableItem);
+                    exit = true;
+                }
+
             }
         }
-
         // 스킬 페이즈2 - 공격할 몬스터 선택
-        public void SkillStageMonsterChoice(User user, Monster monster, Item item, ConsumableItem consumableItem, int resultDamage)
+        public void StageMonsterChoice(User user, Monster monster, Item item, ConsumableItem consumableItem, int resultDamage, int skillInsert)
         {
+            Battle battle = new Battle();
             bool exit = false;
             while (!exit)
             {
                 Console.Clear();
                 AsciiArt.DisplayHeadLine(5);
                 ConsoleSize.Color(ConsoleColor.Yellow);
-                Console.WriteLine($"Battle!! - Stage {StageLevel}");
+                Console.WriteLine($"Battle!! - 타워 {StageLevel} 층");
                 Console.ResetColor();
                 Console.WriteLine();
                 Console.WriteLine("[몬스터]");
@@ -277,87 +180,80 @@
                 Console.Write(">> ");
 
                 int insert = InputCheck.Check(1, 3);
+                int index = insert - 1;
 
                 if (insert == 0)
                 {
                     break;
                 }
                 // 인덱스 범위 검사 추가 (유효한 인덱스인지 확인)
-                if (monster.monsterList[insert - 1].IsDead)
+                if (monster.monsterList[index].IsDead)
                 {
                     Console.WriteLine("이미 죽은 몬스터입니다");
-                    Console.Write(">> ");
                     Thread.Sleep(800);
                     continue;
                 }
-                Console.Clear();
 
-                if (user.UserClass == "전사")
+                if(skillInsert == 2 && user.UserClass == "마법사")
                 {
-                    Battle.SkillAttckResult(user, monster, resultDamage, insert - 1);
-                    Console.WriteLine();
-                    Console.WriteLine("0. 다음");
-                    Console.WriteLine();
-                    Console.Write(">> ");
-                    while (InputCheck.Check(0, 0) != 0)
+                    Console.Clear();
+                    battle.SkillAttckResult(user, monster.monsterList[index], resultDamage);
+                    for(int i = 0; i< monster.monsterList.Count; i++)
                     {
-                        Console.Write(">> ");
-                    }
-                }
-                else if (user.UserClass == "마법사")
-                {// 파이어볼에 대한 예외처리 추가
-                    Battle.SkillAttckResult(user, monster, (int)(resultDamage/3), insert - 1);
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (i != (insert - 1) && monster.monsterList[i].IsDead == false)
+                        if(i != index && !monster.monsterList[i].IsDead)
                         {
-                            Battle.SkillAttckResult(user, monster, resultDamage, i);
+                            battle.SkillAttckResult(user, monster.monsterList[i], resultDamage);
                         }
                     }
-
-                    Console.WriteLine();
-                    Console.WriteLine("0. 다음");
-                    Console.WriteLine();
-                    Console.Write(">> ");
-                    while (InputCheck.Check(0, 0) != 0)
-                    {
-                        Console.Write(">> ");
-                    }
                 }
-
-                // ------------ 몬스터 공격 페이즈 ------------
-                MonsterAttackPhase(user, monster, item, consumableItem);
+                else
+                {
+                    Console.Clear();
+                    battle.SkillAttckResult(user, monster.monsterList[index], resultDamage);
+                }
+                battle.NextScreenButton();
                 break;
             }
         }
 
-        public void MonsterAttackPhase(User user, Monster monster, Item item, ConsumableItem consumableItem)
+        // 몬스터 공격 차례
+        public bool MonsterAttackPhase(User user, Monster monster, Item item, ConsumableItem consumableItem)
         {
+            Battle battle = new Battle();
+            // 몬스터 공격 차례
             for (int i = 0; i < 3; i++)
             {
                 if (monster.monsterList[i].IsDead == false)
                 {
-                    monster.monsterList[i].MonsterAttack(user, item, consumableItem);
-                    break;
+                    // 몬스터 공격력 계산 함수
+                    int MonsterResultDamage = battle.MonsterAttack(user, monster.monsterList[i]);
+                    // 몬스터 공격 결과 화면
+                    battle.MonsterAttackResultScreen(user, monster.monsterList[i], MonsterResultDamage);
+                    return false;
                 }
-                else if (i == 2)
-                    StageClear(user, item, monster, consumableItem);
             }
+            StageClear(user, item, monster, consumableItem);
+            return true;
         }
-
-        // 마나실드 때 몬스터 페이즈
-        public void MonsterAttackPhaseMana(User user, Monster monster, Item item, ConsumableItem consumableItem)
+        // 마나쉴드
+        // 몬스터 공격 차례
+        public bool ShieldMonsterAttackPhase(User user, Monster monster, Item item, ConsumableItem consumableItem)
         {
+            Battle battle = new Battle();
+            // 몬스터 공격 차례
             for (int i = 0; i < 3; i++)
             {
                 if (monster.monsterList[i].IsDead == false)
                 {
-                    monster.monsterList[i].MonsterAttack(user, item, consumableItem);
-                    break;
+                    // 몬스터 공격력 계산 함수
+                    int MonsterResultDamage = battle.MonsterAttack(user, monster.monsterList[i]);
+                    // 몬스터 공격 결과 화면
+                    battle.ShieldMonsterAttackResultScreen(user, monster.monsterList[i], MonsterResultDamage);
+                    return false;
                 }
-                else if (i == 2)
-                    StageClear(user, item, monster, consumableItem);
             }
+            StageClear(user, item, monster, consumableItem);
+            return true;
         }
 
         // 스테이지 클리어 메서드
@@ -381,8 +277,8 @@
             Console.WriteLine("Victory");              // 글씨 초록색으로 변경
             Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine($"{StageLevel++} 스테이지 클리어!");
-            Console.WriteLine($"던전에서 몬스터 3마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
+            Console.WriteLine($"{StageLevel++} 층 클리어!");
+            Console.WriteLine($"이번 층에서 몬스터 3마리를 잡았습니다."); // *** 마리수 표시 추가해야 함
             Console.WriteLine();
 
             Console.WriteLine("[캐릭터 정보]");
@@ -406,21 +302,15 @@
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">> ");
 
-            user.HP = 100; // 체력 회복
+            user.HP = user.FullHP; // 체력 회복
+            user.MP = user.FullMP;
             user.BestStageLevel = StageLevel;
 
-            switch (InputCheck.Check(0, 1))
+            if (InputCheck.Check(0, 1) == 1)
             {
-                case 0:
-                    GameManager gameManager = new GameManager();
-                    gameManager.GamePlay( user, item, consumableItem);
-                    break;
-                case 1:
-                    StartStage(user, item, consumableItem);
-                    break;
-                default:
-                    Console.WriteLine();
-                    break;
+                // 새로운 층 도전
+                Stage stage = new Stage(user);
+                stage.StartStage(user, item, consumableItem);
             }
         }
 
@@ -442,15 +332,12 @@
             Console.WriteLine("0. 마을에서 부활");
             Console.WriteLine();
             Console.Write(">> ");
-            user.HP = user.FullHP; // 체력 회복
+            user.HP = (user.FullHP / 2); // 절반의 체력 회복
 
             while (InputCheck.Check(0, 0) != 0)
             {
                 Console.Write(">> ");
             }
-
-            GameManager gameManager = new GameManager();
-            gameManager.GamePlay( user, item, consumableItem);
         }
     }
 }

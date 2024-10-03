@@ -23,15 +23,16 @@ namespace TextRPG16
                 Console.WriteLine();
                 Console.WriteLine("[아이템 목록]");
                 Console.WriteLine();
-
                 for (int i = 0; gameItem.item[i] != null; i++)
                 {
-                    Console.Write($"-  {gameItem.item[i].name}\t| ");
                     if (gameItem.item[i].buy == true)
-                        Console.Write("구매완료");
+                    {
+                        ConsoleSize.Color(ConsoleColor.DarkGray);
+                        Console.Write($"-  {gameItem.item[i].name}\t| 구매완료\t| {gameItem.item[i].effect}+{gameItem.item[i].effectIfo}\t| {gameItem.item[i].func}");
+                        Console.ResetColor();
+                    }
                     else
-                        Console.Write($"{gameItem.item[i].price} G  ");
-                    Console.Write($"\t| {gameItem.item[i].effect}+{gameItem.item[i].effectIfo}\t| {gameItem.item[i].func}");
+                        Console.Write($"-  {gameItem.item[i].name}\t| {gameItem.item[i].price} G  \t| {gameItem.item[i].effect}+{gameItem.item[i].effectIfo}\t| {gameItem.item[i].func}");
                     Console.WriteLine();
                 }
 

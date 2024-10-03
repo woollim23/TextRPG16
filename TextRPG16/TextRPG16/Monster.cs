@@ -38,7 +38,7 @@ namespace TextRPG16
             FullHP = 10;
             HP = FullHP;
             AttackDamage = 10;
-            MonsterEXP = 10;
+            MonsterEXP = 2;
             Index = -1;
         }
 
@@ -70,49 +70,6 @@ namespace TextRPG16
                         monsterList.Add(voidling);
                         break;
                 }
-            }
-        }
-
-        public void MonsterAttack(User user, Item item, ConsumableItem consumableItem) // 몬스터가 공격할때
-        {
-            Console.Clear();
-            int tempUserHP = user.HP;
-            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 오차값
-
-            Random random = new Random();
-            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num);
-
-            user.TakeDamage(resultDamage);
-
-            Console.WriteLine($"Battle!!");
-            Console.WriteLine();
-            Console.WriteLine($"{Name} 의 공격!");
-            Console.WriteLine($"Lv.{user.Level} {user.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
-            Console.WriteLine();
-            Console.WriteLine($"Lv.{user.Level} {user.Name}");
-            Console.Write($"HP {tempUserHP} -> ");
-
-            if (user.IsDead)
-            {
-                Console.WriteLine("Dead");
-            }
-            else
-            {
-                Console.WriteLine(user.HP);
-            }
-            Console.WriteLine();
-            Console.WriteLine("0. 다음");
-            Console.WriteLine();
-            Console.Write(">> ");
-            while (InputCheck.Check(0, 0) != 0)
-            {
-                Console.Write(">> ");
-            }
-
-            if (user.IsDead)
-            {
-                Stage stage = new Stage(user);
-                stage.StageLose(user, item, consumableItem);
             }
         }
 

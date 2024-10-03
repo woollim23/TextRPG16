@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Emit;
 
 namespace TextRPG16
 {
@@ -77,130 +79,11 @@ namespace TextRPG16
 
             quests = new List<Quest>();
             AddQuest();
-            SkillList = new Skill[2];
         }
 
         // ------------------ 플레이어 전투 관련 ------------------
         public int[] MonsterCount; // 몬스터 잡은 수 배열
         public int BestStageLevel; // 최고 스테이지 레벨 
-
-        public Skill[] SkillList;
-
-        public void AddSkill()
-        {
-            if (UserClass == "마법사")
-            {
-                SkillList[0] = new Skill("파이어볼", "타겟된 적과 주변의 적에게 데미지를 줍니다.", 80, 80, 3, true);
-            }
-            else if (UserClass =="전사")
-            {
-                SkillList[0] = new Skill("처형", "적에게 강한 데미지를 줍니다.", 50, 44, 1, false);
-                SkillList[1] = new Skill("슬래쉬", "랜덤으로 적 2명에게 데미지를 줍니다.", 50, 28, 2, true);
-           }
-        }
-
-        public int WarriorSkill1_Execute(User user, Monster monster)
-        {
-            // 공격력*스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * 1.5f;
-
-            // 오차값을 10%로 계산
-            float num = tempAttackDamage * 0.1f;
-
-            //랜덤한 데미지를 구할 때 범위를 실수형으로 설정  // 공격력이 10이면, 9 ~ 11
-            Random random = new Random();
-            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
-
-            // 최종 데미지를 몬스터에게 전달 (반올림해서)
-            //monster.TakeDamage(((int)resultDamage)); // 최종 대미지를 몬스터한테전달
-
-            return (int)resultDamage;
-        }
-        public int WarriorSkill2_Slash(User user, Monster monster)
-        {
-            Console.WriteLine("슬래쉬 스킬 사용! 랜덤한 적 2명에게 데미지를 가합니다.");
-
-            // 공격력 * 스킬 계수 = 스킬 데미지
-            float tempAttackDamage = user.AttackDamage * (2);
-
-            // 오차값을 10%로 계산
-            float num = tempAttackDamage * 0.1f;
-
-
-            // 랜덤한 데미지를 구할 때 범위를 실수형으로 설정 // 공격력이 10이면, 9 ~ 11
-            Random random = new Random();
-            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
-
-            //// 이미 공격한 적을 저장하기 위한 리스트
-            //List<int> attackedTargets = new List<int>();
-
-            //// 총 2명의 몬스터에게 데미지를 가함
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    int randomIndex;
-
-            //    // 중복되지 않는 몬스터를 선택하기 위한 로직
-            //    do
-            //    {
-            //        randomIndex = random.Next(0, monster.monsterList.Count);
-            //    }
-            //    while (attackedTargets.Contains(randomIndex) || monster.monsterList[randomIndex].IsDead); // 중복 체크 및 사망한 몬스터 제외
-
-            //    attackedTargets.Add(randomIndex); // 공격한 적의 인덱스를 기록
-
-            //    // 최종 데미지를 몬스터에게 전달 (반올림해서)
-            //    int finalDamage = (int)resultDamage;
-            //    monster.monsterList[randomIndex].TakeDamage(finalDamage);
-
-            //    // 결과 출력
-            //    Console.WriteLine($"랜덤으로 선택된 적 {monster.monsterList[randomIndex].Name}에게 {finalDamage} 대미지를 입혔습니다.");
-            //}
-
-            return (int)resultDamage;
-        }
-
-
-        public int WizardSkill1_Fireball(User user, Monster monster)
-        {
-            Console.WriteLine("파이어볼 스킬 사용!");
-            int skillDamage = (int)(user.AttackDamage * 10);
-
-            // 타겟 몬스터에게 풀 데미지 적용
-            //monster.monsterList[targetIndex].TakeDamage(skillDamage);
-            //Console.WriteLine($"타겟된 적에게 {monster.monsterList[targetIndex].Name}에게 {skillDamage} 대미지를 입혔습니다."); // tagetIndex, skillDamage
-
-            // 주변 몬스터에게 1/3 데미지 적용
-            //for (int i = 0; i < monster.monsterList.Count; i++)
-            //{
-            //    if (i != targetIndex && !monster.monsterList[i].IsDead)
-            //    {
-            //        int splashDamage = skillDamage / 3;
-            //        monster.monsterList[i].TakeDamage(splashDamage);
-            //        Console.WriteLine($"주변 적 {monster.monsterList[i].Name}에게 {splashDamage} 대미지를 입혔습니다."); // i, splahDamage
-            //    }
-            //}
-            return skillDamage;
-        }
-
-        public void WizardSkill2_ManaShield(User user, Monster monster)
-        {
-            Console.Clear(); // 콘솔 화면 초기화
-
-            Console.WriteLine("공격을 받아 마나가 몬스터의 데미지에서 차감됩니다.");
-
-            Console.WriteLine($"남은 마나: {user.MP}");
-
-            // "다음" 선택 버튼 처리
-            Console.WriteLine();
-            Console.WriteLine("0. 다음");
-
-            while (InputCheck.Check(0, 0) != 0)
-            {
-                Console.Write(">> ");
-            }
-        }
-
-
 
         // ------------------- 퀘스트 관련 -------------------
         List<Quest> quests;
@@ -218,9 +101,7 @@ namespace TextRPG16
                 "훈련을 통해 강해지세요!",
                 300));
         }
-
         public int QuestCnt() { return quests.Count; }
-
         public void TakeEquip()
         {
             foreach (Quest quest in quests)
@@ -231,7 +112,6 @@ namespace TextRPG16
                 }
             }
         }
-
         public void AddKillCount()
         {
             foreach (Quest quest in quests)
@@ -242,7 +122,6 @@ namespace TextRPG16
                 }
             }
         }
-
         public void DisplayQuests()
         {
             while (true)
@@ -279,46 +158,6 @@ namespace TextRPG16
             }
         }
 
-        public void UserAttack(Monster monster, int index, Item item) // 유저가 공격할때
-        {
-            Console.Clear();
-            int tempMonsterHP = monster.HP; // 현재 몬스터 HP
-            //////
-            int num = (int)Math.Round(((double)AttackDamage / 100 * 10), 0); // 유저의 공격력 10퍼센트 오차값 저장
-
-            Random random = new Random();
-            int resultDamage = random.Next((int)AttackDamage - num, (int)AttackDamage + num + 1); // 공격력이 10이면, 9 ~ 11
-
-            monster.TakeDamage(resultDamage); // 최종 대미지를 몬스터한테전달, 
-            /////
-            Console.WriteLine($"Battle!!");
-            Console.WriteLine();
-            Console.WriteLine($"{Name} 의 공격!");
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}을(를) 맞췄습니다!. [데미지 : {resultDamage}]");
-            Console.WriteLine();
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
-            Console.Write($"HP {tempMonsterHP} -> ");
-
-            if (monster.IsDead)
-            {
-                Console.WriteLine("Dead");
-                MonsterCount[index]++;
-                AddKillCount();
-            }
-            else
-            {
-                Console.WriteLine(monster.HP);
-            }
-            Console.WriteLine();
-            Console.WriteLine("0. 다음");
-            Console.WriteLine();
-            Console.Write(">> ");
-            while (InputCheck.Check(0, 0) != 0)
-            {
-                Console.Write(">> ");
-            }
-        }
-
         // ------------------- 유저 관리 관련 ------------------- 
         // 캐릭터선택창 메소드
         public void ChoiceUserClass(User user)
@@ -334,21 +173,20 @@ namespace TextRPG16
             Console.WriteLine();
             Console.Write(">> ");
 
-            int select = InputCheck.Check(1, 3);
+            int select = InputCheck.Check(1, 2);
             switch (select)
             {
                 case 1:
                     user = new Warrior(user);
-                    user.AddSkill();
                     break;
                 case 2:
                     user = new Wizard(user);
-                    user.AddSkill();
                     break;
                 default:
                     break;
             }
         }
+        // 레벨업 함수
         public void LevelUp(User user, int expSum)
         {
             int tempLevel = user.Level; // 이전 레벨 저장
@@ -364,12 +202,16 @@ namespace TextRPG16
                         quest = q;
                     }
                 }
-
                 quest.lvUp -= 1;
                 user.Level++;
                 user.EXP -= user.FullEXP; // 남은 경험치 이관
                 user.FullEXP = 20 + (tempLevel * 5);
-                UserLevelUpStatus(user);
+                user.DefensPower = UserLevelUpStatus(user.Level, user.DefensPower);
+                user.AttackDamage = UserLevelUpStatus(user.Level, user.AttackDamage);
+                user.FullHP = UserLevelUpStatus(user.Level, user.FullHP);
+                user.FullMP = UserLevelUpStatus(user.Level, user.FullMP);
+                user.HP = user.FullHP;
+                user.MP = user.FullMP;
 
                 Console.WriteLine($" -> Lv.{user.Level}");
             }
@@ -380,9 +222,10 @@ namespace TextRPG16
         }
 
         // 스테이터스 증가량
-        private void UserLevelUpStatus(User user)
+        private int UserLevelUpStatus(int level, int insert)
         {
-
+            // 레벨당 계산
+            return insert + (int)(Math.Round(((double)insert * (level * 0.03))));
         }
 
         // 유저 이름 입력 메소드
@@ -425,7 +268,8 @@ namespace TextRPG16
                 Console.WriteLine("직  업 : {0}", user.UserClass);
                 Console.WriteLine("방어력 : {0} (+ {1})", user.DefensPower, user.EquipArmorStatusNum);
                 Console.WriteLine("공격력 : {0} (+ {1})", user.AttackDamage, user.EquipWeaponStatusNum);
-                Console.WriteLine("체  력 : {0}", user.HP);
+                Console.WriteLine("체  력 : {0} / {1}", user.HP, user.FullHP);
+                Console.WriteLine("마  나 : {0} / {1}", user.MP, user.FullMP);
                 Console.WriteLine("골  드 : {0} G", user.Gold);
                 Console.WriteLine();
                 Console.WriteLine("0. 나가기");

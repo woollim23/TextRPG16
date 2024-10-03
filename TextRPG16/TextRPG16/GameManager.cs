@@ -1,28 +1,31 @@
+using Newtonsoft.Json;
+
 namespace TextRPG16
 {
     public class GameManager
     {
-        // íŒŒì¼ ê²½ë¡œ
-        public string filePath1 = "TextRPG_Reform_User";
-        public string filePath2 = "TextRPG_Reform_Item";
+        // ÆÄÀÏ °æ·Î
+        public string filePath1 = "TextRPG16_User";
+        public string filePath2 = "TextRPG16_Item";
+        public string filePath3 = "TextRPG16_ConItem";
 
-        // ë¡œë”©ì°½ ë©”ì†Œë“œ
+        // ·ÎµùÃ¢ ¸Ş¼Òµå
         public void LodingScreen()
         {
             AsciiArt.SparklingEffect();
             Console.Clear();
         }
 
-        // ì‹œì‘ì°½ ë©”ì†Œë“œ
+        // ½ÃÀÛÃ¢ ¸Ş¼Òµå
         public void StartScreen(User user)
         {
-            // ------------------- ì‹œì‘ì°½ -------------------
-            Console.WriteLine("[ê³„ì • ìƒì„±]");
-            Console.WriteLine("Sparta TextRPG ê²Œì„ì„ ì²˜ìŒ ì‹œì‘í•©ë‹ˆë‹¤.");
+            // ------------------- ½ÃÀÛÃ¢ -------------------
+            Console.WriteLine("[°èÁ¤ »ı¼º]");
+            Console.WriteLine("Sparta TextRPG °ÔÀÓÀ» Ã³À½ ½ÃÀÛÇÕ´Ï´Ù.");
             Console.WriteLine();
-            // ë‹‰ë„¤ì„ ì„¤ì •
-            Console.WriteLine("í™˜ì˜í•©ë‹ˆë‹¤. ëª¨í—˜ê°€ë‹˜!");
-            Console.WriteLine("ì‚¬ìš©í•˜ì‹¤ ë‹‰ë„¤ì„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+            // ´Ğ³×ÀÓ ¼³Á¤
+            Console.WriteLine("È¯¿µÇÕ´Ï´Ù. ¸ğÇè°¡´Ô!");
+            Console.WriteLine("»ç¿ëÇÏ½Ç ´Ğ³×ÀÓÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
             Console.WriteLine();
             Console.Write(">> ");
             user.InputName(Console.ReadLine()!);
@@ -30,69 +33,69 @@ namespace TextRPG16
             user.ChoiceUserClass(user);
         }
 
-        //public Quest(int questType, string name, string context, int goldAmends, Item itemAmends)
+        // °ÔÀÓ ÇÃ·¹ÀÌ ¸ŞÀÎ ¸¶À» Ã¢ ¸Ş¼Òµå
         public void GamePlay(User user, Item gameItem, ConsumableItem consumableItem)
         {
             while (true)
             {
                 Console.Clear();
-
-                Console.WriteLine($"ìŠ¤íŒŒë¥´íƒ€ ë§ˆì„ì— ì˜¤ì‹  {user.Name} ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤.\nì´ê³³ì—ì„œ ë˜ì „ìœ¼ë¡œ ë“¤ì–´ê°€ê¸° ì „ í™œë™ì„ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.\n");
-                Console.WriteLine("1. ìƒíƒœë³´ê¸°");
-                Console.WriteLine("2. ì¸ë²¤í† ë¦¬");
-                Console.WriteLine("3. ìƒì ");
-                Console.WriteLine("4. í€˜ìŠ¤íŠ¸");
-                Console.WriteLine("5. íƒ€ì›Œì…ì¥");
-                Console.WriteLine("6. íœ´ì‹í•˜ê¸°");
-                Console.WriteLine("7. ê²Œì„ì €ì¥");
-                Console.WriteLine("0. ì¢…ë£Œ");
+                AsciiArt.DisplayHeadLine(0);
+                Console.WriteLine($"½ºÆÄ¸£Å¸ ¸¶À»¿¡ ¿À½Å {user.Name} ´Ô È¯¿µÇÕ´Ï´Ù.\nÀÌ°÷¿¡¼­ ´øÀüÀ¸·Î µé¾î°¡±â Àü È°µ¿À» ÇÒ ¼ö ÀÖ½À´Ï´Ù.\n");
+                Console.WriteLine("1. »óÅÂº¸±â");
+                Console.WriteLine("2. ÀÎº¥Åä¸®");
+                Console.WriteLine("3. »óÁ¡");
+                Console.WriteLine("4. Äù½ºÆ®");
+                Console.WriteLine("5. Å¸¿öÀÔÀå");
+                Console.WriteLine("6. ÈŞ½ÄÇÏ±â");
+                Console.WriteLine("7. °ÔÀÓÀúÀå");
+                Console.WriteLine("0. Á¾·á");
                 Console.WriteLine();
-                Console.WriteLine("ì›í•˜ì‹œëŠ” í–‰ë™ì„ ì…ë ¥í•´ì£¼ì„¸ìš”.");
+                Console.WriteLine("¿øÇÏ½Ã´Â Çàµ¿À» ÀÔ·ÂÇØÁÖ¼¼¿ä.");
                 Console.Write(">> ");
 
-                int select = InputCheck.Check(0, 6);
+                int select = InputCheck.Check(0, 7);
                 switch (select)
                 {
                     case 0:
-                        // ê²Œì„ì¢…ë£Œ
+                        // °ÔÀÓÁ¾·á
                         GameSave(user, gameItem);
                         Console.WriteLine("--------------------------------------");
                         Console.WriteLine("|                                    |");
-                        Console.WriteLine("|     í”Œë ˆì´ í•´ì£¼ì…”ì„œ ê°ì‚¬í•©ë‹ˆë‹¤!    |");
+                        Console.WriteLine("|     ÇÃ·¹ÀÌ ÇØÁÖ¼Å¼­ °¨»çÇÕ´Ï´Ù!    |");
                         Console.WriteLine("|                                    |");
                         Console.WriteLine("--------------------------------------");
                         Environment.Exit(0);
                         break;
                     case 1:
-                        // ìƒíƒœì°½
+                        // »óÅÂÃ¢
                         user.State(user, gameItem);
                         break;
                     case 2:
-                        // ì¸ë²¤í† ë¦¬
+                        // ÀÎº¥Åä¸®
                         Inventory inventory = new Inventory();
                         inventory.SeeInventory(user, gameItem);
                         break;
                     case 3:
-                        // ìƒì ì´ìš©
+                        // »óÁ¡ÀÌ¿ë
                         Store store = new Store();
                         store.UseStore(user, gameItem);
                         break;
                     case 4:
-                        // í€˜ìŠ¤íŠ¸
+                        // Äù½ºÆ®
                         user.DisplayQuests();
                         break;
                     case 5:
-                        // ë˜ì „ì…ì¥
+                        // ´øÀüÀÔÀå
                         Stage stage = new Stage(user);
                         stage.StartStage(user, gameItem, consumableItem);
                         break;
                     case 6:
-                        // íœ´ì‹í•˜ê¸°
+                        // ÈŞ½ÄÇÏ±â
                         Recovery recovery = new Recovery();
                         recovery.UseRest(user);
                         break;
                     case 7:
-                        // ê²Œì„ ì €ì¥
+                        // °ÔÀÓ ÀúÀå
                         GameSave(user, gameItem);
                         break;
                     default:
@@ -101,20 +104,23 @@ namespace TextRPG16
             }
         }
 
-        // ê²Œì„ ë°ì´í„° ì €ì¥ ë©”ì†Œë“œ
+        // °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå ¸Ş¼Òµå
         public void GameSave(User user, Item gameItem)
         {
             Console.Clear();
 
-            //string jsonData1 = JsonConvert.SerializeObject(user, Formatting.Indented);
-            //File.WriteAllText(filePath1, jsonData1);
+            string jsonData1 = JsonConvert.SerializeObject(user, Formatting.Indented);
+            File.WriteAllText(filePath1, jsonData1);
 
-            //string jsonData2 = JsonConvert.SerializeObject(gameItem, Formatting.Indented);
-            //File.WriteAllText(filePath2, jsonData2);
+            string jsonData2 = JsonConvert.SerializeObject(gameItem, Formatting.Indented);
+            File.WriteAllText(filePath2, jsonData2);
+
+            string jsonData3 = JsonConvert.SerializeObject(gameItem, Formatting.Indented);
+            File.WriteAllText(filePath3, jsonData3);
 
             Console.WriteLine("--------------------------------------");
             Console.WriteLine("|                                    |");
-            Console.WriteLine("|         ê²Œì„ì €ì¥ ì™„ë£Œ!! ^0^/       |");
+            Console.WriteLine("|         °ÔÀÓÀúÀå ¿Ï·á!! ^0^/       |");
             Console.WriteLine("|                                    |");
             Console.WriteLine("--------------------------------------");
             Thread.Sleep(1000);

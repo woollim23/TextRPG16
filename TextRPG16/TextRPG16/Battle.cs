@@ -1,119 +1,445 @@
+using System;
+
 namespace TextRPG16
 {
-    public static class Battle
+    public class Battle
     {
-        // ìœ ì € ìŠ¤í‚¬ ì„ íƒ ì°½
-        // 0. ìŠ¤í‚¬1 ì„ íƒ
-        // 1. ìŠ¤í‚¬2 ì„ íƒ
-
-        // ìœ ì € ìŠ¤í‚¬ ì„ íƒ ê²°ê³¼ì°½
-        // {""}ìŠ¤í‚¬ ë°œë™!
-        // ìŠ¤í‚¬ì„ ì‚¬ìš©í•˜ì—¬, ëª¬ìŠ¤í„°ì—ê²Œ ~ë¥¼ í•©ë‹ˆë‹¤.
-
-
-        // ìœ ì € ìŠ¤í‚¬ ê³µê²© ê²°ê³¼ì°½
-        public static void SkillAttckResult(User user, Monster monster, int resultDamage, int monsterIndex)
+        public void NextScreenButton()
         {
+            Console.WriteLine();
+            Console.WriteLine("0. ´ÙÀ½");
+            Console.WriteLine();
+            Console.Write(">> ");
+            while (InputCheck.Check(0, 0) != 0)
+            {
+                Console.Write(">> ");
+            }
+        }
+        // Ä¡¸íÅ¸ / È¸ÇÇ / °è»ê
+        public int DamageLuckyCalculation(int resultDamage)
+        {
+            Random random = new Random();
+            int num = random.Next(1, 101);
 
-            //Random random = new Random();
-            //int num = random.Next(1, 101); // 1 ~ 100
-            //if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
+            if (num > 60 && num <= 80) // 60 ~ 80 ÀÌ¸é 1.5¹è Ä¡¸í °ø°Ý
+                return (int)(resultDamage * 1.5);
+            else if (num > 80 && num <= 100) // 80 ~ 100 ÀÌ¸é È¸ÇÇ
+                return -1;
+            else // ±× ¿Ü ÀÏ¹Ý °ø°Ý
+                return resultDamage;
+        }
+
+        // ----------------- À¯Àú ÀüÅõ -------------------
+        // À¯Àú ÀÏ¹Ý °ø°Ý
+        public int UserAttack(User user, Monster monster, int attackDamage)
+        {
+            // ¿ÀÂ÷°ªÀ» 10%·Î °è»ê
+            float num = attackDamage * 0.1f;
+
+            Random random = new Random();
+            float resultDamage = (float)(random.NextDouble() * ((attackDamage + num) - (attackDamage - num)) + (attackDamage - num));
+
+            return (int)resultDamage;
+        }
+        // À¯Àú ½ºÅ³µé
+        public int WarriorSkill2_Execute(User user, Monster monster, int attackDamage)
+        {
+            if (user.MP < 20)
+            {
+                Console.WriteLine("¸¶³ª°¡ ºÎÁ·ÇØ¼­ ½ºÅ³À» »ç¿ë ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Thread.Sleep(1000);
+                return -5;
+            }
+
+            Console.WriteLine("Ã³Çü ½ºÅ³ »ç¿ë! ´ÜÀÏ Àû 1¸í¿¡°Ô µ¥¹ÌÁö¸¦ °¡ÇÕ´Ï´Ù.");
+
+            // °ø°Ý·Â*½ºÅ³ °è¼ö = ½ºÅ³ µ¥¹ÌÁö
+            int tempAttackDamage = attackDamage * 2;
+
+            // ¿ÀÂ÷°ªÀ» 10%·Î °è»ê
+            float num = tempAttackDamage * 0.1f;
+
+            //·£´ýÇÑ µ¥¹ÌÁö¸¦ ±¸ÇÒ ¶§ ¹üÀ§¸¦ ½Ç¼öÇüÀ¸·Î ¼³Á¤  // °ø°Ý·ÂÀÌ 10ÀÌ¸é, 9 ~ 11
+            Random random = new Random();
+            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
+
+            user.MP -= 20;
+
+            Thread.Sleep(1000);
+            return (int)resultDamage;
+        }
+        public int WarriorSkill3_Slash(User user, Monster monster, int attackDamage)
+        {
+            if (user.MP < 30)
+            {
+                Console.WriteLine("¸¶³ª°¡ ºÎÁ·ÇØ¼­ ½ºÅ³À» »ç¿ë ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Thread.Sleep(1000);
+                return -5;
+            }
+
+            Console.WriteLine("½½·¡½¬ ½ºÅ³ »ç¿ë! ·£´ýÇÑ Àû 2¸í¿¡°Ô µ¥¹ÌÁö¸¦ °¡ÇÕ´Ï´Ù.");
+
+            // °ø°Ý·Â * ½ºÅ³ °è¼ö = ½ºÅ³ µ¥¹ÌÁö
+            float tempAttackDamage = attackDamage * (1.5f);
+
+            // ¿ÀÂ÷°ªÀ» 10%·Î °è»ê
+            float num = tempAttackDamage * 0.1f;
+
+            // ·£´ýÇÑ µ¥¹ÌÁö¸¦ ±¸ÇÒ ¶§ ¹üÀ§¸¦ ½Ç¼öÇüÀ¸·Î ¼³Á¤ // °ø°Ý·ÂÀÌ 10ÀÌ¸é, 9 ~ 11
+            Random random = new Random();
+            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
+
+            /*
+            //// ÀÌ¹Ì °ø°ÝÇÑ ÀûÀ» ÀúÀåÇÏ±â À§ÇÑ ¸®½ºÆ®
+            //List<int> attackedTargets = new List<int>();
+
+            //// ÃÑ 2¸íÀÇ ¸ó½ºÅÍ¿¡°Ô µ¥¹ÌÁö¸¦ °¡ÇÔ
+            //for (int i = 0; i < 2; i++)
             //{
-                int tempMonsterHP = monster.monsterList[monsterIndex].HP; // í˜„ìž¬ ëª¬ìŠ¤í„° HP
+            //    int randomIndex;
 
+            //    // Áßº¹µÇÁö ¾Ê´Â ¸ó½ºÅÍ¸¦ ¼±ÅÃÇÏ±â À§ÇÑ ·ÎÁ÷
+            //    do
+            //    {
+            //        randomIndex = random.Next(0, monster.monsterList.Count);
+            //    }
+            //    while (attackedTargets.Contains(randomIndex) || monster.monsterList[randomIndex].IsDead); // Áßº¹ Ã¼Å© ¹× »ç¸ÁÇÑ ¸ó½ºÅÍ Á¦¿Ü
 
-                monster.monsterList[monsterIndex].HP -= resultDamage;
+            //    attackedTargets.Add(randomIndex); // °ø°ÝÇÑ ÀûÀÇ ÀÎµ¦½º¸¦ ±â·Ï
 
-                Console.WriteLine($"Battle!!");
-                Console.WriteLine();
-                Console.WriteLine($"{user.Name} ì˜ ê³µê²©!");
-                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}ì„(ë¥¼) ë§žì·„ìŠµë‹ˆë‹¤!. [ë°ë¯¸ì§€ : {resultDamage}] ");
-                Console.WriteLine();
-                Console.WriteLine($"Lv.{monster.monsterList[monsterIndex].Level} {monster.monsterList[monsterIndex].Name}");
-                Console.Write($"HP {tempMonsterHP} -> ");
+            //    // ÃÖÁ¾ µ¥¹ÌÁö¸¦ ¸ó½ºÅÍ¿¡°Ô Àü´Þ (¹Ý¿Ã¸²ÇØ¼­)
+            //    int finalDamage = (int)resultDamage;
+            //    monster.monsterList[randomIndex].TakeDamage(finalDamage);
 
-                if (monster.IsDead || monster.monsterList[monsterIndex].HP < 0)
+            //    // °á°ú Ãâ·Â
+            //    Console.WriteLine($"·£´ýÀ¸·Î ¼±ÅÃµÈ Àû {monster.monsterList[randomIndex].Name}¿¡°Ô {finalDamage} ´ë¹ÌÁö¸¦ ÀÔÇû½À´Ï´Ù.");
+            //}
+            */
+
+            user.MP -= 30;
+
+            Thread.Sleep(1000);
+            return (int)resultDamage;
+        }
+        public int WizardSkill2_Fireball(User user, Monster monster, int attackDamage)
+        {
+            if (user.MP < 80)
+            {
+                Console.WriteLine("¸¶³ª°¡ ºÎÁ·ÇØ¼­ ½ºÅ³À» »ç¿ë ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Thread.Sleep(1000);
+                return -5;
+            }
+
+            Console.WriteLine("ÆÄÀÌ¾îº¼ ½ºÅ³ »ç¿ë! ¹üÀ§°ø°ÝÀ» ÇÕ´Ï´Ù.");
+
+            // °ø°Ý·Â * ½ºÅ³ °è¼ö = ½ºÅ³ µ¥¹ÌÁö
+            float tempAttackDamage = attackDamage * (2);
+
+            // ¿ÀÂ÷°ªÀ» 10%·Î °è»ê
+            float num = tempAttackDamage * 0.1f;
+
+            // ·£´ýÇÑ µ¥¹ÌÁö¸¦ ±¸ÇÒ ¶§ ¹üÀ§¸¦ ½Ç¼öÇüÀ¸·Î ¼³Á¤ // °ø°Ý·ÂÀÌ 10ÀÌ¸é, 9 ~ 11
+            Random random = new Random();
+            float resultDamage = (float)(random.NextDouble() * ((tempAttackDamage + num) - (tempAttackDamage - num)) + (tempAttackDamage - num));
+
+            /*
+            // Å¸°Ù ¸ó½ºÅÍ¿¡°Ô Ç® µ¥¹ÌÁö Àû¿ë
+            //monster.monsterList[targetIndex].TakeDamage(skillDamage);
+            //Console.WriteLine($"Å¸°ÙµÈ Àû¿¡°Ô {monster.monsterList[targetIndex].Name}¿¡°Ô {skillDamage} ´ë¹ÌÁö¸¦ ÀÔÇû½À´Ï´Ù."); // tagetIndex, skillDamage
+
+            // ÁÖº¯ ¸ó½ºÅÍ¿¡°Ô 1/3 µ¥¹ÌÁö Àû¿ë
+            //for (int i = 0; i < monster.monsterList.Count; i++)
+            //{
+            //    if (i != targetIndex && !monster.monsterList[i].IsDead)
+            //    {
+            //        int splashDamage = skillDamage / 3;
+            //        monster.monsterList[i].TakeDamage(splashDamage);
+            //        Console.WriteLine($"ÁÖº¯ Àû {monster.monsterList[i].Name}¿¡°Ô {splashDamage} ´ë¹ÌÁö¸¦ ÀÔÇû½À´Ï´Ù."); // i, splahDamage
+            //    }
+            //}
+            */
+            user.MP -= 80;
+
+            Thread.Sleep(1000);
+            return (int)resultDamage;
+        }
+        public int WizardSkill3_ManaShield(User user, Monster monster)
+        {
+            if (user.MP < 30)
+            {
+                Console.WriteLine("¸¶³ª°¡ ºÎÁ·ÇØ¼­ ½ºÅ³À» »ç¿ë ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+                Thread.Sleep(1000);
+                return -5;
+            }
+            user.MP -= 30;
+            Console.WriteLine("¸¶³ª½Çµå »ç¿ë! ¸¶³ª½Çµå¸¦ Àü°³ÇÕ´Ï´Ù.");
+            Thread.Sleep(1000);
+            return 0;
+        }
+
+        // À¯Àú °ø°Ý °á°ú ¹®±¸
+        public void SkillAttckResult(User user, Monster monster, int resultDamage)
+        {
+            int tempMonsterHP = monster.HP; // °ø°Ý ÀÌÀü Ã¼·Â ÀúÀå
+            int tempResultDamage = resultDamage; // ÇöÀç °ø°Ý µ¥¹ÌÁö ÀúÀå
+
+            ConsoleSize.Color(ConsoleColor.Blue);
+            Console.WriteLine($"{user.Name} ÀÇ °ø°Ý!");
+            Console.ResetColor();
+
+            resultDamage = DamageLuckyCalculation(resultDamage); // Ä¡¸íÅ¸ / È¸ÇÇ / ÀÏ¹Ý°ø°Ý °è»ê ÇÔ¼ö
+
+            if (monster.IsDead)
+            {
+                Console.Write($"Lv.{monster.Level} {monster.Name}Àº(´Â) ÀÌ¹Ì Á×Àº ¸ó½ºÅÍÀÔ´Ï´Ù..\n");
+            }
+            else if (resultDamage > 0)
+            {
+                monster.TakeDamage(resultDamage);
+                Console.Write($"Lv.{monster.Level} {monster.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù!. [µ¥¹ÌÁö : {resultDamage}] ");
+                if (tempResultDamage < resultDamage)
                 {
-                    Console.WriteLine("Dead");
-                    user.MonsterCount[monsterIndex]++;
-                    user.AddKillCount();
+                    ConsoleSize.Color(ConsoleColor.Red);
+                    Console.Write("- Ä¡¸íÅ¸ °ø°Ý!!\n");
+                    Console.ResetColor();
                 }
                 else
                 {
-                    Console.WriteLine(monster.monsterList[monsterIndex].HP);
+                    Console.Write("\n");
                 }
+                // ÇÇ Â÷°¨ Ãâ·Â
                 Console.WriteLine();
-            
-            //}
-            //else if ()// 60 ~ 80 -> 20% ì¹˜ëª…íƒ€ëŠ” resultDamage * 1.5
-            //{ }
-            //else // 80 ~ 100 -> 20% íšŒí”¼ëŠ” resultDamage = 0;
-            //{ }
+                Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
+                Console.Write($"HP {tempMonsterHP} -> ");
+                if (monster.IsDead)
+                {
+                    user.AddKillCount();
+                    Console.WriteLine("Dead");
+                }
+                else
+                {
+                    Console.WriteLine(monster.HP);
+                }
+            }
+            else // È¸ÇÇÀÏ °æ¿ì
+            {
+                Console.Write($"Lv.{monster.Level} {monster.Name}À»(¸¦) °ø°ÝÇßÁö¸¸ ¾Æ¹«ÀÏµµ ÀÏ¾î³ªÁö ¾Ê¾Ò½À´Ï´Ù..\n");
+            }
 
+            Console.WriteLine();
         }
+        // À¯Àú ·£´ý ½ºÅ³ °ø°Ý °á°ú Ã¢
+        public void SkillRandomAttackResult(User user, Monster monster, int resultDamage)
+        {
+            Console.Clear();
+
+            // »ì¾ÆÀÖ´Â ¸ó½ºÅÍ ¸®½ºÆ® »ý¼º
+            List<Monster> aliveMonsters = monster.monsterList.Where(m => !m.IsDead).ToList();
+
+            Random random = new Random();
+
+            // »ì¾ÆÀÖ´Â ¸ó½ºÅÍ°¡ 1¸¶¸®¸é ±× 1¸¶¸®¸¸ °ø°Ý
+            if (aliveMonsters.Count == 1)
+            {
+                Monster target = aliveMonsters[0];
+                SkillAttckResult(user, target, resultDamage); // 1¸¶¸®¸¸ °ø°Ý
+            }
+            else
+            {
+                // 2¸¶¸® ·£´ýÀ¸·Î ¼±ÅÃ (Áßº¹µÇÁö ¾Êµµ·Ï)
+                List<Monster> randomTargets = aliveMonsters.OrderBy(x => random.Next()).Take(2).ToList();
+
+                // ¼±ÅÃµÈ ¸ó½ºÅÍ 2¸¶¸® °ø°Ý
+                foreach (var target in randomTargets)
+                {
+                    SkillAttckResult(user, target, resultDamage);
+                }
+            }
 
 
-        public static void SkillRandomAttackResult(User user, Monster monster, int resultDamage)
+            NextScreenButton();
+        }
+        public static void SkillRandomAttackResult2(User user, Monster monster, int resultDamage)
         {
             Console.Clear();
             int randomTemp = -1;
             int count = 0;
-            while(count != 2)
             Random random = new Random();
             int num = random.Next(1, 101); // 1 ~ 100
 
-            int finalDamage = resultDamage; // ìµœì¢… ëŒ€ë¯¸ì§€ ì´ˆê¸°í™”
-            string attackType = ""; // ê³µê²© ìœ í˜• ë©”ì„¸ì§€
+            int finalDamage = resultDamage; // ÃÖÁ¾ ´ë¹ÌÁö ÃÊ±âÈ­
+            string attackType = ""; // °ø°Ý À¯Çü ¸Þ¼¼Áö
 
             if (num >= 1 && num <= 60) // 1 ~ 60 -> 60% 
             {
-                attackType = "ì¼ë°˜ ê³µê²©";
+                attackType = "ÀÏ¹Ý °ø°Ý";
             }
-            else if (num > 60 && num <= 80) // 61 ~ 80 -> 20% ì¹˜ëª…íƒ€
+            else if (num > 60 && num <= 80) // 61 ~ 80 -> 20% Ä¡¸íÅ¸
             {
-                finalDamage = (int)(resultDamage * 1.5); // ì¹˜ëª…íƒ€ëŠ” 1.5ë°° ëŒ€ë¯¸ì§€
-                attackType = "ì¹˜ëª…íƒ€ ê³µê²©!!";
+                finalDamage = (int)(resultDamage * 1.5); // Ä¡¸íÅ¸´Â 1.5¹è ´ë¹ÌÁö
+                attackType = "Ä¡¸íÅ¸ °ø°Ý!!";
             }
-            else // 81 ~ 100 -> 20% íšŒí”¼
+            else // 81 ~ 100 -> 20% È¸ÇÇ
             {
-                finalDamage = 0; // íšŒí”¼ ì‹œ ë°ë¯¸ì§€ëŠ” 0
-                attackType = "íšŒí”¼ ì„±ê³µ!!";
+                finalDamage = 0; // È¸ÇÇ ½Ã µ¥¹ÌÁö´Â 0
+                attackType = "È¸ÇÇ ¼º°ø!!";
             }
 
-            int tempMonsterHP = monster.HP; // í˜„ìž¬ ëª¬ìŠ¤í„° HP
+            int tempMonsterHP = monster.HP; // ÇöÀç ¸ó½ºÅÍ HP
             Console.WriteLine($"Battle!!");
             Console.WriteLine();
-            Console.WriteLine($"{user.Name} ì˜ ê³µê²©!");
-            Console.WriteLine($"Lv.{monster.Level} {monster.Name}ì„(ë¥¼) ë§žì·„ìŠµë‹ˆë‹¤. [ë°ë¯¸ì§€ : {finalDamage}] - {attackType}");
+            Console.WriteLine($"{user.Name} ÀÇ °ø°Ý!");
+            Console.WriteLine($"Lv.{monster.Level} {monster.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù. [µ¥¹ÌÁö : {finalDamage}] - {attackType}");
 
-            if (finalDamage > 0) // ë°ë¯¸ì§€ê°€ ìžˆì„ ë•Œë§Œ HP ë³€ë™
+            if (finalDamage > 0) // µ¥¹ÌÁö°¡ ÀÖÀ» ¶§¸¸ HP º¯µ¿
             {
                 Console.WriteLine();
                 Console.WriteLine($"Lv.{monster.Level} {monster.Name}");
                 Console.Write($"HP {tempMonsterHP} -> ");
 
-                monster.TakeDamage(finalDamage); // ëª¬ìŠ¤í„°ì—ê²Œ ë°ë¯¸ì§€ ì ìš©
+                monster.TakeDamage(finalDamage); // ¸ó½ºÅÍ¿¡°Ô µ¥¹ÌÁö Àû¿ë
 
                 if (monster.IsDead)
                 {
                     Console.WriteLine("Dead");
-                    user.MonsterCount[monsterIndex]++; // ëª¬ìŠ¤í„° ì¹´ìš´íŠ¸ ì¦ê°€
+                    //user.MonsterCount[monsterIndex]++; // ¸ó½ºÅÍ Ä«¿îÆ® Áõ°¡
                     user.AddKillCount();
                 }
                 else
                 {
-                    Console.WriteLine(monster.HP); // ë‚¨ì€ HP ì¶œë ¥
+                    Console.WriteLine(monster.HP); // ³²Àº HP Ãâ·Â
                 }
             }
             else
             {
-                Console.WriteLine("ê³µê²©ì´ íšŒí”¼ë˜ì—ˆìŠµë‹ˆë‹¤!");
+                Console.WriteLine("°ø°ÝÀÌ È¸ÇÇµÇ¾ú½À´Ï´Ù!");
             }
 
 
         }
+
+        // ----------------- ¸ó½ºÅÍ ÀüÅõ -------------------
+        // ¸ó½ºÅÍ °ø°Ý
+        public int MonsterAttack(User user, Monster monster)
+        {
+            int num = (int)Math.Round(((double)monster.AttackDamage / 100 * 10), 0); // ¿ÀÂ÷°ª
+
+            Random random = new Random();
+            int resultDamage = random.Next((int)monster.AttackDamage - num, (int)monster.AttackDamage + num);
+
+            return resultDamage;
+        }
+        // ¸ó½ºÅÍ °ø°Ý °á°ú Ã¢
+        public void MonsterAttackResultScreen(User user, Monster monster, int resultDamage)
+        {
+            Console.Clear();
+            int tempUserHP = user.HP; // °ø°Ý ÀÌÀü À¯Àú Ã¼·Â ÀúÀå
+            int tempResultDamage = resultDamage; // ÇöÀç ¸ó½ºÅÍ °ø°Ý µ¥¹ÌÁö ÀúÀå
+
+            ConsoleSize.Color(ConsoleColor.DarkYellow);
+            Console.WriteLine($"{monster.Name} ÀÇ °ø°Ý!");
+            Console.ResetColor();
+
+            resultDamage = DamageLuckyCalculation(resultDamage); // Ä¡¸íÅ¸ / È¸ÇÇ / ÀÏ¹Ý°ø°Ý °è»ê ÇÔ¼ö
+
+            if (resultDamage > 0)
+            {
+                user.TakeDamage(resultDamage);
+                Console.Write($"Lv.{user.Level} {user.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù!. [µ¥¹ÌÁö : {resultDamage}] ");
+                if (tempResultDamage < resultDamage)
+                {
+                    ConsoleSize.Color(ConsoleColor.Red);
+                    Console.Write("- Ä¡¸íÅ¸ °ø°Ý!!\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Write("\n");
+                }
+                // ÇÇ Â÷°¨ Ãâ·Â
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{user.Level} {user.Name}");
+                Console.Write($"HP {tempUserHP} -> ");
+                if (user.IsDead)
+                {
+                    Console.WriteLine("Dead");
+                }
+                else
+                {
+                    Console.WriteLine(user.HP);
+                }
+            }
+            else // È¸ÇÇÀÏ °æ¿ì
+            {
+                Console.Write($"Lv.{user.Level} {user.Name}À»(¸¦) °ø°ÝÇßÁö¸¸ ¾Æ¹«ÀÏµµ ÀÏ¾î³ªÁö ¾Ê¾Ò½À´Ï´Ù..");
+            }
+            Console.WriteLine();
+            NextScreenButton();
+        }
+        // ¸¶³ª ½Çµå °ø°Ý °á°ú Ã¢
+        // ¸ó½ºÅÍ °ø°Ý °á°ú Ã¢
+        public void ShieldMonsterAttackResultScreen(User user, Monster monster, int resultDamage)
+        {
+            Console.Clear();
+            int tempUserMP = user.MP; // °ø°Ý ÀÌÀü À¯Àú Ã¼·Â ÀúÀå
+            int tempResultDamage = resultDamage; // ÇöÀç ¸ó½ºÅÍ °ø°Ý µ¥¹ÌÁö ÀúÀå
+
+            ConsoleSize.Color(ConsoleColor.DarkYellow);
+            Console.WriteLine($"{monster.Name} ÀÇ °ø°Ý!");
+            Console.ResetColor();
+
+            resultDamage = DamageLuckyCalculation(resultDamage); // Ä¡¸íÅ¸ / È¸ÇÇ / ÀÏ¹Ý°ø°Ý °è»ê ÇÔ¼ö
+
+            if (resultDamage > 0)
+            {
+                Console.Write($"Lv.{user.Level} {user.Name}À»(¸¦) ¸ÂÃè½À´Ï´Ù!. [µ¥¹ÌÁö : {resultDamage}] ");
+                if (tempResultDamage < resultDamage)
+                {
+                    ConsoleSize.Color(ConsoleColor.Red);
+                    Console.Write("- Ä¡¸íÅ¸ °ø°Ý!!\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Write("\n");
+                }
+                // ÇÇ Â÷°¨ Ãâ·Â
+                Console.WriteLine();
+                Console.WriteLine($"Lv.{user.Level} {user.Name}");
+                Console.Write($"MP {tempUserMP} -> ");
+                if (tempUserMP < resultDamage)
+                {
+                    Console.Write("0\n");
+                    int tempUserHP = user.HP;
+                    
+                    user.MP = 0;
+                    user.TakeDamage(resultDamage - tempUserMP);
+                    Console.WriteLine($"HP {tempUserHP} -> ");
+
+                    if (user.IsDead)
+                    {
+                        Console.WriteLine("Dead");
+                    }
+                    else
+                    {
+                        Console.WriteLine(user.HP);
+                    }
+                }
+                else
+                {
+                    user.MP -= resultDamage;
+                    Console.WriteLine(user.MP);
+                }
+
+            }
+            else // È¸ÇÇÀÏ °æ¿ì
+            {
+                Console.Write($"Lv.{user.Level} {user.Name}À»(¸¦) °ø°ÝÇßÁö¸¸ ¾Æ¹«ÀÏµµ ÀÏ¾î³ªÁö ¾Ê¾Ò½À´Ï´Ù..");
+            }
+            Console.WriteLine();
+            NextScreenButton();
+        }
     }
 }
-                
 
-             
+

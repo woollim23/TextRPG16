@@ -21,7 +21,9 @@ namespace TextRPG16
                 // 아이템이 이미 있으면 그 가격의 골드로 주기
                 int gold = (int)(item.item[index].price);
                 Console.WriteLine("{0} ->  {1} Gold", item.item[index].name, gold);
-                Console.WriteLine("\'이미 소지한 아이템이므로 골드로 치환합니다.\'");
+                ConsoleSize.Color(ConsoleColor.DarkGray);
+                Console.WriteLine("이미 소지한 아이템이므로 골드로 치환합니다.");
+                Console.ResetColor();
 
                 user.Gold += gold;
             }

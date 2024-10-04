@@ -222,7 +222,7 @@ namespace TextRPG16
         {
             Battle battle = new Battle();
             // 몬스터 공격 차례
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < monster.monsterList.Count; i++)
             {
                 if (monster.monsterList[i].IsDead == false)
                 {

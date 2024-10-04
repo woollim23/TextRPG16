@@ -198,7 +198,8 @@ namespace TextRPG16
                 {
                     Console.Clear();
                     battle.SkillAttckResult(user, monster.monsterList[index], resultDamage);
-                    for(int i = 0; i< monster.monsterList.Count; i++)
+                    resultDamage /= 3;
+                    for (int i = 0; i< monster.monsterList.Count; i++)
                     {
                         if(i != index && !monster.monsterList[i].IsDead)
                         {

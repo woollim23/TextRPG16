@@ -84,7 +84,7 @@ namespace TextRPG16
 
             }
             // ------------------- 게임 플레이 -------------------
-            gameManager.GamePlay(user, item, consumableItem);
+            gameManager.GamePlay(user!, item!, consumableItem!);
         }
     }
 }
